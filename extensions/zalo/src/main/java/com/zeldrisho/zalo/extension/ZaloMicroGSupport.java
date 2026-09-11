@@ -12,7 +12,7 @@ import android.net.Uri;
 public final class ZaloMicroGSupport {
   private static final String GMS_CORE_PACKAGE = "app.revanced.android.gms";
   private static final String GMS_CORE_DOWNLOAD =
-      "https://github.com/zeldrisho/MicroG-RE/actions/runs/34576709901";
+      "https://github.com/zeldrisho/MicroG-RE/releases/latest";
 
   /** Prevents instantiation of this static runtime helper. */
   private ZaloMicroGSupport() {}

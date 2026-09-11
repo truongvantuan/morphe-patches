@@ -53,6 +53,7 @@ Canonical local verification (bash):
 
 ```bash
 uvx pre-commit run --all-files --show-diff-on-failure
+python3 -m unittest discover -s scripts/tests -v
 ./gradlew qualityCheck :patches:test :extensions:threads:testDebugUnitTest :extensions:zalo:testDebugUnitTest :patches:verifyBundleExtension --no-daemon
 ```
 

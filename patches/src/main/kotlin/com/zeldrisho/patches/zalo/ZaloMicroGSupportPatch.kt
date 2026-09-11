@@ -59,7 +59,7 @@ val zaloMicroGManifestPatch = resourcePatch {
 }
 
 /** Replace account discovery/add-account with the system picker. */
-private fun replaceWithAccountPicker(method: MutableMethod) {
+internal fun replaceWithAccountPicker(method: MutableMethod) {
     method.ensureRegisters(ACCOUNT_PICKER_REGISTER_COUNT)
     method.clearBody()
     method.addInstructionsWithLabels(
@@ -103,8 +103,8 @@ val zaloMicroGSupportPatch = bytecodePatch(
     name = "microG Drive support",
     description = "Adds Zalo launch/provider checks and redirects Google Drive account " +
         "selection and token binding to microG-RE (app.revanced / " +
-        "app.revanced.android.gms). Initial photo restore is patched; the full backup/restore " +
-        "cycle remains pending device QA.",
+        "app.revanced.android.gms). Initial photo restore and the complete backup/restore " +
+        "cycle were device-validated on Zalo 26.08.01.",
     default = false,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
@@ -138,7 +138,8 @@ val zaloMicroGSupportPatch = bytecodePatch(
                 // result: Cancel must leave Zalo usable and picker-level checks remain the
                 // authoritative guard for Drive operations.
                 if (classDef.type == ZALO_LAUNCHER_CLASS &&
-                    method.name == "onCreate" && method.parameterTypes == listOf("Landroid/os/Bundle;")) {
+                    method.name == "onCreate" && method.parameterTypes == listOf("Landroid/os/Bundle;")
+                ) {
                     mutableMethod.ensureRegisters(2)
                     mutableMethod.addInstructionsWithLabels(
                         0,

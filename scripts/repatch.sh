@@ -88,12 +88,12 @@ if [[ -z "${KEYSTORE:-}" && -f "$PROJECT_DIR/Morphe.keystore" ]]; then
 fi
 if [[ -z "${KEYSTORE:-}" ]]; then
     for k in \
-        "$HOME/.local/share/morphe/morphe-data/morphe.keystore" \
         "$HOME/.local/share/morphe/morphe-data/imported.keystore" \
-        "$HOME/morphe/morphe-data/morphe.keystore" \
+        "$HOME/.local/share/morphe/morphe-data/morphe.keystore" \
         "$HOME/morphe/morphe-data/imported.keystore" \
-        "$HOME/morphe/morphe.keystore" \
-        "$HOME/morphe/imported.keystore"; do
+        "$HOME/morphe/morphe-data/morphe.keystore" \
+        "$HOME/morphe/imported.keystore" \
+        "$HOME/morphe/morphe.keystore"; do
         if [[ -f "$k" ]]; then
             KEYSTORE="$k"
             break
