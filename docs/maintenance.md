@@ -12,7 +12,7 @@ decisions, not duplicate instructions.
   patches: [fingerprint guide](fingerprint-guide.md),
   [patch development](patch-development.md#file-layout).
 - Repeatable device QA and per-update routine:
-  [QA checklist](qa-checklist.md). Record input/bundle/options provenance with
+  [validation guide](validation.md). Record input/bundle/options provenance with
   every device result; a passing build without provenance does not validate the
   current bundle.
 - External patch repositories are recon references, not compatibility proof:
@@ -22,8 +22,8 @@ decisions, not duplicate instructions.
   [investigation principles](reverse-engineering.md#investigating-data-migration-patches).
   External media transfer is not proof of full chat restoration.
 - Incident context: [lessons learned](lessons-learned.md).
-- `docs/plan.md` contains only remaining actionable work, not completed checks
-  or session transcripts. Keep recurring procedures in the QA checklist and
+- `docs/plan.md` contains current project status and maintenance conditions, not
+  session transcripts. Keep recurring procedures in the validation guide and
   durable cross-feature lessons here; retain sanitized release evidence in the
   release/PR record rather than creating feature-specific session documents.
 - Temporary CI-artifact download links used for compatibility fixes must have a
@@ -44,7 +44,7 @@ decisions, not duplicate instructions.
 - `FingerprintSurfaceTest` pins the repo-side contract (compatibility target,
   tested versionCode, register-helper behavior) so drift in our own sources fails
   loudly. It does not inspect a downloaded APK; APK-side drift is caught by
-  re-running the [QA checklist](qa-checklist.md#version-bump-new-threads-release).
+  re-running the [validation guide](validation.md#version-update-qualification).
 - Worst case for a missed drift is ads returning, never a broken feed — keep it
   that way (reflection wrapped, no-ops on mismatch).
 - No settings UI: patches stay stateless and always-on/off via Morphe toggles.

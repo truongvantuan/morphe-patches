@@ -259,4 +259,4 @@ python3 -m unittest discover -s scripts/tests
 ```
 
 Then follow [canonical verification](development.md#verify).
-A successful build still needs [device QA](qa-checklist.md).
+A successful build still needs [device validation](validation.md).

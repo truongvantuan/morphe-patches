@@ -23,7 +23,7 @@
 - Follow `docs/release.md#rules` for generated-file ownership; do not hand-edit release metadata or the generated README patch list.
 - Follow `docs/release.md#changelog-policy` for `CHANGELOG.md`; add only user-visible app changes under `## Unreleased`.
 - Work on branches and follow `docs/release.md` for staging and publishing.
-- Build and unit-test success does not establish real-APK compatibility or device behavior; use `docs/qa-checklist.md`.
+- Build and unit-test success does not establish real-APK compatibility or device behavior; use `docs/validation.md`.
 
 ## External References
 | Need | File |
@@ -36,5 +36,5 @@
 | Native patching | `docs/native-patching.md` |
 | CLI patching and signing | `docs/cli.md` |
 | Release and generated-file policy | `docs/release.md` |
-| Device QA and remaining work | `docs/qa-checklist.md`, `docs/plan.md` |
+| Device validation and project status | `docs/validation.md`, `docs/plan.md` |
 | Durable decisions and incident context | `docs/maintenance.md`, `docs/lessons-learned.md` |

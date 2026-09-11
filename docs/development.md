@@ -11,7 +11,7 @@ For environment setup see [toolchain setup](toolchain.md).
 4. [Reverse engineering workflow](reverse-engineering.md) — finding targets.
 5. [Fingerprint guide](fingerprint-guide.md) — writing fingerprints.
 6. [Patch development](patch-development.md) — writing, building, and testing patches.
-7. [QA checklist](qa-checklist.md) — per-release and per-update device procedure.
+7. [Validation guide](validation.md) — per-release and per-update device procedure.
 8. [Release process](release.md) — branching, versioning, and publishing.
 9. [Maintenance](maintenance.md) — durable decisions index.
 10. [Lessons learned](lessons-learned.md) — incident context.

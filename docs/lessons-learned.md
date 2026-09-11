@@ -2,7 +2,7 @@
 
 Short, reusable rules from incidents in this repository. Procedures belong in
 [development](development.md), [patch development](patch-development.md), and
-[QA](qa-checklist.md).
+[validation guide](validation.md).
 
 ## Patching
 

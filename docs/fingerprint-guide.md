@@ -38,7 +38,7 @@ members used by `FeedAdFilter`, including return types. Missing members abort
 patching with a re-hunt message; unexpected runtime objects still fail open.
 This validates the ABI, not the meaning of `DED()` or actual ad removal. Keep
 the exact version restriction and device QA. Local DEX verification is described
-in the [QA checklist](qa-checklist.md#build).
+in the [validation guide](validation.md#build-validation).
 
 ## Fingerprint declaration
 
@@ -153,4 +153,4 @@ the installed patcher exposes `app.morphe.patcher.*` and
 
 ## Debugging match failures
 
-See [bytecode reference](bytecode-reference.md#fingerprint-debugging) for the full workflow and checklist.
+See [bytecode reference](bytecode-reference.md#fingerprint-debugging) for the full workflow and validation procedure.

@@ -148,7 +148,7 @@ invariants rather than copying framework infrastructure.
    and ordinary messages must survive notification filtering, for example.
    Do not silently import the reference project's broader feature scope.
 5. Distinguish fingerprint match, patch application, app launch, target-path
-   execution, and observed behavior in the [QA record](qa-checklist.md).
+   execution, and observed behavior in the [validation record](validation.md).
    An installed hook or successful build does not prove the feature worked.
 6. Check licensing before copying code; retain required notices for copied
    substantial portions. Remote catalogs, settings, recording, and diagnostics
@@ -214,7 +214,7 @@ Apply these principles when investigating any app's local-data patch:
   cross-device recovery if claimed, media-to-message associations, incompatible
   accounts/versions, corrupt archives, and interrupted transfers. Archive size,
   successful extraction, and app launch are not restoration proof. Do not change
-  the existing [reinstall order](qa-checklist.md#re-patch--install) based only on
+  the existing [reinstall order](validation.md#re-patch-and-install) based only on
   an external utility's instructions.
 
 Keep app-specific symbols and experimental results in gitignored `analysis/`;

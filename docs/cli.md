@@ -107,7 +107,7 @@ automatic discovery (newest local `.mpp`, standard-dir JAR, and the repository's
 persistent `Morphe.keystore`; shared data-dir keys are fallback).
 `VERIFY_SDK` is opt-in SDK verification: `1` uses SDK discovery, a path value
 passes `--verify-with-sdk=<path>` (required release-QA step; see
-[QA checklist](qa-checklist.md#re-patch--install)).
+[validation guide](validation.md#re-patch-and-install)).
 
 Raw equivalents when the helper hides what you need:
 
@@ -204,5 +204,5 @@ need uninstall first (`adb install -r` fails otherwise).
 GUI walkthroughs (Quick/Expert, Icon Studio, source manager), Manager phone
 flows (sources, Your apps, update badges), and general patch authoring live
 upstream or in sibling docs: [toolchain](toolchain.md),
-[patch development](patch-development.md), [QA](qa-checklist.md),
+[patch development](patch-development.md), [validation](validation.md),
 [lessons learned](lessons-learned.md). This file owns the terminal path only.

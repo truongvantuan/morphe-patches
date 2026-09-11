@@ -74,7 +74,7 @@ Authoring rules for fingerprints, patches, and extensions live in
 [patch development](patch-development.md#extensions-vs-inline-smali).
 Version-pinning policy lives in
 [patch development](patch-development.md#file-layout);
-the per-update routine lives in the [QA checklist](qa-checklist.md#version-bump-new-threads-release).
+the per-update routine lives in the [validation guide](validation.md#version-update-qualification).
 
 ## Generated data flow
 
