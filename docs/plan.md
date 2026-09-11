@@ -12,6 +12,7 @@ record; repeatable validation steps live in [validation and release qualificatio
 | Launch-time missing-provider check | Implemented and device-validated. |
 | Initial photo-restore flow | Implemented and device-validated. |
 | Full Google Drive backup/restore cycle | Device-validated on Zalo 26.08.01; regression validation remains part of future target updates. |
+| VNG deep telemetry and crash reporting suppression | Completed and device-smoke-tested on Zalo 26.08.01; Room analytics writes, Crashlytics diagnostics, and native crash-handler registration are suppressed. |
 
 ## Upstream OAuth compatibility
 
