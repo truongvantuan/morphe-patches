@@ -37,7 +37,7 @@ class PatchesListShapeTest {
 
     @Test fun zaloBundleShape() {
         val json = listJson()
-        for (name in listOf("Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Remove AD_ID permission", "microG Drive support")) {
+        for (name in listOf("Anti-Recall", "Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Business Box", "Remove AD_ID permission", "microG Drive support")) {
             assertTrue(json.contains("\"name\": \"$name\""), "missing patch: $name")
         }
         assertTrue(json.contains("com.zing.zalo"), "missing Zalo package group")
@@ -45,10 +45,10 @@ class PatchesListShapeTest {
     }
 
     /**
-     * Verify that exactly 10 patches are present with no leftover template scaffolding.
+     * Verify that exactly 13 patches are present with no leftover template scaffolding.
      */
     @Test fun patchCountMatchesSources() {
-        // Exactly 10 patches (4 Threads + 6 Zalo) — template scaffolding was removed,
+        // Exactly 13 patches (4 Threads + 9 Zalo) — template scaffolding was removed,
         // so any extra entry (e.g. a resurrected "Example Patch") fails loudly.
         // Note: "name" also appears on compatiblePackages entries ("Threads", "Zalo"),
         // so only top-level patch names are counted (6-space indent in output).
@@ -56,19 +56,22 @@ class PatchesListShapeTest {
         val names = Regex("(?m)^      \"name\": \"(.*?)\"").findAll(json).map { it.groupValues[1] }.toList()
         assertEquals(
             listOf(
+                "Anti-Recall",
                 "Bypass native startup tamper check",
                 "Change app name",
                 "Change package name",
                 "Disable ads",
                 "Disable sponsored placements",
+                "Disable telemetry and crash reporting",
                 "Filter promo notifications",
+                "Hide Business Box",
                 "Hide ads",
                 "Remove AD_ID permission",
                 "Remove AD_ID permission",
                 "microG Drive support",
             ),
             names.sorted(),
-            "expected exactly 10 patches, found: $names",
+            "expected exactly 13 patches, found: $names",
         )
     }
 

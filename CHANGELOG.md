@@ -5,6 +5,8 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 ## Unreleased
 
 ### ✨ New Features
+* **Zalo - Anti-recall:** Prevents incoming message revocation while preserving local message deletion and cache cleanup for `26.08.01`.
+* **Zalo - Hide Business Box:** Removes the Business Box entry from the main chat list without filtering ordinary conversations for `26.08.01`.
 * **Zalo - Disable telemetry and crash reporting:** Suppresses Zalo's Room analytics writes, Firebase Crashlytics diagnostics, and native crash-handler registration for `26.08.01`.
 
 ### 🐛 Bug Fixes

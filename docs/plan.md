@@ -1,37 +1,33 @@
 # Project status and maintenance roadmap
 
-This page describes the current Zalo MicroG support status and the conditions
-for future maintenance and release work. It is intentionally descriptive rather
-than a task list. Execution evidence belongs in the release or pull-request
-record; repeatable validation steps live in [validation and release qualification](validation.md).
+This page lists only remaining work for future releases and target updates.
+Repeatable build and device-validation procedures live in
+[validation and release qualification](validation.md).
 
-## Zalo MicroG support status
+## Completed milestones
 
-| Capability | Current status |
-| --- | --- |
-| Launch-time missing-provider check | Implemented and device-validated. |
-| Initial photo-restore flow | Implemented and device-validated. |
-| Full Google Drive backup/restore cycle | Device-validated on Zalo 26.08.01; regression validation remains part of future target updates. |
-| VNG deep telemetry and crash reporting suppression | Completed and device-smoke-tested on Zalo 26.08.01; Room analytics writes, Crashlytics diagnostics, and native crash-handler registration are suppressed. |
+- Added scoped Zalo chat patches for Hide Business Box and Anti-recall.
+- Built the 1.2.0 patch bundle, successfully repatched the pinned Zalo 26.08.01 APKM with all 9 compatible patches, and installed the signed APK on the connected device.
 
-## Upstream OAuth compatibility
+## Remaining work
 
-The temporary MicroG-RE download source remains until upstream MicroG-RE publishes
-the OAuth SHA-1 normalization fix. Once that fix is available, restore the
-`ZaloMicroGSupport.java` download URL to the official MicroG page, or use a stable
-tagged release from `zeldrisho/MicroG-RE/releases`. Treat the upstream release as
-the replacement condition, not as a recurring manual procedure.
+### Upstream OAuth compatibility
 
-Provider transport, account selection, OAuth authorization, and restore behavior
-are separate compatibility boundaries. A successful picker or transport path does
-not prove that the OAuth project accepts the package and signing certificate.
-Refer to [provider boundaries](validation.md#provider-boundaries)
-when interpreting these results.
+The temporary MicroG-RE download source remains until upstream MicroG-RE
+publishes the OAuth SHA-1 normalization fix. When available, restore the
+`ZaloMicroGSupport.java` download URL to the official MicroG page, or use a
+stable tagged release from `zeldrisho/MicroG-RE/releases`.
 
-## Release readiness
+### Target update regression
 
-A release is ready only after the required authentication, restore, and device
-validation evidence is recorded, including SDK verification or a documented
-verifier waiver. Follow the [release process](release.md) for staging and
-publishing; follow [validation and release qualification](validation.md) for the
-actual build and device procedure.
+For each newly supported Zalo version, re-verify fingerprints, ABI compatibility,
+and patch semantics against the exact APKMirror artifact. Repeat build,
+re-patch, signing, and device validation before changing target metadata.
+
+### Release qualification
+
+Complete the required SDK-verified re-patch and device checks before release,
+including authentication, provider behavior, restore flows, messaging/calling,
+and enabled-patch positive and negative checks. Record results in the release or
+pull-request record; do not store APKs, credentials, screenshots, or raw logs in
+Git.
