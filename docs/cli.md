@@ -103,8 +103,8 @@ via `GITHUB_REPO`), runs `options-create`, applies `APP_NAME` /
 with `--options-file`, `-o`, `-t`, and `--keystore*`. Optional overrides:
 `APP_NAME PACKAGE_NAME MPP KEYSTORE KEYSTORE_ALIAS KEYSTORE_PASSWORD
 KEYSTORE_ENTRY_PASSWORD VERIFY_SDK GITHUB_REPO` — unset means
-automatic discovery (newest local `.mpp`, standard-dir JAR, data-dir keystore
-with password `Morphe`).
+automatic discovery (newest local `.mpp`, standard-dir JAR, and the repository's
+persistent `Morphe.keystore`; shared data-dir keys are fallback).
 `VERIFY_SDK` is opt-in SDK verification: `1` uses SDK discovery, a path value
 passes `--verify-with-sdk=<path>` (required release-QA step; see
 [QA checklist](qa-checklist.md#re-patch--install)).
@@ -172,11 +172,13 @@ Defaults: shared BKS `morphe.keystore`, alias `Morphe`, key password
 `Morphe`, store password empty (`<jar-dir>` is the Morphe JAR's
 directory — e.g. `~/.local/share/morphe/` per [toolchain §5](toolchain.md);
 resolution priority `MORPHE_DATA_DIR` → `<jar-dir>/morphe-data/` → `~/morphe/`).
-`scripts/repatch.sh` passes the discovered keystore automatically: `imported.keystore`
-preferred over `morphe.keystore` in the standard data dirs, with
-`--keystore-password=Morphe` unless `KEYSTORE_PASSWORD` is set. The legacy repo
-`./Morphe.keystore` (empty store password) is only a last resort there — run with
-`KEYSTORE_PASSWORD=""` when it is selected. PKCS12/JKS inputs are auto-detected and
+`scripts/repatch.sh` uses the repository's persistent `Morphe.keystore` first,
+then falls back to shared data-dir keys. For the repository key it uses an
+empty store password and the `Morphe` entry password by default. Override
+`KEYSTORE`, `KEYSTORE_PASSWORD`, and `KEYSTORE_ENTRY_PASSWORD` for a different
+persistent key. Consecutive builds using the same key have the same signing
+certificate and can use `adb install -r`; switching keys still requires one
+uninstall. PKCS12/JKS inputs are auto-detected and
 converted to a BKS copy (original untouched). The repo's `Morphe.keystore` is
 BKS — plain `keytool` says "unrecognized format" unless loaded with the
 BouncyCastle provider from the Morphe JAR (see

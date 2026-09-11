@@ -88,6 +88,9 @@ sanitized notes in the release/PR record.
 - [x] Ad surfaces — Pass: target ad patches active without crashes.
 - [ ] Inputs, navigation, network-dependent screens, notifications, media, and
       background work relevant to the target remain functional.
+- [x] Launch-time missing-provider check: Install/Cancel guidance validated on-device; Cancel leaves the app usable.
+- [x] Initial provider-backed restore: OAuth, account handling, and remote media restore validated on-device.
+- [x] Full provider-backed backup/restore cycle: complete cycle validated on the supported target; continue regression QA.
 - [ ] For provider-backed authentication, verify account selection, transport,
       token issuance, and feature access separately; record upstream OAuth
       attestation failures as BLOCKED rather than as patch failures. If the

@@ -17,6 +17,13 @@ public final class ZaloMicroGSupport {
   /** Prevents instantiation of this static runtime helper. */
   private ZaloMicroGSupport() {}
 
+  /** Returns whether a resolved provider package is present and enabled. */
+  static boolean isProviderEnabled(android.content.pm.PackageInfo packageInfo) {
+    return packageInfo != null
+        && packageInfo.applicationInfo != null
+        && packageInfo.applicationInfo.enabled;
+  }
+
   /**
    * Shows an optional installation prompt when MicroG is unavailable.
    *
@@ -27,7 +34,13 @@ public final class ZaloMicroGSupport {
     if (activity == null) return true;
 
     try {
-      activity.getPackageManager().getPackageInfo(GMS_CORE_PACKAGE, PackageManager.GET_ACTIVITIES);
+      PackageManager packageManager = activity.getPackageManager();
+      android.content.pm.PackageInfo packageInfo =
+          packageManager.getPackageInfo(GMS_CORE_PACKAGE, PackageManager.GET_ACTIVITIES);
+      if (!isProviderEnabled(packageInfo)) {
+        showInstallDialog(activity);
+        return false;
+      }
       return true;
     } catch (PackageManager.NameNotFoundException exception) {
       showInstallDialog(activity);

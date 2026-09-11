@@ -80,24 +80,25 @@ morphe() {
 }
 
 # ---------- Locate the signing keystore (no env vars required) ----------
-# Priority: $KEYSTORE override, imported/shared keystores in the standard
-# data dirs, then the repo's ./Morphe.keystore (empty store password).
+# Priority: $KEYSTORE override, then this repository's persistent developer key,
+# then shared Morphe keys. The repository key is intentionally first so repeated
+# local builds keep the same certificate and support `adb install -r` updates.
+if [[ -z "${KEYSTORE:-}" && -f "$PROJECT_DIR/Morphe.keystore" ]]; then
+    KEYSTORE="$PROJECT_DIR/Morphe.keystore"
+fi
 if [[ -z "${KEYSTORE:-}" ]]; then
     for k in \
-        "$HOME/.local/share/morphe/morphe-data/imported.keystore" \
         "$HOME/.local/share/morphe/morphe-data/morphe.keystore" \
-        "$HOME/morphe/morphe-data/imported.keystore" \
+        "$HOME/.local/share/morphe/morphe-data/imported.keystore" \
         "$HOME/morphe/morphe-data/morphe.keystore" \
-        "$HOME/morphe/imported.keystore" \
-        "$HOME/morphe/morphe.keystore"; do
+        "$HOME/morphe/morphe-data/imported.keystore" \
+        "$HOME/morphe/morphe.keystore" \
+        "$HOME/morphe/imported.keystore"; do
         if [[ -f "$k" ]]; then
             KEYSTORE="$k"
             break
         fi
     done
-fi
-if [[ -z "${KEYSTORE:-}" && -f "$PROJECT_DIR/Morphe.keystore" ]]; then
-    KEYSTORE="$PROJECT_DIR/Morphe.keystore"
 fi
 GITHUB_REPO="${GITHUB_REPO:-zeldrisho/morphe-patches}"
 
@@ -170,9 +171,17 @@ PY
 # ---------- Patch + sign ----------
 # NB: CLI options need the `=` form, not space-separated (see lessons-learned).
 KEYSTORE_ARGS=(--keystore="$KEYSTORE" --keystore-entry-alias="${KEYSTORE_ALIAS:-Morphe}")
-KEYSTORE_PASSWORD="${KEYSTORE_PASSWORD-Morphe}"
+# The checked-in developer BKS uses an empty store password and Morphe key
+# password. Override both values for a custom KEYSTORE.
+if [[ "$KEYSTORE" == "$PROJECT_DIR/Morphe.keystore" ]]; then
+    KEYSTORE_PASSWORD="${KEYSTORE_PASSWORD-}"
+    KEYSTORE_ENTRY_PASSWORD="${KEYSTORE_ENTRY_PASSWORD-Morphe}"
+else
+    KEYSTORE_PASSWORD="${KEYSTORE_PASSWORD-Morphe}"
+    KEYSTORE_ENTRY_PASSWORD="${KEYSTORE_ENTRY_PASSWORD-}"
+fi
 [[ -n "$KEYSTORE_PASSWORD" ]] && KEYSTORE_ARGS+=(--keystore-password="$KEYSTORE_PASSWORD")
-[[ -n "${KEYSTORE_ENTRY_PASSWORD:-}" ]] && KEYSTORE_ARGS+=(--keystore-entry-password="$KEYSTORE_ENTRY_PASSWORD")
+[[ -n "$KEYSTORE_ENTRY_PASSWORD" ]] && KEYSTORE_ARGS+=(--keystore-entry-password="$KEYSTORE_ENTRY_PASSWORD")
 VERIFY_ARGS=()
 case "${VERIFY_SDK:-}" in
     "" | 0 | false | no) ;;
