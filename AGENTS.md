@@ -30,11 +30,10 @@
 | ---- | ---- |
 | Development entry and verification | `docs/development.md` |
 | Host setup and credentials | `docs/toolchain.md` |
-| Module architecture | `docs/architecture.md` |
-| Patch authoring and fingerprints | `docs/patch-development.md`, `docs/fingerprint-guide.md` |
-| APK analysis and bytecode | `docs/reverse-engineering.md`, `docs/bytecode-reference.md` |
-| Native patching | `docs/native-patching.md` |
+| Patch authoring and fingerprints | `docs/patch-development.md` |
+| APK analysis and reverse-engineering | `docs/reverse-engineering.md` |
+| Bytecode and smali reference | `docs/bytecode-reference.md` |
+| Bypass patterns and SDK recipes | `docs/bypass-patterns.md` |
 | CLI patching and signing | `docs/cli.md` |
 | Release and generated-file policy | `docs/release.md` |
 | Device validation and project status | `docs/validation.md`, `docs/plan.md` |
-| Durable decisions and incident context | `docs/maintenance.md`, `docs/lessons-learned.md` |

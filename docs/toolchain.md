@@ -215,7 +215,7 @@ bundle and temporary directory, and passes the discovered keystore
 (`imported.keystore` preferred, `--keystore-password=Morphe` by default);
 use `KEYSTORE=`/`KEYSTORE_PASSWORD=` only to override what discovery finds
 and preserve its alias/password settings; see
-[signing incidents](lessons-learned.md#signing).
+[CLI signing guidance](cli.md#signing).
 Morphe's data-directory defaults can change between versions; check startup
 logs or the Morphe GUI **Tools → Open App Data**, rather than guessing a key
 location. Signing-key priority and password overrides are documented in

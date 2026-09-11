@@ -1,7 +1,7 @@
 # Reverse engineering workflow
 
 How to go from an APK file to a working patch in this repo.
-Companion doc: [fingerprint guide](fingerprint-guide.md) (writing the actual fingerprint + patch code).
+Fingerprint authoring is covered in the [patch development](patch-development.md) guide.
 
 ## Pipeline
 
@@ -154,35 +154,6 @@ invariants rather than copying framework infrastructure.
    substantial portions. Remote catalogs, settings, recording, and diagnostics
    infrastructure require separate scope decisions, not automatic adoption.
 
-Reference inspected: the separate `zalo-patch` checkout at commit `deadb56` (MIT).
-Useful entry points, relative to that repository:
-
-- `app/src/main/assets/symbol-schema.json`: versioned symbols and artifact
-  identities. Its 260801903 profile is labeled static-verified; the 260802903
-  profile is labeled device-verified. These are upstream claims, not our QA.
-- `app/src/main/java/com/ez/zalopatch/xposed/features/`: target semantics and
-  surrounding state, especially `BottomTabsFeature.java` and `TelemetryFeature.java`.
-- `app/src/main/java/com/ez/zalopatch/NotificationPromoClassifier.java`:
-  notification preservation rules; its content classifier is not equivalent to
-  our dispatcher-branch filtering.
-- `app/src/main/java/com/ez/zalopatch/FingerprintResolver.java`: evidence and
-  ambiguity checks. It explicitly implements a shadow resolver, not runtime
-  hook selection; its scoring thresholds are not established confidence levels.
-
-This was a source inspection, not a build or device validation. Recheck these
-references if the checkout changes. Keep extracted symbol tables and APK evidence
-in gitignored `analysis/`, not in feature-specific session documents.
-
-### Investigating data-migration patches
-
-External transfer utilities can suggest a user workflow without supplying any
-patch targets. Reference inspected: the separate `zalo-transfer-data` checkout at
-`3672218`, source only; no execution or device validation. Its `app/services.py`
-copies the external `Android/data/com.zing.zalo` tree through ADB and still relies
-on Zalo's own message backup. It does not demonstrate private-database recovery,
-decryption, or a native transfer hook. Do not copy its source-video deletion,
-destination wipe, or unconditional deletion of the recovery archive on failure.
-
 Apply these principles when investigating any app's local-data patch:
 
 - **Execution context changes feasibility, not portability.** An injected
@@ -193,7 +164,7 @@ Apply these principles when investigating any app's local-data patch:
   before designing a replacement. Verify entry points, prerequisites, callers,
   and restore ordering in smali and on-device; a hidden screen alone does not
   establish a working local export. New UI needs explicit scope approval under
-  the [standing rules](maintenance.md#standing-rules).
+  the [standing rules](development.md#operating-rules).
 - **Separate media from messages.** External-file copies do not establish chat
   recovery or attachment associations. Trace databases, attachment references,
   consistent snapshot handling (including SQLite WAL), and key lifecycle.
@@ -233,7 +204,7 @@ bash scripts/recover-kotlin-names.sh <analysis>/<app>/decompiled <analysis>/<app
 ```
 
 Use the mapping to *find* classes (never to *match* — fingerprints still anchor on
-SDK calls/strings/opcodes per the [fingerprint guide](fingerprint-guide.md)).
+SDK calls/strings/opcodes per the the fingerprint reference in [patch development](patch-development.md)).
 `jadx --deobf` alone is not equivalent: it invents synthetic names instead of
 recovering the originals.
 
@@ -325,11 +296,11 @@ Never trust jadx output alone — it mis-decompiles obfuscated code. For every c
 4. If Java and smali disagree, **trust smali**.
 5. Write the finding down (`<analysis>/<app>/notes/<topic>.md`) with the smali evidence
    quoted, plus a fingerprint strategy (which stable strings/calls to match on —
-   see the [fingerprint guide](fingerprint-guide.md)). Unverified findings are not ready for patch-writing.
+   see the the fingerprint reference in [patch development](patch-development.md)). Unverified findings are not ready for patch-writing.
 
 ## Write the patch
 
-Covered in the [fingerprint guide](fingerprint-guide.md) and
+Covered in the the fingerprint reference in [patch development](patch-development.md) and
 [patch development](patch-development.md). The handoff from hunting is:
 
 - Fully qualified class + exact smali method signature ([smali verification](#smali-verification-is-mandatory), mandatory).
@@ -350,3 +321,33 @@ Check the patch is registered (`list-patches` in the Morphe CLI against
 (never an extracted `base.apk`), install via `adb install -r`. If a fingerprint fails to
 match, go back to the hunt step and re-verify smali — the app version probably
 moved the code.
+
+
+# Native patching
+
+Guidance for repository patches that modify native libraries inside split APKs.
+
+## Safe workflow
+
+1. Establish a stock control and record the exact version, ABI, input hash, and
+   native-library hash.
+2. Isolate the failure in stages: library loading, constructors, entrypoint,
+   helper calls, and finally the failing predicate.
+3. Preserve registration, TLS, JNI environment setup, cleanup, and normal error
+   paths. Do not replace an entire initializer when only one dispatch is faulty.
+4. Use a version/ABI-gated raw-resource patch with an exact original-byte guard.
+   Fail closed when the library, offset, or surrounding instructions differ.
+5. Test the smallest mutation first, then test it composed with the other
+   patches and on a cold start.
+
+## Diagnostics and release
+
+Diagnostic stubs and NOPs are evidence-gathering tools, not release patches;
+they may remove required initialization and create misleading secondary
+crashes. A release patch should change only the verified instruction and keep
+its original call context intact.
+
+For split APKs, patch the native library in its owning ABI split and verify the
+resulting signed bundle, not just an extracted `base.apk`. Record the patch
+name, guarded byte pattern, ABI, signing result, runtime logs, foreground
+activity, and any remaining QA limitations.

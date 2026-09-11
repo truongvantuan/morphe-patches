@@ -7,15 +7,15 @@ record.
 
 Run manual end-to-end validation on a **throwaway account** where an account is
 required. A re-signed build with a VPN/proxy on a real account may create account
-risk; see [lessons learned](lessons-learned.md#compatibility-and-qa). Use the
-version and package metadata defined by the target's source of truth.
+risk; see [lessons learned](validation.md#device-validation-scope). Use the
+version and package metadata defined by the target compatibility constants.
 
 ## Build validation
 
 Run the repository tests and build the Android bundle:
 
 ```bash
-./gradlew :patches:test :extensions:threads:testDebugUnitTest :extensions:zalo:testDebugUnitTest buildAndroid --no-daemon
+./gradlew :patches:test buildAndroid --no-daemon
 python3 -m unittest discover -s scripts/tests -v
 ```
 
@@ -71,7 +71,7 @@ verification result with the bundle and input hashes.
 
 If every available toolchain reproduces an internal D8 error that is not a patch
 error, the owner may waive verification after device validation. Record the
-waiver, toolchain versions, and device evidence in [lessons learned](lessons-learned.md),
+waiver, toolchain versions, and device evidence in [lessons learned](validation.md),
 and revisit it when Morphe fixes the verifier. Do not block a release indefinitely
 on a broken verifier.
 
@@ -108,6 +108,14 @@ Record input APK version/code and hash, bundle path/hash, enabled patches, packa
 ID, device/Android version, and signing certificate fingerprint. Never record
 passwords. Keep screenshots, UI dumps, and logs outside Git; retain sanitized
 notes in the release or PR record.
+
+## Provider boundaries
+
+Treat provider transport, account selection, token issuance, and upstream
+authorization as separate gates. A successful picker or IPC request does not prove
+that the provider accepts the patched package and signing certificate. Record
+upstream attestation failures as **BLOCKED**, not as patch failures, and keep
+credentials and tokens out of logs.
 
 ## Version update qualification
 

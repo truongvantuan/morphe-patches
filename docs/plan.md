@@ -24,7 +24,7 @@ the replacement condition, not as a recurring manual procedure.
 Provider transport, account selection, OAuth authorization, and restore behavior
 are separate compatibility boundaries. A successful picker or transport path does
 not prove that the OAuth project accepts the package and signing certificate.
-Refer to [lessons learned](lessons-learned.md#oauth-dependent-device-qa-finding)
+Refer to [provider boundaries](validation.md#provider-boundaries)
 when interpreting these results.
 
 ## Release readiness
