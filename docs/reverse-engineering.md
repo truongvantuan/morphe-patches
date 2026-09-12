@@ -25,10 +25,10 @@ relative paths from the repo root).
 
 ## Tools
 
-See [toolchain setup](toolchain.md) for the complete inventory and install commands
-for Fedora WSL and macOS, including fish PATH setup and the `uv tool` versus `uvx`
-decision. The Morphe CLI applies `.mpp` bundles; `scripts/repatch.sh` finds
-the Morphe JAR in its standard locations with no setup.
+See [toolchain setup](toolchain.md) for the complete inventory and install
+commands, including fish PATH setup and the `uv tool` versus `uvx` decision.
+The Morphe CLI applies `.mpp` bundles; `scripts/repatch.sh` finds the Morphe
+JAR in its standard locations with no setup.
 
 `scripts/apk-recon.sh` wraps the recon step (framework, HTTP/DI/billing
 stack signals via DEX strings, obfuscation estimate, split-aware native libs,
@@ -42,8 +42,7 @@ rebuilds obfuscated → real Kotlin class names from `@DebugMetadata`/`@Metadata
 
 Get the original split bundle only from [APKMirror](https://www.apkmirror.com/).
 Record the download page URL and input SHA-256 alongside versionCode and ABI.
-Run `scripts/apk-recon.sh` (bash; on macOS invoke with Homebrew `bash`, as explained in
-[toolchain setup](toolchain.md#1-python-and-host-tools)):
+Run `scripts/apk-recon.sh`:
 
 ```bash
 bash scripts/apk-recon.sh <analysis>/<app>/apk/<app>_<version>.apkm
