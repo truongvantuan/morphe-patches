@@ -1,7 +1,7 @@
 # Patching with the Morphe CLI
 
 This repo patches from the terminal. The phone **Manager UI is out of scope**
-here — every flow below is the Morphe CLI plus `scripts/repatch.sh`.
+here — every flow below is the Morphe CLI plus `scripts/repatch.py`.
 Upstream GUI docs are linked, not duplicated.
 
 ## Prerequisites
@@ -30,7 +30,7 @@ java -jar "$MORPHE" list-patches --help
 ```
 
 The JAR is kept at `~/.local/share/morphe/morphe-desktop-1.15.0-all.jar` (see
-[toolchain setup](toolchain.md)). `scripts/repatch.sh` works out of the box
+[toolchain setup](toolchain.md)). `scripts/repatch.py` works out of the box
 with zero environment variable configuration:
 it discovers the newest `morphe-desktop-*-all.jar` in
 `~/.local/share/morphe/` (`--jar <path>` overrides discovery for manual
@@ -79,7 +79,7 @@ Fast path (first success):
 ```bash
 ./gradlew buildAndroid --no-daemon
 MPP="patches/build/libs/patches-<version>.mpp" \
-  bash scripts/repatch.sh /path/to/app.apkm /tmp/app_patched.apk
+  python3 scripts/repatch.py /path/to/app.apkm /tmp/app_patched.apk
 adb install -r /tmp/app_patched.apk
 ```
 
@@ -93,11 +93,11 @@ Full re-patch via the helper (preferred — pins bundle, tmp dir, keystore):
 
 ```bash
 MPP="patches/build/libs/patches-<version>.mpp" \
-  bash scripts/repatch.sh /path/to/app.apkm /tmp/app_patched.apk
+  python3 scripts/repatch.py /path/to/app.apkm /tmp/app_patched.apk
 adb install -r /tmp/app_patched.apk
 ```
 
-What `repatch.sh` does: picks newest local `.mpp` (or latest GitHub release
+What `repatch.py` does: picks newest local `.mpp` (or latest GitHub release
 via `GITHUB_REPO`), runs `options-create`, applies `APP_NAME` /
 `PACKAGE_NAME` into the options JSON (rename patches only), then `patch -p`
 with `--options-file`, `-o`, `-t`, and `--keystore*`. Optional overrides:
@@ -171,7 +171,7 @@ Defaults: shared BKS `morphe.keystore`, alias `Morphe`, key password
 `Morphe`, store password empty (`<jar-dir>` is the Morphe JAR's
 directory — e.g. `~/.local/share/morphe/` per [toolchain §5](toolchain.md);
 resolution priority `MORPHE_DATA_DIR` → `<jar-dir>/morphe-data/` → `~/morphe/`).
-`scripts/repatch.sh` uses the repository's persistent `Morphe.keystore` first,
+`scripts/repatch.py` uses the repository's persistent `Morphe.keystore` first,
 then falls back to shared data-dir keys. For the repository key it uses an
 empty store password and the `Morphe` entry password by default. Override
 `KEYSTORE`, `KEYSTORE_PASSWORD`, and `KEYSTORE_ENTRY_PASSWORD` for a different

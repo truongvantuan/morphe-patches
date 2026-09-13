@@ -13,7 +13,7 @@
 | Test Zalo extension class | `./gradlew :extensions:zalo:testDebugUnitTest --tests '<fully.qualified.Class>' --no-daemon` |
 | Build bundle and verify embedded extensions | `./gradlew :patches:verifyBundleExtension --no-daemon` |
 | Full verification | Follow `docs/development.md#verify` |
-| Re-patch and sign | `bash scripts/repatch.sh <app.apkm> [out.apk]` (options: `docs/cli.md`) |
+| Re-patch and sign | `python3 scripts/repatch.py <app.apkm> [out.apk]` (options: `docs/cli.md`) |
 
 ## Key Conventions
 - Patch sources and adjacent fingerprints live under `patches/src/main/kotlin/com/zeldrisho/patches/`; app-agnostic helpers belong in `shared/`.

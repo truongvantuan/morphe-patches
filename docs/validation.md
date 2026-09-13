@@ -37,20 +37,20 @@ Patch and install the selected input APK explicitly:
 
 ```bash
 MPP="patches/build/libs/patches-<version>.mpp" \
-  bash scripts/repatch.sh /path/to/input.apkm /tmp/patched.apk
+  python3 scripts/repatch.py /path/to/input.apkm /tmp/patched.apk
 adb install -r /tmp/patched.apk
 ```
 
 Only update an existing installation when its signing certificate matches.
 
-For startup isolation, `repatch.sh` accepts a strict comma-separated patch
+For startup isolation, `repatch.py` accepts a strict comma-separated patch
 allow-list. Start with a minimal control, then enable the target's patches
 incrementally; install and cold-start each control before enabling the next patch:
 
 ```bash
-PATCHES='' bash scripts/repatch.sh /path/to/input.apkm /tmp/control-0.apk
-PATCHES='<first patch>' bash scripts/repatch.sh /path/to/input.apkm /tmp/control-1.apk
-PATCHES='<first patch>,<second patch>' bash scripts/repatch.sh /path/to/input.apkm /tmp/control-2.apk
+PATCHES='' python3 scripts/repatch.py /path/to/input.apkm /tmp/control-0.apk
+PATCHES='<first patch>' python3 scripts/repatch.py /path/to/input.apkm /tmp/control-1.apk
+PATCHES='<first patch>,<second patch>' python3 scripts/repatch.py /path/to/input.apkm /tmp/control-2.apk
 ```
 
 `PATCHES` disables every bundle patch not named and rejects unknown names, so a
@@ -62,7 +62,7 @@ checks:
 
 ```bash
 MPP="patches/build/libs/patches-<version>.mpp" VERIFY_SDK=1 \
-  bash scripts/repatch.sh /path/to/input.apkm /tmp/verified.apk
+  python3 scripts/repatch.py /path/to/input.apkm /tmp/verified.apk
 ```
 
 `VERIFY_SDK=1` uses `$ANDROID_HOME`, then `$ANDROID_SDK_ROOT`, then the OS-default

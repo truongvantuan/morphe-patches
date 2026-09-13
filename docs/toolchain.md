@@ -87,8 +87,8 @@ required. `ANDROID_HOME` controls Gradle SDK discovery; PATH controls terminal t
 | Package | Method / command | Why |
 | --- | --- | --- |
 | `frida-tools` | `uv tool install frida-tools` | Persistent `frida`, `frida-ps`, etc. on PATH |
-| `kaggle` | `uv tool install kaggle` | `scripts/remote-decompile.sh` calls `kaggle` directly |
-| `apkid` | `uvx apkid app.apk` | On-demand recon; `apk-recon.sh` uses uvx too |
+| `kaggle` | `uv tool install kaggle` | `scripts/remote_decompile.py` calls `kaggle` directly |
+| `apkid` | `uvx apkid app.apk` | On-demand recon; `apk_recon.py` uses uvx too |
 | `objection` | `uvx objection --help` | On-demand dynamic triage |
 
 `uv tool install` creates isolated persistent executables in `~/.local/bin`;
@@ -126,9 +126,9 @@ Upstream distributes **`morphe-desktop-*-all.jar`**, not a separate CLI package.
 The same JAR launches the Morphe GUI without a subcommand and the Morphe CLI with one.
 See the [upstream README](https://github.com/MorpheApp/morphe-desktop) and
 [CLI reference](https://github.com/MorpheApp/morphe-desktop/blob/main/docs/documentation.md#cli).
-In this repo nothing needs to be exported: `scripts/repatch.sh` discovers the
+In this repo nothing needs to be exported: `scripts/repatch.py` discovers the
 newest `morphe-desktop-*-all.jar` in `~/.local/share/morphe/`. For manual
-testing, `scripts/repatch.sh --jar <path>` overrides discovery.
+testing, `scripts/repatch.py --jar <path>` overrides discovery.
 
 Download the latest stable official JAR to `~/.local/share/morphe/`
 (requires `gh auth login`):
@@ -149,10 +149,10 @@ java -jar "$MORPHE" --help
 # Morphe GUI:
 java -jar "$MORPHE"
 # Helper (no environment variables needed):
-bash scripts/repatch.sh /path/to/app.apkm /tmp/app-patched.apk
+python3 scripts/repatch.py /path/to/app.apkm /tmp/app-patched.apk
 ```
 
-`scripts/repatch.sh` works out of the box with zero environment variable
+`scripts/repatch.py` works out of the box with zero environment variable
 configuration: it discovers the newest `morphe-desktop-*-all.jar`, the signing
 keystore, and the patch bundle from their standard locations.
 
@@ -161,7 +161,7 @@ under `MORPHE_DATA_DIR` when set to a writable directory, else
 `<jar-dir>/morphe-data/`, else `~/morphe/` — see [CLI patching](cli.md) for the
 full priority and the startup-log line that reports the winner.
 
-`scripts/repatch.sh` uses `java -jar`, `options-create`, and `patch`.
+`scripts/repatch.py` uses `java -jar`, `options-create`, and `patch`.
 Full flag reference and terminal flows (discovery, single-patch isolation,
 signing, updates): [CLI patching](cli.md).
 It explicitly selects the patch
@@ -194,7 +194,7 @@ On the standard WSL host, store downloads in
 `/mnt/c/Users/zeldrisho/Downloads/` (the canonical path used by
 [CLI patching](cli.md)); other hosts may use any local directory. Pass the
 downloaded split bundle (`.apkm`) directly to Morphe or
-`scripts/repatch.sh`; never pre-extract `base.apk`. Record the page URL, version
+`scripts/repatch.py`; never pre-extract `base.apk`. Record the page URL, version
 name, versionCode, ABI/variant, and SHA-256 of the downloaded input.
 Other mirrors are not sources for this project's original APKs.
 

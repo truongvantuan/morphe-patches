@@ -97,7 +97,7 @@ data-class output), SDK-call-only filters without strings.
 Recover real Kotlin names to *find* targets (never to *match* on, except under the
 version-pinned exception in the [fingerprint rules](patch-development.md#rules)):
 builds that retain `@DebugMetadata(c="com.foo.Bar$…")` / `@Metadata(d2={…Lcom/foo/Bar;…})`
-strings can be mapped with `scripts/recover-kotlin-names.sh` (see
+strings can be mapped with `scripts/recover_kotlin_names.py` (see
 [recover Kotlin names](reverse-engineering.md#recover-kotlin-names-for-obfuscated-kotlin-apps)).
 Coverage is best-effort and lower when metadata is stripped or encrypted.
 `jadx --deobf` only invents synthetic names; metadata recovery restores the

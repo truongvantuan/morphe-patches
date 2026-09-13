@@ -6,7 +6,7 @@ For environment setup see [toolchain setup](toolchain.md).
 ## Reading order
 
 1. [Toolchain setup](toolchain.md) — install once per host.
-2. [CLI patching](cli.md) — terminal flows (Morphe CLI flags, `repatch.sh`, signing).
+2. [CLI patching](cli.md) — terminal flows (Morphe CLI flags, `repatch.py`, signing).
 3. [Reverse engineering workflow](reverse-engineering.md) — finding targets.
 4. [Patch development](patch-development.md) — writing, building, and testing patches.
 5. [Validation guide](validation.md) — per-release and per-update device procedure.
@@ -91,7 +91,7 @@ analysis directories are not formatting targets.
 | Spotless: ktlint + google-java-format | Root `build.gradle.kts`; Kotlin sources/tests, Gradle scripts, extension Java sources/tests |
 | detekt | `patches/build.gradle.kts`, `config/detekt/detekt.yml`; Kotlin source analysis, without type resolution |
 | Android Lint | Extension lint tasks; production and test sources |
-| ShellCheck + shfmt | `.pre-commit-config.yaml`; `scripts/**/*.sh` |
+| Ruff check + format | `.pre-commit-config.yaml`; `scripts/*.py` |
 | actionlint | `.pre-commit-config.yaml`; GitHub Actions workflows; also uses ShellCheck when on PATH (installed explicitly in CI) |
 | Merge conflicts + mixed line endings | `.pre-commit-config.yaml`; tracked text files |
 
@@ -127,7 +127,7 @@ Checks do not rewrite files. To fix formatting locally:
 ```bash
 ./gradlew spotlessApply --no-daemon
 # Same shfmt revision as the check-only hook:
-uvx --from 'git+https://github.com/scop/pre-commit-shfmt@05c1426671b9237fb5e1444dd63aa5731bec0dfb' shfmt -w -i 4 -ci scripts/*.sh
+uvx ruff check scripts && uvx ruff format --check scripts
 ```
 
 Review the diff and rerun verification before committing. Kotlin naming/KDoc

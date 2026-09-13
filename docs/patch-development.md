@@ -208,7 +208,7 @@ Generated-file ownership is defined in the [release rules](release.md#rules).
 ## Signing and microG OAuth notes
 
 Morphe keystore aliases are case-sensitive: `morphe` is not the same entry as
-`Morphe`. Pass the exact alias and matching key password to `repatch.sh`, then
+`Morphe`. Pass the exact alias and matching key password to `repatch.py`, then
 confirm the output with `apksigner verify --print-certs` before device QA.
 
 MicroG's `app.revanced.android.gms.SPOOFED_PACKAGE_SIGNATURE` metadata is a

@@ -27,25 +27,25 @@ relative paths from the repo root).
 
 See [toolchain setup](toolchain.md) for the complete inventory and install
 commands, including fish PATH setup and the `uv tool` versus `uvx` decision.
-The Morphe CLI applies `.mpp` bundles; `scripts/repatch.sh` finds the Morphe
+The Morphe CLI applies `.mpp` bundles; `scripts/repatch.py` finds the Morphe
 JAR in its standard locations with no setup.
 
-`scripts/apk-recon.sh` wraps the recon step (framework, HTTP/DI/billing
+`scripts/apk_recon.py` wraps the recon step (framework, HTTP/DI/billing
 stack signals via DEX strings, obfuscation estimate, split-aware native libs,
-recommended next step); `scripts/extract-smali.sh` wraps the
+recommended next step); `scripts/extract_smali.py` wraps the
 DEX → smali step (including split `.apkm`/`.xapk` handling);
-`scripts/hunt-signals.sh <decompiled|smali>` counts protection/billing/ads/Ktor/Koin
-signals in one pass before hunting; `scripts/recover-kotlin-names.sh <decompiled>`
+`scripts/hunt_signals.py <decompiled|smali>` counts protection/billing/ads/Ktor/Koin
+signals in one pass before hunting; `scripts/recover_kotlin_names.py <decompiled>`
 rebuilds obfuscated → real Kotlin class names from `@DebugMetadata`/`@Metadata`.
 
 ## Recon
 
 Get the original split bundle only from [APKMirror](https://www.apkmirror.com/).
 Record the download page URL and input SHA-256 alongside versionCode and ABI.
-Run `scripts/apk-recon.sh`:
+Run `scripts/apk_recon.py`:
 
 ```bash
-bash scripts/apk-recon.sh <analysis>/<app>/apk/<app>_<version>.apkm
+python3 scripts/apk_recon.py <analysis>/<app>/apk/<app>_<version>.apkm
 ```
 
 Manual equivalent:
@@ -59,7 +59,7 @@ Manual equivalent:
    `index.android.bundle` = React Native, `libflutter.so`/`libapp.so` = Flutter,
    `assets/www|public/` = Cordova/Capacitor, `libmonodroid.so|assemblies/` = Xamarin/MAUI,
    else native (Compose vs Kotlin distinguished via `androidx.compose` / `kotlin_module`
-   DEX strings — `apk-recon.sh` does all of this automatically).
+   DEX strings — `apk_recon.py` does all of this automatically).
 6. Record native-lib architectures and notable permissions (billing, internet, etc.).
 7. Note HTTP/DI/billing stack signals from the recon report (Retrofit/OkHttp/Ktor/Apollo,
    Hilt/Koin, RevenueCat/Adapty/Play Billing) — they pick the hunt patterns in
@@ -71,7 +71,7 @@ Save as `<analysis>/<app>/notes/recon.md` (rename the APK to `<app>_<version>.<e
 
 ```bash
 jadx -d <analysis>/<app>/decompiled <analysis>/<app>/apk/<app>_<version>.apkm
-bash scripts/extract-smali.sh <analysis>/<app>/apk/<app>_<version>.apkm <analysis>/<app>/smali
+python3 scripts/extract_smali.py <analysis>/<app>/apk/<app>_<version>.apkm <analysis>/<app>/smali
 ```
 
 ### Remote decompilation for large APKs
@@ -80,7 +80,7 @@ Local jadx can OOM on large APKs:
 
 ```bash
 KAGGLE_API_TOKEN=... KAGGLE_KERNEL_ID=user/jadx-apk-decompiler \
-  bash scripts/remote-decompile.sh "<direct-apk-url>" <analysis>/<app>/
+  python3 scripts/remote_decompile.py "<direct-apk-url>" <analysis>/<app>/
 cd <analysis>/<app> && unzip *_decompiled.zip -d decompiled/
 ```
 
@@ -102,10 +102,10 @@ Search in a fixed order — protections first, because an integrity/root check w
 break testing of everything else. Start with a one-pass triage:
 
 ```bash
-bash scripts/hunt-signals.sh <analysis>/<app>/decompiled [--files]
+python3 scripts/hunt_signals.py <analysis>/<app>/decompiled [--files]
 ```
 
-`scripts/hunt-signals.sh` is the canonical pattern list. The buckets below
+`scripts/hunt_signals.py` is the canonical pattern list. The buckets below
 summarize intent only; read the script for exact expressions. When a pattern
 changes, update the script first, then the recipe that motivated the change in
 [bypass patterns](bypass-patterns.md).
@@ -198,7 +198,7 @@ not; treat recovery coverage as best-effort.) Before tracing call flows, rebuild
 the real names:
 
 ```bash
-bash scripts/recover-kotlin-names.sh <analysis>/<app>/decompiled <analysis>/<app>/mapping
+python3 scripts/recover_kotlin_names.py <analysis>/<app>/decompiled <analysis>/<app>/mapping
 # → mapping.tsv / mapping.json / by_package/
 ```
 
