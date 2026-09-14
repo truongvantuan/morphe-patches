@@ -11,7 +11,10 @@ Keep Python applications isolated with uv. Install the host tools and analysis
 applications with:
 
 ```fish
-sudo dnf install -y uv
+sudo dnf install -y uv curl fish
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fish_add_path /home/linuxbrew/.linuxbrew/bin
 brew install openjdk@21 jadx apktool android-cli
 uv tool install frida-tools
 fish_add_path ~/.local/bin ~/Android/Sdk/build-tools/36.1.0 ~/Android/Sdk/platform-tools ~/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin
@@ -20,7 +23,7 @@ fish_add_path ~/.local/bin ~/Android/Sdk/build-tools/36.1.0 ~/Android/Sdk/platfo
 Install the remaining host utilities used by the scripts as needed:
 
 ```fish
-sudo dnf install -y git curl unzip zip ripgrep binutils bash fish jq gh
+sudo dnf install -y git unzip zip ripgrep binutils bash jq gh
 ```
 
 ## 2. Java, Android CLI, and analysis tools
@@ -166,7 +169,8 @@ Full flag reference and terminal flows (discovery, single-patch isolation,
 signing, updates): [CLI patching](cli.md).
 It explicitly selects the patch
 bundle and temporary directory, and passes the discovered keystore
-(`imported.keystore` preferred, `--keystore-password=Morphe` by default);
+(`Morphe.keystore` preferred, `imported.keystore` as a fallback,
+`--keystore-password=Morphe` by default);
 use `KEYSTORE=`/`KEYSTORE_PASSWORD=` only to override what discovery finds
 and preserve its alias/password settings; see
 [CLI signing guidance](cli.md#signing).
