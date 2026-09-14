@@ -4,8 +4,8 @@
   "patches": [
     {
       "name": "Anti-Recall",
-      "description": "Prevents incoming server recall commands from removing messages. Local user-initiated message deletion and cache cleanup remain unchanged.",
-      "default": true,
+      "description": "WARNING: Experimental client-side protection against incoming server recall commands; runtime retention is not yet accepted across all delivery states. Local user-initiated message deletion and cache cleanup remain unchanged.",
+      "default": false,
       "dependencies": [],
       "compatiblePackages": [
         {
