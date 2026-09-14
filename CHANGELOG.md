@@ -4,6 +4,13 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+### ✨ New Features
+* **Zalo - Hide conversation ads:** Sponsored Official Account posts and "Media Box" promos no longer appear in the chat list.
+
+### 🔧 Improvements
+* **Zalo - Bypass native startup tamper check:** Migrated from hardcoded offsets to dynamic byte pattern scanning.
+* **Zalo:** Updated all patch fingerprints to flawlessly match the `26.08.02` app obfuscation.
+
 ## [1.2.1](https://github.com/truongvantuan/morphe-patches/compare/v1.2.0...v1.2.1) (2026-09-14)
 ### 🚀 Updated App Support
 * **Zalo:** Add support for `26.08.02`.
