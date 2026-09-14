@@ -14,7 +14,6 @@ import org.w3c.dom.Element
 private const val MICROG_ACCOUNT_TYPE = "app.revanced"
 private const val MICROG_PACKAGE = "app.revanced.android.gms"
 
-
 private const val STOCK_VNG_CERT_HEX =
     "3082019d30820106a00302010202044f178971300d06092a864886f70d010105050030133111300f060355040313087a" +
         "696e6774616c6b301e170d3132303131393033303933375a170d3337303131323033303933375a30133111300f060355" +
@@ -49,7 +48,6 @@ val zaloMicroGManifestPatch = resourcePatch {
         }
     }
 }
-
 
 /**
  * Redirects Zalo's Google Drive account and token plumbing to microG-RE.
@@ -87,7 +85,6 @@ val zaloMicroGSupportPatch = bytecodePatch(
                         candidate.parameterTypes == method.parameterTypes &&
                         candidate.returnType == method.returnType
                 }
-
 
                 implementation.instructions.forEachIndexed { index, instruction ->
                     if (instruction.opcode != Opcode.CONST_STRING) return@forEachIndexed

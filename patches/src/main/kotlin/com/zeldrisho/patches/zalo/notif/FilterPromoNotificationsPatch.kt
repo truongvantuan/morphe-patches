@@ -67,8 +67,8 @@ internal fun armJumpIndexes(match: Match): Pair<Int, Int> {
         ?: error("Promo arm moved: no instruction at gotoIndex")
 
     val isGoto = gotoInsn.opcode == Opcode.GOTO ||
-                 gotoInsn.opcode == Opcode.GOTO_16 ||
-                 gotoInsn.opcode == Opcode.GOTO_32
+        gotoInsn.opcode == Opcode.GOTO_16 ||
+        gotoInsn.opcode == Opcode.GOTO_32
 
     check(isGoto) {
         "Promo arm moved: expected goto right after the channel sget " +
