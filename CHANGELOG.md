@@ -4,6 +4,16 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.3.1](https://github.com/truongvantuan/morphe-patches/compare/v1.2.13...v1.3.1) (2026-09-14)
+### ✨ New Features (Merged from Upstream v1.3.0)
+* **Zalo - Hide Business Box:** Removes the Business Box entry from the main chat list without filtering ordinary conversations.
+* **Zalo - Disable telemetry and crash reporting:** Suppresses Zalo's Room analytics writes, Firebase Crashlytics diagnostics, and native crash-handler registration.
+* **Zalo - Keep expired media accessible:** Keeps locally stored large chat media usable after Zalo marks it expired.
+* **Zalo - Clone branding:** Optionally changes the app name and package name so a branded Zalo clone can be installed beside stock Zalo.
+
+### 🐛 Bug Fixes
+* **Zalo - microG Drive support:** Validated the missing-provider launch prompt and the complete initial OAuth + Google Drive photo-restore flow.
+
 ## [1.2.13](https://github.com/truongvantuan/morphe-patches/compare/v1.2.12...v1.2.13) (2026-09-14)
 ### 🔧 Build
 * **CI:** Fix trailing whitespaces causing CI Spotless check failure again (accidentally committed temp files).

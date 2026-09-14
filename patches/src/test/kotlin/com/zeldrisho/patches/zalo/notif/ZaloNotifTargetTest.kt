@@ -34,8 +34,8 @@ class ZaloNotifTargetTest {
         val config = PatcherConfig(apkFile = temporary.newFile("input.apk"), temporaryFilesPath = temporary.newFolder())
         val metadata = PackageMetadata::class.java.constructors.single().newInstance(
             "com.zing.zalo",
-            "26.08.02",
-            "260802903",
+            "26.08.01",
+            "260801903",
             null,
         )
         return BytecodePatchContext::class.java.getConstructor(PatcherConfig::class.java, PackageMetadata::class.java)
@@ -56,8 +56,8 @@ class ZaloNotifTargetTest {
 
     /** Minimal dispatcher arm: type string, channel sget, jump to the post path. */
     private fun armMethod(channel: String) = ImmutableMethod(
-        "Lpy/j;",
-        "k0",
+        "Lpy/i;",
+        "j0",
         emptyList(),
         "V",
         AccessFlags.PUBLIC.value,
@@ -70,7 +70,7 @@ class ZaloNotifTargetTest {
                 ImmutableInstruction21c(
                     Opcode.SGET_OBJECT,
                     1,
-                    ImmutableFieldReference("Lpy/p;", channel, "Lpy/p;"),
+                    ImmutableFieldReference("Lpy/m;", channel, "Lpy/m;"),
                 ),
                 ImmutableInstruction10t(Opcode.GOTO, 0),
             ),
@@ -83,14 +83,14 @@ class ZaloNotifTargetTest {
         with(context()) {
             StoryChannelArm.clearMatch()
             assertEquals(
-                "k0",
-                StoryChannelArm.matchAll(classDef("Lpy/j;", listOf(armMethod("SOCIAL_STORY"))), 1..1)
+                "j0",
+                StoryChannelArm.matchAll(classDef("Lpy/i;", listOf(armMethod("SOCIAL_STORY"))), 1..1)
                     .single().originalMethod.name,
             )
             VideoChannelArm.clearMatch()
             assertEquals(
-                "k0",
-                VideoChannelArm.matchAll(classDef("Lpy/j;", listOf(armMethod("ZALO_VIDEO"))), 1..1)
+                "j0",
+                VideoChannelArm.matchAll(classDef("Lpy/i;", listOf(armMethod("ZALO_VIDEO"))), 1..1)
                     .single().originalMethod.name,
             )
         }
@@ -102,21 +102,21 @@ class ZaloNotifTargetTest {
             assertTrue(
                 StoryChannelArm.matchOrNull(
                     armMethod("CHAT"),
-                    classDef("Lpy/j;", listOf(armMethod("CHAT"))),
+                    classDef("Lpy/i;", listOf(armMethod("CHAT"))),
                 ) == null,
             )
             VideoChannelArm.clearMatch()
             assertTrue(
                 VideoChannelArm.matchOrNull(
                     armMethod("DEFAULT"),
-                    classDef("Lpy/j;", listOf(armMethod("DEFAULT"))),
+                    classDef("Lpy/i;", listOf(armMethod("DEFAULT"))),
                 ) == null,
             )
         }
     }
 
     @Test fun dropReplacesOnlyTheArmJump() {
-        val cls = classDef("Lpy/j;", listOf(armMethod("SOCIAL_STORY")))
+        val cls = classDef("Lpy/i;", listOf(armMethod("SOCIAL_STORY")))
         with(context()) {
             StoryChannelArm.clearMatch()
             val match = StoryChannelArm.matchAll(cls, 1..1).single()
@@ -134,6 +134,24 @@ class ZaloNotifTargetTest {
         }
     }
 
+    @Test fun transactionalChannelsAreNotFiltered() {
+        with(context()) {
+            for (channel in listOf("ACTIVITY_UPDATES", "USER_INTERACTIONS", "ALERT", "CHAT", "CHAT_GROUP", "CALL")) {
+                val cls = classDef("Lpy/i;", listOf(armMethod(channel)))
+                StoryChannelArm.clearMatch()
+                VideoChannelArm.clearMatch()
+                assertTrue(
+                    StoryChannelArm.matchOrNull(armMethod(channel), cls) == null,
+                    "story filter must not match $channel",
+                )
+                assertTrue(
+                    VideoChannelArm.matchOrNull(armMethod(channel), cls) == null,
+                    "video filter must not match $channel",
+                )
+            }
+        }
+    }
+
     /** Opt-in local DEX validation against the pinned Zalo base APK; skipped in CI. */
     @Test fun matchesPinnedZaloApkWhenProvided() {
         val path = System.getenv("ZALO_TEST_APK")
@@ -147,8 +165,8 @@ class ZaloNotifTargetTest {
             // adjacency contract is asserted directly against the real DEX here.
             for ((fingerprint, channel) in listOf(StoryChannelArm to "SOCIAL_STORY", VideoChannelArm to "ZALO_VIDEO")) {
                 fingerprint.clearMatch()
-                val match = fingerprint.matchAll(classes.getValue("Lpy/j;"), 1..1).single()
-                assertEquals("k0", match.originalMethod.name)
+                val match = fingerprint.matchAll(classes.getValue("Lpy/i;"), 1..1).single()
+                assertEquals("j0", match.originalMethod.name)
                 val insns = match.originalMethod.implementation!!.instructions.toList()
                 assertTrue(insns.size > 500, "expected the full j0 dispatcher, found ${insns.size} insns")
                 armJumpIndexes(match)

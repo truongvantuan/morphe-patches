@@ -37,18 +37,18 @@ class PatchesListShapeTest {
 
     @Test fun zaloBundleShape() {
         val json = listJson()
-        for (name in listOf("Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Newsfeed ads", "Remove AD_ID permission", "microG Drive support")) {
+        for (name in listOf("Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Business Box", "Keep expired media accessible", "Remove AD_ID permission", "Change Zalo app name", "Change Zalo package name", "microG Drive support", "Hide conversation list ads", "Hide Newsfeed ads")) {
             assertTrue(json.contains("\"name\": \"$name\""), "missing patch: $name")
         }
         assertTrue(json.contains("com.zing.zalo"), "missing Zalo package group")
-        assertTrue(json.contains("26.08.02"), "Zalo target version must stay pinned")
+        assertTrue(json.contains("26.08.01"), "Zalo target version must stay pinned")
     }
 
     /**
-     * Verify that exactly 11 patches are present with no leftover template scaffolding.
+     * Verify that exactly 17 patches are present with no leftover template scaffolding.
      */
     @Test fun patchCountMatchesSources() {
-        // Exactly 11 patches (4 Threads + 7 Zalo) — template scaffolding was removed,
+        // Exactly 17 patches (4 Threads + 13 Zalo) — template scaffolding was removed,
         // so any extra entry (e.g. a resurrected "Example Patch") fails loudly.
         // Note: "name" also appears on compatiblePackages entries ("Threads", "Zalo"),
         // so only top-level patch names are counted (6-space indent in output).
@@ -57,20 +57,30 @@ class PatchesListShapeTest {
         assertEquals(
             listOf(
                 "Bypass native startup tamper check",
+                "Change Zalo app name",
+                "Change Zalo package name",
                 "Change app name",
                 "Change package name",
                 "Disable ads",
                 "Disable sponsored placements",
+                "Disable telemetry and crash reporting",
                 "Filter promo notifications",
+                "Hide Business Box",
                 "Hide Newsfeed ads",
                 "Hide ads",
+                "Hide conversation list ads",
+                "Keep expired media accessible",
                 "Remove AD_ID permission",
                 "Remove AD_ID permission",
                 "microG Drive support",
             ),
             names.sorted(),
-            "Expected 11 patches (4 Threads, 7 Zalo)",
+            "expected exactly 17 patches, found: $names",
         )
+    }
+
+    @Test fun removedAntiRecallIsAbsent() {
+        assertTrue(!listJson().contains("\"name\": \"Anti-Recall\""), "removed Anti-Recall patch must stay absent")
     }
 
     /**

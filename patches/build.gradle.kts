@@ -26,10 +26,10 @@ patches {
     about {
         name = "Zeldris Patches"
         description = "Patches for Threads and apps I like, for use with Morphe"
-        source = "git@github.com:truongvantuan/morphe-patches.git"
+        source = "git@github.com:zeldrisho/morphe-patches.git"
         author = "Zeldris"
         contact = "https://github.com/zeldrisho"
-        website = "https://github.com/truongvantuan/morphe-patches"
+        website = "https://github.com/zeldrisho/morphe-patches"
         license = "GPLv3"
     }
 }
@@ -48,11 +48,14 @@ dependencies {
 tasks {
     test {
         // Make opt-in local APK validation cache-correct; CI uses synthetic fixtures.
-        val apkPath = providers.environmentVariable("THREADS_TEST_APK").orNull.orEmpty()
-        inputs.property("threadsTestApk", apkPath)
-        if (apkPath.isNotBlank()) {
-            inputs.file(rootProject.file(apkPath)).withPropertyName("threadsTestApkFile")
-            environment("THREADS_TEST_APK", rootProject.file(apkPath).absolutePath)
+        val apkInputs = listOf("THREADS_TEST_APK", "ZALO_TEST_APK")
+        apkInputs.forEach { variable ->
+            val apkPath = providers.environmentVariable(variable).orNull.orEmpty()
+            inputs.property(variable, apkPath)
+            if (apkPath.isNotBlank()) {
+                inputs.file(rootProject.file(apkPath)).withPropertyName("${variable}File")
+                environment(variable, rootProject.file(apkPath).absolutePath)
+            }
         }
     }
 
