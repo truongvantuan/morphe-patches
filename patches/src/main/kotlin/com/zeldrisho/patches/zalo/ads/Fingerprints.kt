@@ -11,34 +11,33 @@ import com.android.tools.smali.dexlib2.Opcode
 /*
  * Zalo 26.08.02 ad gates (versionCode 260802903, APKMirror arm64-v8a).
  *
- * All smali quotes live in analysis/zalo-26.08.02/notes/candidate-evidence.md.
- * Obfuscated holders (Lvx/s2, Ljt classes) are matched only under the pinned
+ * Obfuscated holders (Lhb/u, Li62/d classes) are matched only under the pinned
  * COMPATIBILITY_ZALO version; re-verify per update.
  */
 
-/** Offline-ads time window: `Lvx/s2.h()Z` checks `Lu52/d.I+G+time`. Forced false. */
+/** Offline-ads time window: `Lhb/u.o()Z` checks `Li62/d.I+G+time`. Forced false. */
 internal object OfflineAdsWindow : Fingerprint(
-    definingClass = "Lvx/s2;",
-    name = "h",
+    definingClass = "Lhb/u;",
+    name = "o",
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.STATIC),
     returnType = "Z",
     parameters = emptyList(),
     filters = listOf(
-        fieldAccess(definingClass = "Lu52/d;", name = "I", type = "Z"),
+        fieldAccess(definingClass = "Li62/d;", name = "I", type = "Z"),
         methodCall(definingClass = "Ljava/lang/Long;", name = "longValue"),
     ),
 )
 
-/** Offline-ads tracker gate: `Lvx/s2.g()Z` consults h() plus `Lu52/d.J`. Forced false. */
+/** Offline-ads tracker gate: `Lhb/u.k()Z` consults o() plus `Li62/d.J`. Forced false. */
 internal object OfflineAdsGate : Fingerprint(
-    definingClass = "Lvx/s2;",
-    name = "g",
+    definingClass = "Lhb/u;",
+    name = "k",
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.STATIC),
     returnType = "Z",
     parameters = emptyList(),
     filters = listOf(
-        methodCall(definingClass = "Lvx/s2;", name = "h", returnType = "Z"),
-        fieldAccess(definingClass = "Lu52/d;", name = "J", type = "Z"),
+        methodCall(definingClass = "Lhb/u;", name = "o", returnType = "Z"),
+        fieldAccess(definingClass = "Li62/d;", name = "J", type = "Z"),
     ),
 )
 
@@ -54,7 +53,7 @@ internal object GoogleAdsNetworkGate : Fingerprint(
     returnType = "V",
     parameters = emptyList(),
     filters = listOf(
-        fieldAccess(definingClass = "Lu52/d;", name = "L", type = "Z"),
+        fieldAccess(definingClass = "Li62/d;", name = "L", type = "Z"),
         opcode(Opcode.IF_NEZ),
         string("admob"),
         string("dfp"),
@@ -63,14 +62,14 @@ internal object GoogleAdsNetworkGate : Fingerprint(
 )
 
 /**
- * Story-ads config reads (`social@story@story_ads@enable` via `Lvj0/m.f`).
- * Two call sites on 26.08.02 (StoryDetailsView + kz0/u); the patch zeroes the
+ * Story-ads config reads (`social@story@story_ads@enable` via `Lxj0/m.f`).
+ * Two call sites on 26.08.02 (StoryDetailsView + pz0/t); the patch zeroes the
  * config result register after MOVE_RESULT in every matched method.
  */
 internal object StoryAdsConfig : Fingerprint(
     filters = listOf(
         string("social@story@story_ads@enable"),
-        methodCall(definingClass = "Lvj0/m;", name = "f", returnType = "I"),
+        methodCall(definingClass = "Lxj0/m;", name = "f", returnType = "I"),
         opcode(Opcode.MOVE_RESULT),
         opcode(Opcode.IF_NE),
     ),
@@ -102,13 +101,13 @@ internal object AdtimaLatRead : Fingerprint(
 )
 
 /**
- * Community-ads config reads (`community.community_ads.enable` via `Lvj0/m.f`).
+ * Community-ads config reads (`community.community_ads.enable` via `Lxj0/m.f`).
  * Two call sites on 26.08.02 (jt/m.c + jt/e.Q); patched the same way as story.
  */
 internal object CommunityAdsConfig : Fingerprint(
     filters = listOf(
         string("community.community_ads.enable"),
-        methodCall(definingClass = "Lvj0/m;", name = "f", returnType = "I"),
+        methodCall(definingClass = "Lxj0/m;", name = "f", returnType = "I"),
         opcode(Opcode.MOVE_RESULT),
         opcode(Opcode.IF_NE),
     ),
