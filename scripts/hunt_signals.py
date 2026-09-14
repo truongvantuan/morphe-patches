@@ -89,11 +89,7 @@ def main():
     for group, buckets in BUCKETS:
         print(f"-- {group} --")
         for label, pattern in buckets:
-            hits = [
-                str(f)
-                for f in files
-                if re.search(pattern, contents[f])
-            ]
+            hits = [str(f) for f in files if re.search(pattern, contents[f])]
             print(f"  {label + ':':-28} {len(hits)} files")
             if a.files and 0 < len(hits) <= 20:
                 print("\n".join("      " + x for x in hits))

@@ -91,7 +91,9 @@ class ReleaseScriptTest(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("version = 1.2.3", (root / "gradle.properties").read_text())
-            self.assertEqual(json.loads((root / "patches-list.json").read_text())["version"], "1.2.3")
+            self.assertEqual(
+                json.loads((root / "patches-list.json").read_text())["version"], "1.2.3"
+            )
             bundle = json.loads((root / "patches-bundle.json").read_text())
             self.assertEqual(bundle["version"], "1.2.3")
             self.assertTrue(bundle["description"])

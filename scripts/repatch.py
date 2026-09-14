@@ -79,9 +79,10 @@ def main():
                     for x in api["assets"]
                     if x["name"].endswith(".mpp")
                 )
-                with urllib.request.urlopen(url, timeout=30) as response, open(
-                    mpp, "wb"
-                ) as output:
+                with (
+                    urllib.request.urlopen(url, timeout=30) as response,
+                    open(mpp, "wb") as output,
+                ):
                     shutil.copyfileobj(response, output)
             except (OSError, URLError, StopIteration, json.JSONDecodeError) as exc:
                 die(f"failed to download latest patch bundle: {exc}")
