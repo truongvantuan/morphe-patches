@@ -4,6 +4,11 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.2.8](https://github.com/truongvantuan/morphe-patches/compare/v1.2.7...v1.2.8) (2026-09-14)
+### 🐛 Bug Fixes
+* **Zalo - Hide Newsfeed ads:** Fix high-register bytecode compilation errors (`Invalid register: v25`) that caused the patcher to ignore instructions, preventing ads from actually being hidden.
+
+
 ## [1.2.7](https://github.com/truongvantuan/morphe-patches/compare/v1.2.6...v1.2.7) (2026-09-14)
 ### 🔧 Improvements
 * **Zalo - Hide Newsfeed ads:** Improved hidden ad elements to fully collapse spacing rather than just turning invisible.

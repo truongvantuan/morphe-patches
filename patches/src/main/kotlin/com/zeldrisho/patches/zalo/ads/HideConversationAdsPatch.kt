@@ -41,7 +41,7 @@ val hideConversationAdsPatch = bytecodePatch(
 
                     val injection = """
                         # Fetch the ContactProfile wrapper (Lbw/o;)
-                        invoke-virtual { p0, p1 }, Lbw/r;->a(I)Lbw/o;
+                        invoke-virtual/range { p0 .. p1 }, Lbw/r;->a(I)Lbw/o;
                         move-result-object v0
                         if-eqz v0, :skip_hide_ads
 
