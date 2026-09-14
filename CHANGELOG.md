@@ -4,6 +4,12 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.2.10](https://github.com/truongvantuan/morphe-patches/compare/v1.2.9...v1.2.10) (2026-09-14)
+### ✨ Features
+* **Zalo - Hide conversation list ads:** Added support for Zalo 26.08+ modern `RecyclerView` architecture (hooking `NormalMsgModuleView`).
+* **Zalo - Hide Newsfeed ads:** Added support for modern `FeedItemZInstantAds` engine which replaced legacy suggested banners.
+
+
 ## [1.2.9](https://github.com/truongvantuan/morphe-patches/compare/v1.2.8...v1.2.9) (2026-09-14)
 ### 🔧 Build
 * **CI:** Fix Spotless Java formatting error in extension helper that caused the Check workflow to fail.

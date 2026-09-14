@@ -138,3 +138,14 @@ internal object NewsfeedSponsoredOABind : Fingerprint(
     returnType = "V",
     parameters = listOf("Lkn1/h2;"),
 )
+
+/**
+ * Modern Newsfeed ZInstant ads (Zalo 26.08+):
+ * `FeedItemZInstantAds.c(...)V` is the binding method for their new ZInstant-based ad engine.
+ */
+internal object NewsfeedZInstantAdsBind : Fingerprint(
+    definingClass = "Lcom/zing/zalo/social/presentation/timeline/components/ads/FeedItemZInstantAds;",
+    name = "c",
+    returnType = "V",
+    parameters = listOf("Lws0/a;", "I", "Lp51/a;", "I"),
+)
