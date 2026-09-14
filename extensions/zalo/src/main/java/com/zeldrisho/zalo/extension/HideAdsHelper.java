@@ -9,7 +9,7 @@ public class HideAdsHelper {
         try {
             boolean isAd = false;
             Class<?> profileClass = profileObj.getClass();
-            
+
             // Check T0 boolean (OA ad promo flag)
             try {
                 java.lang.reflect.Field t0Field = profileClass.getField("T0");
@@ -17,7 +17,7 @@ public class HideAdsHelper {
             } catch (Exception e) {
                 // Ignore if field is obfuscated or missing
             }
-            
+
             // Check for Media Box by name or known string fields
             if (!isAd) {
                 // Try standard fields that might hold the display name
@@ -35,7 +35,7 @@ public class HideAdsHelper {
                     }
                 }
             }
-            
+
             if (isAd) {
                 view.setVisibility(View.GONE);
                 ViewGroup.LayoutParams params = view.getLayoutParams();
