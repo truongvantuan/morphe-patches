@@ -4,6 +4,10 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.3.5](https://github.com/truongvantuan/morphe-patches/compare/v1.3.4...v1.3.5) (2026-09-14)
+### 🐛 Bug Fixes
+* **Zalo:** Relax the Keep Media Accessible fingerprint to avoid strict access flag mismatches on device.
+
 ## [1.3.4](https://github.com/truongvantuan/morphe-patches/compare/v1.3.2...v1.3.4) (2026-09-14)
 ### 🐛 Bug Fixes
 * **Zalo:** Fix Business Box and Keep Media Accessible fingerprints for Zalo `26.08.02` so they apply correctly on the device.
