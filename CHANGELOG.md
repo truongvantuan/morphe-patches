@@ -4,6 +4,10 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.2.3](https://github.com/truongvantuan/morphe-patches/compare/v1.2.2...v1.2.3) (2026-09-14)
+### 🐛 Bug Fixes
+* **Zalo - Filter promo notifications:** Fix runtime patcher crash on `26.08.02` caused by the compiler upgrading short jumps to `goto/16`.
+
 ## [1.2.2](https://github.com/truongvantuan/morphe-patches/compare/v1.2.1...v1.2.2) (2026-09-14)
 ### ✨ New Features
 * **Zalo - Hide conversation ads:** Sponsored Official Account posts and "Media Box" promos no longer appear in the chat list.
