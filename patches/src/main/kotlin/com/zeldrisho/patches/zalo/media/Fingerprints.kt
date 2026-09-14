@@ -13,21 +13,21 @@ import com.android.tools.smali.dexlib2.AccessFlags
  * preview with the subscription/expired UI.
  */
 internal object MediaExpiryStatus : Fingerprint(
-    definingClass = "Lvk0/g;",
+    definingClass = "Lxk0/g;",
     name = "n",
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.STATIC),
-    returnType = "Lvk0/a;",
-    parameters = listOf("Lo00/q;", "Lo00/e2;"),
+    returnType = "Lxk0/a;",
+    parameters = listOf("Lp00/s;", "Lp00/g2;"),
     filters = listOf(
         fieldAccess(
-            definingClass = "Lvk0/a;",
+            definingClass = "Lxk0/a;",
             name = "BIG_FILE_EXPIRED",
-            type = "Lvk0/a;",
+            type = "Lxk0/a;",
         ),
         fieldAccess(
-            definingClass = "Lvk0/a;",
+            definingClass = "Lxk0/a;",
             name = "BIG_FILE_NOT_EXPIRED",
-            type = "Lvk0/a;",
+            type = "Lxk0/a;",
         ),
     ),
 )

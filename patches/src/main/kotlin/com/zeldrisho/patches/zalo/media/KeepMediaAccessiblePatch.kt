@@ -33,7 +33,7 @@ val keepZaloMediaAccessiblePatch = bytecodePatch(
         val register = (expiredLoad.instruction as OneRegisterInstruction).registerA
         MediaExpiryStatus.method.replaceInstruction(
             expiredLoad.index,
-            "sget-object v$register, Lvk0/a;->BIG_FILE_NOT_EXPIRED:Lvk0/a;",
+            "sget-object v$register, Lxk0/a;->BIG_FILE_NOT_EXPIRED:Lxk0/a;",
         )
     }
 }

@@ -50,7 +50,7 @@ val hideZaloBusinessBoxPatch = bytecodePatch(
 }
 
 private object BusinessBoxListInsertionFingerprint : Fingerprint(
-    definingClass = "Lje0/u;",
+    definingClass = "Lle0/x;",
     name = "G",
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
     returnType = "V",
@@ -60,17 +60,17 @@ private object BusinessBoxListInsertionFingerprint : Fingerprint(
         "I",
         "Z",
         "I",
-        "Lje0/p;",
+        "Lle0/s;",
     ),
     filters = listOf(
         fieldAccess(
             opcode = Opcode.SGET_OBJECT,
-            definingClass = "Lsx/a;",
+            definingClass = "Ltx/a;",
             name = "BizBox",
-            type = "Lsx/a;",
+            type = "Ltx/a;",
         ),
         methodCall(
-            definingClass = "Lq00/a;",
+            definingClass = "Lr00/a;",
             name = "<init>",
             parameters = listOf(
                 "Lcom/zing/zalo/data/chat/model/tabmessage/Conversation;",
@@ -82,7 +82,7 @@ private object BusinessBoxListInsertionFingerprint : Fingerprint(
 )
 
 private object BusinessBoxPeriodicBranchFingerprint : Fingerprint(
-    definingClass = "Lof1/o;",
+    definingClass = "Lzf1/m;",
     name = "a",
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
     returnType = "V",
