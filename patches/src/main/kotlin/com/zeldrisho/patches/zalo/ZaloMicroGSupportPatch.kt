@@ -35,8 +35,8 @@ private const val STOCK_VNG_CERT_HEX =
         "12702c70524324a611424c69c4d3e43a2756551eec5f4e4de966331194c74484a1"
 
 private val accountTypeClasses = setOf(
-    "Lcom/zing/zalo/ui/backuprestore/drive/SyncGoogleAccountBaseView;",
     "Lcom/zing/zalo/ui/backuprestore/drive/ManageGoogleAccountView;",
+    "Lcom/zing/zalo/ui/backuprestore/drive/SyncGoogleAccountBaseView;",
     "Lcom/zing/zalo/ui/backuprestore/drive/SyncGoogleAccountMediaRestoreView;",
     "Lul/g;",
     "Ln71/d0;",
@@ -77,8 +77,8 @@ internal fun replaceWithAccountPicker(method: MutableMethod) {
             const/4 v7, 0x0
             invoke-static/range { v1 .. v7 }, Landroid/accounts/AccountManager;->newChooseAccountIntent(Landroid/accounts/Account;Ljava/util/List;[Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Landroid/os/Bundle;)Landroid/content/Intent;
             move-result-object v0
-            iget-object v2, p0, Lcom/zing/zalo/ui/zviews/BaseZaloView;->U0:Lcom/zing/zalo/ui/zviews/BaseZaloView;
-            invoke-virtual { v2 }, Lcom/zing/zalo/zview/a0;->u4()Landroid/content/Context;
+            iget-object v2, p0, Lcom/zing/zalo/ui/zviews/BaseZaloView;->T0:Lcom/zing/zalo/ui/zviews/BaseZaloView;
+            invoke-virtual { v2 }, Lcom/zing/zalo/zview/d0;->v4()Landroid/content/Context;
             move-result-object v2
             check-cast v2, Landroid/app/Activity;
             invoke-static { v2 }, $MICROG_EXTENSION_CLASS->checkGmsCore(Landroid/app/Activity;)Z
@@ -155,11 +155,11 @@ val zaloMicroGSupportPatch = bytecodePatch(
                 val isAccountPickerMethod =
                     (
                         classDef.type == "Lcom/zing/zalo/ui/backuprestore/drive/SyncGoogleAccountBaseView;" &&
-                            method.name == "x6" && method.parameterTypes == listOf("Ljava/lang/String;")
+                            method.name == "y6" && method.parameterTypes == listOf("Ljava/lang/String;")
                         ) ||
                         (
                             classDef.type == "Lcom/zing/zalo/ui/backuprestore/drive/ManageGoogleAccountView;" &&
-                                method.name == "I6" && method.parameterTypes == listOf("Ljava/lang/String;")
+                                method.name == "J6" && method.parameterTypes == listOf("Ljava/lang/String;")
                             )
                 if (isAccountPickerMethod) {
                     replaceWithAccountPicker(mutableMethod)
