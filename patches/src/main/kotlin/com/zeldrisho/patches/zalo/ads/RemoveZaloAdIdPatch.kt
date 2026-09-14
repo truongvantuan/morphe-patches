@@ -8,7 +8,7 @@ import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
  * Strips Zalo's advertising-id manifest entries so the Play advertising ID
  * cannot be read.
  *
- * Safe on 26.08.01: every in-app reader fails closed — `ra0/a` falls back to
+ * Safe on 26.08.02: every in-app reader fails closed — `ra0/a` falls back to
  * `"unknown"`, `u52/g` and `com/adtima/d` catch the lookup failure, and the
  * companion "Disable Zalo ads" patch reports limit-ad-tracking opted-out
  * without calling the Play API at all. GMS-internal callers are SDK

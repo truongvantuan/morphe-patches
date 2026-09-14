@@ -4,7 +4,7 @@
   "patches": [
     {
       "name": "Bypass native startup tamper check",
-      "description": "Preserves native key initialization and NOPs only the JNI System.exit dispatch in the pinned arm64 26.08.01 build.",
+      "description": "Preserves native key initialization and NOPs only the JNI System.exit dispatch in the pinned arm64 26.08.02 build.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
@@ -17,7 +17,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -131,7 +131,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -159,7 +159,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -187,7 +187,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -281,7 +281,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -311,7 +311,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },

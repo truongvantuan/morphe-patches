@@ -43,8 +43,8 @@ class ZaloAdsTargetTest {
         val config = PatcherConfig(apkFile = temporary.newFile("input.apk"), temporaryFilesPath = temporary.newFolder())
         val metadata = PackageMetadata::class.java.constructors.single().newInstance(
             "com.zing.zalo",
-            "26.08.01",
-            "260801903",
+            "26.08.02",
+            "260802903",
             null,
         )
         return BytecodePatchContext::class.java.getConstructor(PatcherConfig::class.java, PackageMetadata::class.java)

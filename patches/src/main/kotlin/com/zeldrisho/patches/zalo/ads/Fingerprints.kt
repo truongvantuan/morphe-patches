@@ -9,9 +9,9 @@ import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 
 /*
- * Zalo 26.08.01 ad gates (versionCode 260801903, APKMirror arm64-v8a).
+ * Zalo 26.08.02 ad gates (versionCode 260802903, APKMirror arm64-v8a).
  *
- * All smali quotes live in analysis/zalo-26.08.01/notes/candidate-evidence.md.
+ * All smali quotes live in analysis/zalo-26.08.02/notes/candidate-evidence.md.
  * Obfuscated holders (Lvx/s2, Ljt classes) are matched only under the pinned
  * COMPATIBILITY_ZALO version; re-verify per update.
  */
@@ -64,7 +64,7 @@ internal object GoogleAdsNetworkGate : Fingerprint(
 
 /**
  * Story-ads config reads (`social@story@story_ads@enable` via `Lvj0/m.f`).
- * Two call sites on 26.08.01 (StoryDetailsView + kz0/u); the patch zeroes the
+ * Two call sites on 26.08.02 (StoryDetailsView + kz0/u); the patch zeroes the
  * config result register after MOVE_RESULT in every matched method.
  */
 internal object StoryAdsConfig : Fingerprint(
@@ -103,7 +103,7 @@ internal object AdtimaLatRead : Fingerprint(
 
 /**
  * Community-ads config reads (`community.community_ads.enable` via `Lvj0/m.f`).
- * Two call sites on 26.08.01 (jt/m.c + jt/e.Q); patched the same way as story.
+ * Two call sites on 26.08.02 (jt/m.c + jt/e.Q); patched the same way as story.
  */
 internal object CommunityAdsConfig : Fingerprint(
     filters = listOf(

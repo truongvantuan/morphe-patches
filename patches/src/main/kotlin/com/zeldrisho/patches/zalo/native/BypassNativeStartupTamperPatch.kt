@@ -21,14 +21,14 @@ private val NOP = byteArrayOf(0x1f, 0x20, 0x03, 0xd5.toByte())
  * suppressing the JNI CallStaticVoidMethodV that dispatches
  * java/lang/System.exit(I)V.
  *
- * This is intentionally pinned to Zalo 26.08.01 and the arm64 native library.
+ * This is intentionally pinned to Zalo 26.08.02 and the arm64 native library.
  * Both instruction sites are checked so a changed native binary fails closed.
  */
 @Suppress("unused")
 val bypassZaloNativeStartupTamperPatch = rawResourcePatch(
     name = "Bypass native startup tamper check",
     description = "Preserves native key initialization and NOPs only the JNI System.exit " +
-        "dispatch in the pinned arm64 26.08.01 build.",
+        "dispatch in the pinned arm64 26.08.02 build.",
     default = true,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
