@@ -6,7 +6,7 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 ### 🚀 Updated App Support
 * **Zalo:** Add support for `26.08.02`.
 
-## [1.2.0](https://github.com/zeldrisho/morphe-patches/compare/v1.1.0...v1.2.0) (2026-09-11)
+## [1.2.0](https://github.com/truongvantuan/morphe-patches/compare/v1.1.0...v1.2.0) (2026-09-11)
 
 ### ✨ New Features
 * **Zalo - microG Drive support:** Adds provider-backed Google Drive account selection and backup/restore support for `26.08.01`.
@@ -16,7 +16,7 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 * **Zalo - Remove AD_ID permission:** Initial patch for `26.08.01` — strips the advertising-id manifest entries (in-app readers fall back to "unknown"); pairs with the limit-ad-tracking opt-out now in Disable Zalo ads.
 * **Zalo - Filter promo notifications:** Initial patch for `26.08.01` — drops Timeline/Stories and Zalo Video pushes in the push dispatcher; message, call, friend-request and birthday notifications are untouched.
 
-## [1.1.0](https://github.com/zeldrisho/morphe-patches/compare/v1.0.0...v1.1.0) (2026-09-09)
+## [1.1.0](https://github.com/truongvantuan/morphe-patches/compare/v1.0.0...v1.1.0) (2026-09-09)
 
 ### 🚀 Updated App Support
 * **Threads:** Add support for `445.0.0.46.83`.
