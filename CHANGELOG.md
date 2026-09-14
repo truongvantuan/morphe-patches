@@ -3,7 +3,8 @@
 Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy).
 
 ## Unreleased
-
+### ✨ New Features
+* **Zalo - Hide Newsfeed ads:** Hides sponsored banner and OA promoted-post cards from the Zalo Newsfeed.
 ## [1.2.4](https://github.com/truongvantuan/morphe-patches/compare/v1.2.3...v1.2.4) (2026-09-14)
 ### 🐛 Bug Fixes
 * **Zalo - microG Drive support:** Fix patcher crash on `26.08.02` caused by Zalo removing their internal account picker method in favor of a native AccountManager UI.
