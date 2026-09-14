@@ -4,6 +4,10 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.3.4](https://github.com/truongvantuan/morphe-patches/compare/v1.3.2...v1.3.4) (2026-09-14)
+### 🐛 Bug Fixes
+* **Zalo:** Fix Business Box and Keep Media Accessible fingerprints for Zalo `26.08.02` so they apply correctly on the device.
+
 ## [1.3.2](https://github.com/truongvantuan/morphe-patches/compare/v1.2.13...v1.3.2) (2026-09-14)
 ### ✨ New Features (Merged from Upstream v1.3.0)
 * **Zalo - Hide Business Box:** Removes the Business Box entry from the main chat list without filtering ordinary conversations.
