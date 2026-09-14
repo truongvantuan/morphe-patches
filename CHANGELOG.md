@@ -3,6 +3,8 @@
 Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy).
 
 ## Unreleased
+
+## [1.2.1](https://github.com/truongvantuan/morphe-patches/compare/v1.2.0...v1.2.1) (2026-09-14)
 ### 🚀 Updated App Support
 * **Zalo:** Add support for `26.08.02`.
 
