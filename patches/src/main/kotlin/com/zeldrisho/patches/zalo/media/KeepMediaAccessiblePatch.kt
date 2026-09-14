@@ -29,11 +29,20 @@ val keepZaloMediaAccessiblePatch = bytecodePatch(
 
     execute {
         val expiredLoad = MediaExpiryStatus.instructionMatches
-            .single { match -> match.instruction.toString().contains("BIG_FILE_EXPIRED") }
-        val register = (expiredLoad.instruction as OneRegisterInstruction).registerA
+            .single { match -> 
+                val inst = match.instruction
+                inst is com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction && 
+                (inst.reference as? com.android.tools.smali.dexlib2.iface.reference.FieldReference)?.name == "BIG_FILE_EXPIRED"
+            }
+        val inst = expiredLoad.instruction as com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+        val fieldRef = inst.reference as com.android.tools.smali.dexlib2.iface.reference.FieldReference
+        val definingClass = fieldRef.definingClass
+        val type = fieldRef.type
+        val register = (inst as OneRegisterInstruction).registerA
+        
         MediaExpiryStatus.method.replaceInstruction(
             expiredLoad.index,
-            "sget-object v$register, Lxk0/a;->BIG_FILE_NOT_EXPIRED:Lxk0/a;",
+            "sget-object v$register, $definingClass->BIG_FILE_NOT_EXPIRED:$type",
         )
     }
 }

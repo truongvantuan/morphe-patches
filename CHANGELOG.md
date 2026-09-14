@@ -4,6 +4,10 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.3.6](https://github.com/truongvantuan/morphe-patches/compare/v1.3.5...v1.3.6) (2026-09-14)
+### 🐛 Bug Fixes
+* **Zalo:** Fix `Keep expired media accessible` patch failing due to dexlib2 `Instruction.toString()` not exposing the field reference string. Make the bytecode replacement completely dynamic and immune to obfuscation differences.
+
 ## [1.3.5](https://github.com/truongvantuan/morphe-patches/compare/v1.3.4...v1.3.5) (2026-09-14)
 ### 🐛 Bug Fixes
 * **Zalo:** Relax the Keep Media Accessible fingerprint to avoid strict access flag mismatches on device.
