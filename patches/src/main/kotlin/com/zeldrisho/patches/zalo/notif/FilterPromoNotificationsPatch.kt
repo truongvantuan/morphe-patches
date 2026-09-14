@@ -61,15 +61,15 @@ internal fun dropChannelArm(match: Match) {
 internal fun armJumpIndexes(match: Match): Pair<Int, Int> {
     val fieldIndex = match.instructionMatches.firstOrNull { it.filter is FieldAccessFilter }
         ?.index ?: error("Promo arm: channel sget not found")
-        
+
     val gotoIndex = fieldIndex + 1
     val gotoInsn = match.originalMethod.implementation!!.instructions.toList().getOrNull(gotoIndex)
         ?: error("Promo arm moved: no instruction at gotoIndex")
-        
-    val isGoto = gotoInsn.opcode == Opcode.GOTO || 
-                 gotoInsn.opcode == Opcode.GOTO_16 || 
+
+    val isGoto = gotoInsn.opcode == Opcode.GOTO ||
+                 gotoInsn.opcode == Opcode.GOTO_16 ||
                  gotoInsn.opcode == Opcode.GOTO_32
-                 
+
     check(isGoto) {
         "Promo arm moved: expected goto right after the channel sget " +
             "(sget@$fieldIndex found ${gotoInsn.opcode.name}@$gotoIndex) — re-hunt Lpy/j;.k0() before patching."
