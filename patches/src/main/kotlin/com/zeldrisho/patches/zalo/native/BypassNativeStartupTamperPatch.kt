@@ -71,4 +71,3 @@ val bypassZaloNativeStartupTamperPatch = rawResourcePatch(
         }
     }
 }
-
