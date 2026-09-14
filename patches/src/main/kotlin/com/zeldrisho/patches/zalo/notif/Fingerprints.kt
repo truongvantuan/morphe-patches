@@ -27,7 +27,6 @@ internal object StoryChannelArm : Fingerprint(
     filters = listOf(
         string("EXTRA_KEY_TYPE"),
         fieldAccess(definingClass = "Lpy/p;", name = "SOCIAL_STORY", type = "Lpy/p;"),
-        opcode(Opcode.GOTO),
     ),
 )
 
@@ -41,6 +40,5 @@ internal object VideoChannelArm : Fingerprint(
     filters = listOf(
         string("EXTRA_KEY_TYPE"),
         fieldAccess(definingClass = "Lpy/p;", name = "ZALO_VIDEO", type = "Lpy/p;"),
-        opcode(Opcode.GOTO),
     ),
 )
