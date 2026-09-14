@@ -85,13 +85,14 @@ def main():
         p.error(f"Not a directory: {a.directory}")
     files = [x for x in a.directory.rglob("*") if x.is_file()]
     print(f"=== Hunt signals: {a.directory} ===")
+    contents = {f: f.read_text(errors="replace") for f in files}
     for group, buckets in BUCKETS:
         print(f"-- {group} --")
         for label, pattern in buckets:
             hits = [
                 str(f)
                 for f in files
-                if re.search(pattern, f.read_text(errors="replace"))
+                if re.search(pattern, contents[f])
             ]
             print(f"  {label + ':':-28} {len(hits)} files")
             if a.files and 0 < len(hits) <= 20:

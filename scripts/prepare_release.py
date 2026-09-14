@@ -29,6 +29,8 @@ def main():
     v = a.version
     if not re.fullmatch(r"\d+\.\d+\.\d+", v):
         die(f"Version must be X.Y.Z (got '{v}')")
+    if run("git", "branch", "--show-current") == "main":
+        die("Release staging must run on a release branch, not main")
     if run("git", "rev-parse", "--is-shallow-repository") != "false":
         die(
             "Release staging requires complete history; unshallow and synchronize tags first"

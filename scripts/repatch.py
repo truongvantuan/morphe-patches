@@ -4,9 +4,11 @@
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import tempfile
 import urllib.request
+from urllib.error import URLError
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -65,18 +67,24 @@ def main():
         if not mpp:
             repo = os.environ.get("GITHUB_REPO", "zeldrisho/morphe-patches")
             print("No local .mpp found. Downloading the latest release bundle...")
-            api = json.load(
-                urllib.request.urlopen(
-                    f"https://api.github.com/repos/{repo}/releases/latest"
-                )
-            )
-            url = next(
-                x["browser_download_url"]
-                for x in api["assets"]
-                if x["name"].endswith(".mpp")
-            )
             mpp = str(Path(td) / "patches.mpp")
-            urllib.request.urlretrieve(url, mpp)
+            try:
+                with urllib.request.urlopen(
+                    f"https://api.github.com/repos/{repo}/releases/latest",
+                    timeout=30,
+                ) as response:
+                    api = json.load(response)
+                url = next(
+                    x["browser_download_url"]
+                    for x in api["assets"]
+                    if x["name"].endswith(".mpp")
+                )
+                with urllib.request.urlopen(url, timeout=30) as response, open(
+                    mpp, "wb"
+                ) as output:
+                    shutil.copyfileobj(response, output)
+            except (OSError, URLError, StopIteration, json.JSONDecodeError) as exc:
+                die(f"failed to download latest patch bundle: {exc}")
         if not Path(mpp).is_file():
             die(f"patch bundle not found: {mpp}")
         opts = Path(td) / "options.json"
@@ -108,9 +116,12 @@ def main():
             ("APP_NAME", "Change app name", "appName"),
             ("PACKAGE_NAME", "Change package name", "packageName"),
         ):
-            if os.environ.get(env) and name in patches and selected == "__DEFAULT__":
-                patches[name]["enabled"] = True
-                patches[name].setdefault("options", {})[opt] = os.environ[env]
+            value = os.environ.get(env)
+            if value and name in patches:
+                if selected == "__DEFAULT__":
+                    patches[name]["enabled"] = True
+                if patches[name].get("enabled"):
+                    patches[name].setdefault("options", {})[opt] = value
         opts.write_text(json.dumps(data, indent=1))
         ks = [
             f"--keystore={key}",

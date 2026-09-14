@@ -45,7 +45,23 @@ def main():
                     "metadata": {},
                     "source": [
                         "!pip -q install jadx\n",
-                        "# Download and decompile according to the Kaggle runtime image.\n",
+                        "# Download, decompile, and archive the result in the Kaggle workspace.\n",
+                        "from pathlib import Path\n",
+                        "from urllib.request import urlopen\n",
+                        "import shutil\n",
+                        "import subprocess\n",
+                        "import zipfile\n",
+                        "\n",
+                        "apk_path = Path('/kaggle/working/input.apk')\n",
+                        "with urlopen(APK_URL, timeout=120) as response, apk_path.open('wb') as output:\n",
+                        "    shutil.copyfileobj(response, output)\n",
+                        "decompiled_path = Path('/kaggle/working/decompiled')\n",
+                        "subprocess.run(['jadx', '-d', str(decompiled_path), str(apk_path)], check=True)\n",
+                        "archive_path = Path('/kaggle/working/jadx_decompiled.zip')\n",
+                        "with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as archive:\n",
+                        "    for path in decompiled_path.rglob('*'):\n",
+                        "        if path.is_file():\n",
+                        "            archive.write(path, path.relative_to(decompiled_path.parent))\n",
                     ],
                     "outputs": [],
                     "execution_count": None,
@@ -69,7 +85,10 @@ def main():
         )
         subprocess.run(["kaggle", "kernels", "push", "-p", td], check=True)
         print("⏳ Waiting for kernel...")
-        while True:
+        deadline = time.monotonic() + int(
+            os.environ.get("KAGGLE_TIMEOUT_SECONDS", "1800")
+        )
+        while time.monotonic() < deadline:
             raw = subprocess.run(
                 ["kaggle", "kernels", "status", kernel],
                 text=True,
@@ -82,6 +101,8 @@ def main():
             if any(x in raw.lower() for x in ("error", "cancel", "fail")):
                 raise SystemExit("❌ Kernel failed")
             time.sleep(10)
+        else:
+            raise SystemExit("❌ Kernel polling timed out")
         subprocess.run(
             [
                 "kaggle",

@@ -5,10 +5,12 @@ import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.morphe.patcher.methodCall
 import app.morphe.patcher.patch.bytecodePatch
+import app.morphe.patcher.patch.resourcePatch
 import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod
 import com.android.tools.smali.dexlib2.AccessFlags
 import com.zeldrisho.patches.shared.bytecode.clearBody
 import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
+import org.w3c.dom.Element
 
 private const val CRASHLYTICS = "Lcom/google/firebase/crashlytics/FirebaseCrashlytics;"
 
@@ -95,6 +97,22 @@ private val SetCustomKeyString = crashlyticsMethod(
 private val SetCustomKeyBoolean = crashlyticsMethod("setCustomKey", listOf("Ljava/lang/String;", "Z"))
 private val SetCustomKeys = crashlyticsMethod("setCustomKeys", listOf("Lfe/c;"))
 private val SetUserId = crashlyticsMethod("setUserId", listOf("Ljava/lang/String;"))
+private val SetCrashlyticsCollectionEnabled =
+    crashlyticsMethod("setCrashlyticsCollectionEnabled", listOf("Z"))
+
+private val disableCrashlyticsManifestPatch = resourcePatch {
+    compatibleWith(COMPATIBILITY_ZALO)
+
+    execute {
+        document("AndroidManifest.xml").use { doc ->
+            val application = doc.getElementsByTagName("application").item(0) as Element
+            application.appendChild(doc.createElement("meta-data").apply {
+                setAttribute("android:name", "firebase_crashlytics_collection_enabled")
+                setAttribute("android:value", "false")
+            })
+        }
+    }
+}
 
 @Suppress("unused")
 val disableZaloTelemetryPatch = bytecodePatch(
@@ -105,6 +123,7 @@ val disableZaloTelemetryPatch = bytecodePatch(
     default = true,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
+    dependsOn(disableCrashlyticsManifestPatch)
 
     execute {
         forceReturnInt(SessionInsert.matchAll(1..1).single().method)
@@ -129,6 +148,7 @@ val disableZaloTelemetryPatch = bytecodePatch(
             SetCustomKeyBoolean,
             SetCustomKeys,
             SetUserId,
+            SetCrashlyticsCollectionEnabled,
         ).forEach { fingerprint ->
             forceReturnVoid(fingerprint.matchAll(1..1).single().method)
         }
