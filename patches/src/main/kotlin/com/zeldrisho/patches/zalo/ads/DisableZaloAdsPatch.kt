@@ -102,13 +102,14 @@ val hideNewsfeedAdsPatch = bytecodePatch(
     default = true,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
+    extendWith("extensions/zalo.mpe")
 
     execute {
         val bannerBind = NewsfeedSponsoredBannerBind.matchAll(1..1).single().method
-        bannerBind.addInstructions(0, "const/16 v0, 0x8\ninvoke-virtual {p0, v0}, Landroid/view/View;->setVisibility(I)V\nreturn-void")
+        bannerBind.addInstructions(0, "invoke-static {p0}, Lcom/zeldrisho/zalo/extension/HideAdsHelper;->forceHide(Landroid/view/View;)V\nreturn-void")
 
         val oaBind = NewsfeedSponsoredOABind.matchAll(1..1).single().method
-        oaBind.addInstructions(0, "const/16 v0, 0x8\ninvoke-virtual {p0, v0}, Landroid/view/View;->setVisibility(I)V\nreturn-void")
+        oaBind.addInstructions(0, "invoke-static {p0}, Lcom/zeldrisho/zalo/extension/HideAdsHelper;->forceHide(Landroid/view/View;)V\nreturn-void")
     }
 }
 

@@ -37,25 +37,38 @@ public class HideAdsHelper {
       }
 
       if (isAd) {
-        view.setVisibility(View.GONE);
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        if (params != null) {
-          params.height = 1; // 1px height to avoid division by zero or recycling bugs
-          params.width = 0;
-          view.setLayoutParams(params);
-        }
+        forceHide(view);
       } else {
-        // Restore visibility if it was recycled
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        if (params != null && params.height == 1) {
-          params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-          params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-          view.setLayoutParams(params);
-          view.setVisibility(View.VISIBLE);
-        }
+        restore(view);
       }
     } catch (Exception e) {
       // Failsafe
     }
+  }
+
+  public static void forceHide(View view) {
+    if (view == null) return;
+    try {
+      view.setVisibility(View.GONE);
+      ViewGroup.LayoutParams params = view.getLayoutParams();
+      if (params != null) {
+        params.height = 1; // 1px height to avoid division by zero or recycling bugs
+        params.width = 0;
+        view.setLayoutParams(params);
+      }
+    } catch (Exception e) {}
+  }
+
+  public static void restore(View view) {
+    if (view == null) return;
+    try {
+      ViewGroup.LayoutParams params = view.getLayoutParams();
+      if (params != null && params.height == 1) {
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        view.setLayoutParams(params);
+        view.setVisibility(View.VISIBLE);
+      }
+    } catch (Exception e) {}
   }
 }

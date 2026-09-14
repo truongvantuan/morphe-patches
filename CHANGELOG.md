@@ -4,6 +4,11 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.2.7](https://github.com/truongvantuan/morphe-patches/compare/v1.2.6...v1.2.7) (2026-09-14)
+### 🔧 Improvements
+* **Zalo - Hide Newsfeed ads:** Improved hidden ad elements to fully collapse spacing rather than just turning invisible.
+
+
 ## [1.2.6](https://github.com/truongvantuan/morphe-patches/compare/v1.2.5...v1.2.6) (2026-09-14)
 ### 🐛 Bug Fixes
 * **Zalo - Hide Newsfeed ads:** Fix fingerprint match failure on Zalo 26.08.02 caused by an invalid method call filter.
