@@ -4,6 +4,11 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.2.9](https://github.com/truongvantuan/morphe-patches/compare/v1.2.8...v1.2.9) (2026-09-14)
+### 🔧 Build
+* **CI:** Fix Spotless Java formatting error in extension helper that caused the Check workflow to fail.
+
+
 ## [1.2.8](https://github.com/truongvantuan/morphe-patches/compare/v1.2.7...v1.2.8) (2026-09-14)
 ### 🐛 Bug Fixes
 * **Zalo - Hide Newsfeed ads:** Fix high-register bytecode compilation errors (`Invalid register: v25`) that caused the patcher to ignore instructions, preventing ads from actually being hidden.

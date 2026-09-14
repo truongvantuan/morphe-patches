@@ -56,7 +56,8 @@ public class HideAdsHelper {
         params.width = 0;
         view.setLayoutParams(params);
       }
-    } catch (Exception e) {}
+    } catch (Exception e) {
+    }
   }
 
   public static void restore(View view) {
@@ -69,6 +70,7 @@ public class HideAdsHelper {
         view.setLayoutParams(params);
         view.setVisibility(View.VISIBLE);
       }
-    } catch (Exception e) {}
+    } catch (Exception e) {
+    }
   }
 }
