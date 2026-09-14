@@ -105,7 +105,7 @@ val zaloMicroGSupportPatch = bytecodePatch(
         "selection and token binding to microG-RE (app.revanced / " +
         "app.revanced.android.gms). Initial photo restore and the complete backup/restore " +
         "cycle were device-validated on Zalo 26.08.01.",
-    default = false,
+    default = true,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
     extendWith("extensions/zalo.mpe")
