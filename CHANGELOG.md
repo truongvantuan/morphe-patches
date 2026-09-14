@@ -4,6 +4,11 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.2.11](https://github.com/truongvantuan/morphe-patches/compare/v1.2.10...v1.2.11) (2026-09-14)
+### 🐛 Bug Fixes
+* **Zalo - Hide conversation list ads:** Fix app crash (`VerifyError: target dex pc is not at instruction start`) on startup when opening Zalo.
+
+
 ## [1.2.10](https://github.com/truongvantuan/morphe-patches/compare/v1.2.9...v1.2.10) (2026-09-14)
 ### ✨ Features
 * **Zalo - Hide conversation list ads:** Added support for Zalo 26.08+ modern `RecyclerView` architecture (hooking `NormalMsgModuleView`).

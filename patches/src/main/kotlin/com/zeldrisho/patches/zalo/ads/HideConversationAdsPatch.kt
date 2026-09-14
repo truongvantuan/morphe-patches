@@ -33,27 +33,21 @@ val hideConversationAdsPatch = bytecodePatch(
                 }
                 
                 if (bindMethod != null) {
-                    val impl = bindMethod.implementation
-                    if (impl != null) {
-                        val returnIndex = impl.instructions.indexOfLast { it.opcode == Opcode.RETURN_VOID }
-                        if (returnIndex != -1) {
-                            val injection = """
-                                # p1 is Lr00/c0;
-                                if-eqz p1, :skip_hide_ads_rv
-                                
-                                iget-object v0, p1, Lr00/c0;->c:Lcom/zing/zalo/control/ContactProfile;
-                                if-eqz v0, :skip_hide_ads_rv
-                                
-                                # p0 is the View (NormalMsgModuleView)
-                                # v0 is the ContactProfile
-                                invoke-static { p0, v0 }, Lcom/zeldrisho/zalo/extension/HideAdsHelper;->hideIfAd(Landroid/view/View;Ljava/lang/Object;)V
-                                
-                                :skip_hide_ads_rv
-                            """.trimIndent()
-                            
-                            bindMethod.addInstructions(returnIndex, injection)
-                        }
-                    }
+                    val injection = """
+                        # p1 is Lr00/c0;
+                        if-eqz p1, :skip_hide_ads_rv
+                        
+                        iget-object v0, p1, Lr00/c0;->c:Lcom/zing/zalo/control/ContactProfile;
+                        if-eqz v0, :skip_hide_ads_rv
+                        
+                        # p0 is the View (NormalMsgModuleView)
+                        # v0 is the ContactProfile
+                        invoke-static { p0, v0 }, Lcom/zeldrisho/zalo/extension/HideAdsHelper;->hideIfAd(Landroid/view/View;Ljava/lang/Object;)V
+                        
+                        :skip_hide_ads_rv
+                    """.trimIndent()
+                    
+                    bindMethod.addInstructions(0, injection)
                 }
             }
             if (classDef.type == "Lbw/r;") {
