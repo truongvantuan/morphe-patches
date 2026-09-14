@@ -99,7 +99,7 @@ fi
 if [[ -z "${KEYSTORE:-}" && -f "$PROJECT_DIR/Morphe.keystore" ]]; then
     KEYSTORE="$PROJECT_DIR/Morphe.keystore"
 fi
-GITHUB_REPO="${GITHUB_REPO:-zeldrisho/morphe-patches}"
+GITHUB_REPO="${GITHUB_REPO:-truongvantuan/morphe-patches}"
 
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT

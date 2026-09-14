@@ -10,7 +10,7 @@ regenerated on every release.
 
 ### How to use these patches
 
-Click here to add these patches to Morphe: https://morphe.software/add-source?github=zeldrisho/morphe-patches
+Click here to add these patches to Morphe: https://morphe.software/add-source?github=truongvantuan/morphe-patches
 
 Or add the source URL manually in Morphe Manager → Sources.
 
@@ -21,7 +21,7 @@ Contributor docs: [development guide](docs/development.md) (start here),
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.2.0](https://github.com/zeldrisho/morphe-patches/releases/tag/v1.2.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;10 patches total
+> **[v1.2.0](https://github.com/truongvantuan/morphe-patches/releases/tag/v1.2.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;10 patches total
 <details open>
 <summary>📦 Zalo&nbsp;&nbsp;•&nbsp;&nbsp;6 patches</summary>
 <br>

@@ -26,10 +26,10 @@ patches {
     about {
         name = "Zeldris Patches"
         description = "Patches for Threads and apps I like, for use with Morphe"
-        source = "git@github.com:zeldrisho/morphe-patches.git"
+        source = "git@github.com:truongvantuan/morphe-patches.git"
         author = "Zeldris"
         contact = "https://github.com/zeldrisho"
-        website = "https://github.com/zeldrisho/morphe-patches"
+        website = "https://github.com/truongvantuan/morphe-patches"
         license = "GPLv3"
     }
 }

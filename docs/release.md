@@ -131,7 +131,7 @@ Release headings use Morphe Manager's inline-link convention:
 For example (illustrative release bodies omitted):
 
 ```markdown
-## [1.1.0](https://github.com/zeldrisho/morphe-patches/compare/v1.0.0...v1.1.0) (2026-09-09)
+## [1.1.0](https://github.com/truongvantuan/morphe-patches/compare/v1.0.0...v1.1.0) (2026-09-09)
 
 ## 1.0.0 (2026-09-07)
 ```
