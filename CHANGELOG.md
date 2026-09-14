@@ -4,6 +4,11 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.2.13](https://github.com/truongvantuan/morphe-patches/compare/v1.2.12...v1.2.13) (2026-09-14)
+### 🔧 Build
+* **CI:** Fix trailing whitespaces causing CI Spotless check failure again (accidentally committed temp files).
+
+
 ## [1.2.12](https://github.com/truongvantuan/morphe-patches/compare/v1.2.11...v1.2.12) (2026-09-14)
 ### 🔧 Build
 * **CI:** Fix trailing whitespaces causing CI Spotless check failure.
