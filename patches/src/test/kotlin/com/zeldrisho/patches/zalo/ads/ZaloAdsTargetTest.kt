@@ -65,8 +65,8 @@ class ZaloAdsTargetTest {
 
     /** Builds the offline-ad time-window method matched by [OfflineAdsWindow]. */
     private fun windowMethod() = ImmutableMethod(
-        "Lvx/s2;",
-        "h",
+        "Lhb/u;",
+        "o",
         emptyList(),
         "Z",
         AccessFlags.PUBLIC.value or AccessFlags.STATIC.value,
@@ -78,12 +78,12 @@ class ZaloAdsTargetTest {
                 ImmutableInstruction21c(
                     Opcode.SGET_BOOLEAN,
                     0,
-                    ImmutableFieldReference("Lu52/d;", "I", "Z"),
+                    ImmutableFieldReference("Li62/d;", "I", "Z"),
                 ),
                 ImmutableInstruction21c(
                     Opcode.SGET_OBJECT,
                     0,
-                    ImmutableFieldReference("Lu52/d;", "H", "Ljava/lang/Long;"),
+                    ImmutableFieldReference("Li62/d;", "H", "Ljava/lang/Long;"),
                 ),
                 ImmutableInstruction35c(
                     Opcode.INVOKE_VIRTUAL,
@@ -105,8 +105,8 @@ class ZaloAdsTargetTest {
 
     /** Builds the tracker gate method matched by [OfflineAdsGate]. */
     private fun trackerGateMethod() = ImmutableMethod(
-        "Lvx/s2;",
-        "g",
+        "Lhb/u;",
+        "k",
         emptyList(),
         "Z",
         AccessFlags.PUBLIC.value or AccessFlags.STATIC.value,
@@ -123,12 +123,12 @@ class ZaloAdsTargetTest {
                     0,
                     0,
                     0,
-                    ImmutableMethodReference("Lvx/s2;", "h", emptyList(), "Z"),
+                    ImmutableMethodReference("Lhb/u;", "o", emptyList(), "Z"),
                 ),
                 ImmutableInstruction21c(
                     Opcode.SGET_BOOLEAN,
                     0,
-                    ImmutableFieldReference("Lu52/d;", "J", "Z"),
+                    ImmutableFieldReference("Li62/d;", "J", "Z"),
                 ),
                 ImmutableInstruction11n(Opcode.CONST_4, 0, 0),
                 ImmutableInstruction11x(Opcode.RETURN, 0),
@@ -166,7 +166,7 @@ class ZaloAdsTargetTest {
                     0,
                     0,
                     0,
-                    ImmutableMethodReference("Lvj0/m;", "f", listOf("Ljava/lang/String;", "I"), "I"),
+                    ImmutableMethodReference("Lxj0/m;", "f", listOf("Ljava/lang/String;", "I"), "I"),
                 ),
                 ImmutableInstruction11x(Opcode.MOVE_RESULT, resultReg),
                 ImmutableInstruction22t(Opcode.IF_NE, resultReg, 1, 0),
@@ -177,17 +177,17 @@ class ZaloAdsTargetTest {
     )
 
     @Test fun offlineGatesMatchSyntheticMethods() {
-        val windowCls = classDef("Lvx/s2;", listOf(windowMethod()))
-        val gateCls = classDef("Lvx/s2;", listOf(trackerGateMethod()))
+        val windowCls = classDef("Lhb/u;", listOf(windowMethod()))
+        val gateCls = classDef("Lhb/u;", listOf(trackerGateMethod()))
         with(context()) {
             OfflineAdsWindow.clearMatch()
             assertEquals(
-                "h",
+                "o",
                 OfflineAdsWindow.matchAll(windowCls, 1..1).single().originalMethod.name,
             )
             OfflineAdsGate.clearMatch()
             assertEquals(
-                "g",
+                "k",
                 OfflineAdsGate.matchAll(gateCls, 1..1).single().originalMethod.name,
             )
         }
@@ -343,13 +343,13 @@ class ZaloAdsTargetTest {
         with(context()) {
             OfflineAdsWindow.clearMatch()
             assertEquals(
-                "h",
-                OfflineAdsWindow.matchAll(classes.getValue("Lvx/s2;"), 1..1).single().originalMethod.name,
+                "o",
+                OfflineAdsWindow.matchAll(classes.getValue("Lhb/u;"), 1..1).single().originalMethod.name,
             )
             OfflineAdsGate.clearMatch()
             assertEquals(
-                "g",
-                OfflineAdsGate.matchAll(classes.getValue("Lvx/s2;"), 1..1).single().originalMethod.name,
+                "k",
+                OfflineAdsGate.matchAll(classes.getValue("Lhb/u;"), 1..1).single().originalMethod.name,
             )
             GoogleAdsNetworkGate.clearMatch()
             val network = GoogleAdsNetworkGate.matchAll(
