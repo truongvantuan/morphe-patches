@@ -27,26 +27,26 @@ val hideConversationAdsPatch = bytecodePatch(
         classDefForEach { classDef ->
             if (classDef.type == "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;") {
                 val mutableClass = mutableClassDefBy(classDef)
-                
+
                 val bindMethod = mutableClass.methods.firstOrNull {
                     it.name == "e" && it.parameterTypes == listOf("Lr00/c0;", "I")
                 }
-                
+
                 if (bindMethod != null) {
                     val injection = """
                         # p1 is Lr00/c0;
                         if-eqz p1, :skip_hide_ads_rv
-                        
+
                         iget-object v0, p1, Lr00/c0;->c:Lcom/zing/zalo/control/ContactProfile;
                         if-eqz v0, :skip_hide_ads_rv
-                        
+
                         # p0 is the View (NormalMsgModuleView)
                         # v0 is the ContactProfile
                         invoke-static { p0, v0 }, Lcom/zeldrisho/zalo/extension/HideAdsHelper;->hideIfAd(Landroid/view/View;Ljava/lang/Object;)V
-                        
+
                         :skip_hide_ads_rv
                     """.trimIndent()
-                    
+
                     bindMethod.addInstructions(0, injection)
                 }
             }

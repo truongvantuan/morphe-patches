@@ -4,6 +4,11 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.2.12](https://github.com/truongvantuan/morphe-patches/compare/v1.2.11...v1.2.12) (2026-09-14)
+### 🔧 Build
+* **CI:** Fix trailing whitespaces causing CI Spotless check failure.
+
+
 ## [1.2.11](https://github.com/truongvantuan/morphe-patches/compare/v1.2.10...v1.2.11) (2026-09-14)
 ### 🐛 Bug Fixes
 * **Zalo - Hide conversation list ads:** Fix app crash (`VerifyError: target dex pc is not at instruction start`) on startup when opening Zalo.
