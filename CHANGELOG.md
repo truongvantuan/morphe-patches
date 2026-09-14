@@ -4,7 +4,7 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
-## [1.3.1](https://github.com/truongvantuan/morphe-patches/compare/v1.2.13...v1.3.1) (2026-09-14)
+## [1.3.2](https://github.com/truongvantuan/morphe-patches/compare/v1.2.13...v1.3.2) (2026-09-14)
 ### ✨ New Features (Merged from Upstream v1.3.0)
 * **Zalo - Hide Business Box:** Removes the Business Box entry from the main chat list without filtering ordinary conversations.
 * **Zalo - Disable telemetry and crash reporting:** Suppresses Zalo's Room analytics writes, Firebase Crashlytics diagnostics, and native crash-handler registration.

@@ -41,7 +41,7 @@ class PatchesListShapeTest {
             assertTrue(json.contains("\"name\": \"$name\""), "missing patch: $name")
         }
         assertTrue(json.contains("com.zing.zalo"), "missing Zalo package group")
-        assertTrue(json.contains("26.08.01"), "Zalo target version must stay pinned")
+        assertTrue(json.contains("26.08.02"), "Zalo target version must stay pinned")
     }
 
     /**
