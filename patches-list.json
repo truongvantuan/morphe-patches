@@ -173,6 +173,33 @@
       "options": []
     },
     {
+      "name": "Hide Newsfeed ads",
+      "description": "Hides sponsored banner and OA promoted-post cards from the Zalo Newsfeed by collapsing them to GONE before the ad content or impression fires.",
+      "use": true,
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.08.02",
+              "versionCodes": {
+                "ARM64_V8A": 260801903
+              },
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
       "name": "Filter promo notifications",
       "description": "Skips Zalo Timeline/Stories and Zalo Video push notifications (like/comment digests, new feeds/stories, video reminders) in the push dispatcher. Message, call, friend-request and birthday notifications are untouched; reaction/activity pushes on other channels may remain.",
       "default": true,

@@ -112,3 +112,41 @@ internal object CommunityAdsConfig : Fingerprint(
         opcode(Opcode.IF_NE),
     ),
 )
+
+/**
+ * Newsfeed sponsored banner bind: `FeedItemSuggestBanner.w(II,r31/a,ws0/a)V` is
+ * called by the timeline RecyclerView adapter during onBindViewHolder for every
+ * sponsored banner slot. Stable unobfuscated class; `getFeedZinstantBanner` is a
+ * unique method kept across ProGuard passes. The patch forces GONE on the root view.
+ */
+internal object NewsfeedSponsoredBannerBind : Fingerprint(
+    definingClass = "Lcom/zing/zalo/social/presentation/timeline/components/suggest/FeedItemSuggestBanner;",
+    name = "w",
+    returnType = "V",
+    parameters = listOf("I", "I", "Lr31/a;", "Lws0/a;"),
+    filters = listOf(
+        methodCall(
+            definingClass = "Lcom/zing/zalo/social/presentation/timeline/components/suggest/FeedItemSuggestBanner;",
+            name = "getFeedZinstantBanner",
+        ),
+    ),
+)
+
+/**
+ * Newsfeed OA (Official Account) sponsored post bind:
+ * `FeedItemSuggestOA.c(kn1/h2)V` is called by the adapter for every
+ * OA-promoted sponsored post. Stable unobfuscated class; `getFeedType` is unique
+ * to this class. The patch forces GONE on the root view.
+ */
+internal object NewsfeedSponsoredOABind : Fingerprint(
+    definingClass = "Lcom/zing/zalo/social/presentation/timeline/components/suggest/FeedItemSuggestOA;",
+    name = "c",
+    returnType = "V",
+    filters = listOf(
+        methodCall(
+            definingClass = "Lcom/zing/zalo/social/presentation/timeline/components/suggest/FeedItemSuggestOA;",
+            name = "getFeedType",
+        ),
+    ),
+)
+

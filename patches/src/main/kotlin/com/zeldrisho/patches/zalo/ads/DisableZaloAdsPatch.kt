@@ -80,6 +80,38 @@ val disableZaloSponsoredPatch = bytecodePatch(
     }
 }
 
+/**
+ * Hides sponsored/OA ad cards in the Zalo Newsfeed (Timeline).
+ *
+ * In 26.08.02 the timeline adapter (`f61/f0`) inflates two unobfuscated ad-item
+ * view types:
+ * - `FeedItemSuggestBanner` – standard sponsored display-ad banners (shown as
+ *   "Sponsored" with a Sign-up CTA, see screenshots in `captures/`).
+ * - `FeedItemSuggestOA`    – Official Account promoted posts shown in-feed.
+ *
+ * Both views expose stable bind methods (`w` and `c`) whose first instruction
+ * we prepend with `setVisibility(GONE)` so the adapter still inflates the
+ * ViewHolder (avoiding a crash) but collapses it to zero height before any
+ * ad content or tracking impression fires.
+ */
+@Suppress("unused")
+val hideNewsfeedAdsPatch = bytecodePatch(
+    name = "Hide Newsfeed ads",
+    description = "Hides sponsored banner and OA promoted-post cards from the Zalo Newsfeed " +
+        "by collapsing them to GONE before the ad content or impression fires.",
+    default = true,
+) {
+    compatibleWith(COMPATIBILITY_ZALO)
+
+    execute {
+        val bannerBind = NewsfeedSponsoredBannerBind.matchAll(1..1).single().method
+        bannerBind.addInstructions(0, "const/16 v0, 0x8\ninvoke-virtual {p0, v0}, Landroid/view/View;->setVisibility(I)V\nreturn-void")
+
+        val oaBind = NewsfeedSponsoredOABind.matchAll(1..1).single().method
+        oaBind.addInstructions(0, "const/16 v0, 0x8\ninvoke-virtual {p0, v0}, Landroid/view/View;->setVisibility(I)V\nreturn-void")
+    }
+}
+
 /** Wipes a boolean gate and returns false; clears try-blocks to keep ART verification happy. */
 internal fun forceReturnFalse(method: MutableMethod) {
     method.clearBody()
