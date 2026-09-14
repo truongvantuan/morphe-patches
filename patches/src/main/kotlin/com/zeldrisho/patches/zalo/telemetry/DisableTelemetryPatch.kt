@@ -106,10 +106,12 @@ private val disableCrashlyticsManifestPatch = resourcePatch {
     execute {
         document("AndroidManifest.xml").use { doc ->
             val application = doc.getElementsByTagName("application").item(0) as Element
-            application.appendChild(doc.createElement("meta-data").apply {
-                setAttribute("android:name", "firebase_crashlytics_collection_enabled")
-                setAttribute("android:value", "false")
-            })
+            application.appendChild(
+                doc.createElement("meta-data").apply {
+                    setAttribute("android:name", "firebase_crashlytics_collection_enabled")
+                    setAttribute("android:value", "false")
+                },
+            )
         }
     }
 }
