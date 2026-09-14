@@ -1,12 +1,12 @@
 package com.zeldrisho.patches.zalo.misc
 
+import org.w3c.dom.Document
 import java.io.ByteArrayInputStream
 import javax.xml.parsers.DocumentBuilderFactory
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import org.w3c.dom.Document
 
 private fun manifest(): Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
     ByteArrayInputStream(
@@ -49,9 +49,15 @@ class ZaloCloneRewriteTest {
     @Test fun rewritesApplicationAndLauncherLabels() {
         val document = manifest()
         applyZaloAppName(document, "Zalo cloned")
-        assertEquals("Zalo cloned", document.getElementsByTagName("application").item(0)
-            .attributes.getNamedItem("android:label").nodeValue)
-        assertEquals("Zalo cloned", document.getElementsByTagName("activity").item(0)
-            .attributes.getNamedItem("android:label").nodeValue)
+        assertEquals(
+            "Zalo cloned",
+            document.getElementsByTagName("application").item(0)
+                .attributes.getNamedItem("android:label").nodeValue,
+        )
+        assertEquals(
+            "Zalo cloned",
+            document.getElementsByTagName("activity").item(0)
+                .attributes.getNamedItem("android:label").nodeValue,
+        )
     }
 }

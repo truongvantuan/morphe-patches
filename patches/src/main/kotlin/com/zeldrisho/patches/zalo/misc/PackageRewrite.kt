@@ -7,8 +7,7 @@ const val ORIGINAL_ZALO_PACKAGE = "com.zing.zalo"
 private const val LEGACY_ZALO_PERMISSION_PREFIX = "zing.zalo.permission."
 private val PACKAGE_NAME_REGEX = Regex("^[a-z][\\w]*(\\.[a-z][\\w]*)+$")
 
-fun isValidZaloPackageName(name: String?): Boolean =
-    name != null && PACKAGE_NAME_REGEX.matches(name)
+fun isValidZaloPackageName(name: String?): Boolean = name != null && PACKAGE_NAME_REGEX.matches(name)
 
 /** Rewrites only package-owned manifest identities; third-party authorities remain unchanged. */
 fun rewriteZaloPackage(document: Document, newPackage: String) {
@@ -21,8 +20,10 @@ fun rewriteZaloPackage(document: Document, newPackage: String) {
         val rewritten = authorities.split(';').joinToString(";") { authority ->
             when {
                 authority == ORIGINAL_ZALO_PACKAGE -> newPackage
+
                 authority.startsWith("$ORIGINAL_ZALO_PACKAGE.") ->
                     authority.replaceFirst("$ORIGINAL_ZALO_PACKAGE.", "$newPackage.")
+
                 else -> authority
             }
         }
@@ -40,6 +41,7 @@ fun rewriteZaloPackage(document: Document, newPackage: String) {
         when {
             name.startsWith(ownedPrefix) ->
                 node.setAttribute("android:name", name.replaceFirst(ownedPrefix, "$newPackage."))
+
             name.startsWith(LEGACY_ZALO_PERMISSION_PREFIX) ->
                 node.setAttribute("android:name", name.replaceFirst(LEGACY_ZALO_PERMISSION_PREFIX, "$newPackage.permission."))
         }

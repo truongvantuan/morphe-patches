@@ -1,64 +1,61 @@
-# Project maintenance roadmap
+# Remaining work
 
-Repeatable build and device-validation procedures live in
-[validation and release qualification](validation.md).
+This roadmap is scoped to Zalo Android APK patching for version `26.08.01`
+(version code `260801903`). APKs, smali, logs, screenshots, and generated
+analysis files remain local under the ignored `analysis/` directory.
 
-## Current target
+## 1. Investigate media behavior
 
-- App: Zalo `26.08.01` (version code `260801903`)
-- Scope: Android APK patching only; Web/Desktop are research context, not
-  additional patch targets.
-- Re-patching must use the persistent signing configuration described in
-  [CLI documentation](cli.md). Only update an installed app when the signing
-  certificate matches.
+- Trace original-media download limits and identify whether they are server,
+  remote-configuration, or client enforced.
+- Distinguish large-file expiry, media reuse expiry, message retention, and
+  local cache eviction.
+- Investigate orphaned media after backup/restore without guessing file
+  ownership.
+- Validate the expiry bypass with restored large media in chat and My Cloud,
+  including cases where the local file is present but the remote URL is no
+  longer usable.
+- Do not implement quality overrides or filesystem cleanup until their own
+  stable client-side control point and ownership boundary are proven.
+- Record durable findings in [Zalo behavior notes](zalo-behavior.md).
 
-## Completed
+## 2. Evaluate broader promotional filtering
 
-### Clone package and branding (issue #7)
+- Determine whether any broader service-thread or promotional predicate can be
+  isolated without hiding legitimate Official Account conversations.
+- Preserve chat, group activity, friend requests, calls, alerts, and other
+  transactional notifications.
+- Keep the existing narrow `SOCIAL_STORY` / `ZALO_VIDEO` notification filter
+  unchanged unless a version-stable, positively identified predicate is found.
+- Reject the candidate if it depends only on shared message-list infrastructure
+  or an unstable obfuscated type.
 
-Added opt-in Zalo patches for changing the package name and application name.
-Package rewriting updates package-owned provider authorities and permission
-identities, including Zalo's legacy permission prefix, while preserving
-third-party authorities. The patches are pinned to the current Zalo target and
-remain disabled by default because package- and certificate-bound login, push,
-sharing, deep links, and backup may not work after renaming.
+## 3. Document Web/Desktop relationships
 
-The manifest rewrite and label behavior have unit coverage. APKM coexistence,
-login, push, and parallel-account behavior still require device validation.
+- Document QR login and approval from an authenticated Android phone.
+- Determine whether Web/Desktop creates separate sessions and how logged-in
+  device limits and revocation are enforced.
+- Test read-state, delivery acknowledgements, message history, and media scope
+  across Android, Web, and Desktop.
+- Treat server-enforced limits as out of scope unless a client-side enforcement
+  point is proven.
+- Keep verified conclusions and official references in
+  [Zalo behavior notes](zalo-behavior.md).
 
-## Remaining work
+## 4. Update the MicroG-RE download source
 
-### 1. Investigate candidates
+- Replace the temporary `zeldrisho/MicroG-RE` releases URL when a stable tagged
+  upstream release or official project page containing the OAuth SHA-1
+  normalization fix is available.
+- Verify release provenance, checksum, and installation flow before changing
+  the extension URL.
+- Until then, leave the current source unchanged rather than switching to an
+  unverified release.
 
-1. Trace hide-read-receipt and hide-typing-indicator candidates without
-   blocking messaging or socket synchronization.
-2. Investigate original-media download limits and media auto-delete/expiry.
-3. Investigate orphaned media after restore; do not guess file ownership.
-4. Validate complete backup/restore, background token refresh, and restore when
-   contacts permission is denied.
-5. Trace forced-update/version-warning behavior as a compatibility risk.
-6. Evaluate broader promotional/service-thread filtering while preserving
-   legitimate Official Account conversations.
-7. Document APK relationships with Web/Desktop sessions, QR login, device
-   limits, and read-state synchronization. Treat server-enforced limits as out
-   of scope unless client-side enforcement is proven.
-8. Research consent and data-collection behavior separately from telemetry
-   patching; do not infer a patch point from policy or news reports.
+## Acceptance evidence
 
-Subscription/paywall limits, concurrent-login limits, and call recording remain
-uncommitted until feasibility, legal, and server-side boundaries are
-established.
-
-## Target maintenance
-
-- Replace the temporary MicroG-RE download source when the upstream OAuth
-  SHA-1 normalization fix is available; use the official page or a stable
-  tagged `zeldrisho/MicroG-RE` release.
-- For each new Zalo version, re-verify fingerprints, ABI compatibility, and
-  patch semantics against the exact APKMirror artifact before changing target
-  metadata.
-- Complete the SDK-verified re-patch and device checks before release;
-  compilation and unit tests alone do not establish APK compatibility.
-- Keep APKs, smali, logs, screenshots, and generated decompiler files local
-  under the ignored `analysis/` directory. Record only verified durable
-  conclusions in this plan or the relevant patch and validation documentation.
+Use a throwaway account and record sanitized results for media expiry and
+restore, notification regression, QR login, session revocation, and bidirectional
+read-state synchronization. Do not promote a patch from static analysis alone;
+record the tested APK hash, patch bundle, device, Android version, and signing
+certificate fingerprint outside this repository.
