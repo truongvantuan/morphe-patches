@@ -37,7 +37,7 @@ class PatchesListShapeTest {
 
     @Test fun zaloBundleShape() {
         val json = listJson()
-        for (name in listOf("Anti-Recall", "Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Business Box", "Remove AD_ID permission", "microG Drive support")) {
+        for (name in listOf("Anti-Recall", "Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Business Box", "Remove AD_ID permission", "Change Zalo app name", "Change Zalo package name", "microG Drive support")) {
             assertTrue(json.contains("\"name\": \"$name\""), "missing patch: $name")
         }
         assertTrue(json.contains("com.zing.zalo"), "missing Zalo package group")
@@ -45,10 +45,10 @@ class PatchesListShapeTest {
     }
 
     /**
-     * Verify that exactly 13 patches are present with no leftover template scaffolding.
+     * Verify that exactly 15 patches are present with no leftover template scaffolding.
      */
     @Test fun patchCountMatchesSources() {
-        // Exactly 13 patches (4 Threads + 9 Zalo) — template scaffolding was removed,
+        // Exactly 15 patches (4 Threads + 11 Zalo) — template scaffolding was removed,
         // so any extra entry (e.g. a resurrected "Example Patch") fails loudly.
         // Note: "name" also appears on compatiblePackages entries ("Threads", "Zalo"),
         // so only top-level patch names are counted (6-space indent in output).
@@ -58,6 +58,8 @@ class PatchesListShapeTest {
             listOf(
                 "Anti-Recall",
                 "Bypass native startup tamper check",
+                "Change Zalo app name",
+                "Change Zalo package name",
                 "Change app name",
                 "Change package name",
                 "Disable ads",
@@ -71,8 +73,19 @@ class PatchesListShapeTest {
                 "microG Drive support",
             ),
             names.sorted(),
-            "expected exactly 13 patches, found: $names",
+            "expected exactly 15 patches, found: $names",
         )
+    }
+
+    @Test fun antiRecallIsOptIn() {
+        // Anti-Recall is deferred until its recall/delete paths are validated
+        // across delivery states and message types.
+        val json = listJson()
+        val block = Regex(
+            "\\\"name\\\": \\\"Anti-Recall\\\".*?\\\"default\\\": (true|false)",
+            RegexOption.DOT_MATCHES_ALL,
+        ).find(json)?.groupValues?.get(1)
+        assertEquals("false", block, "Anti-Recall must remain opt-in while deferred")
     }
 
     /**

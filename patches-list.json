@@ -59,6 +59,82 @@
       "options": []
     },
     {
+      "name": "Change Zalo app name",
+      "description": "Changes the name shown for Zalo under the launcher icon. Set the desired name in the patch options.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.08.01",
+              "versionCodes": {
+                "ARM64_V8A": 260801903
+              },
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "appName",
+          "title": "App name",
+          "description": "The name shown under the app icon.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "Zalo Morphe",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change Zalo package name",
+      "description": "Changes Zalo's package name so a clone can be installed beside stock Zalo. WARNING: package- and certificate-bound login, push, sharing, deep links, and backup may not work with the renamed application.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.08.01",
+              "versionCodes": {
+                "ARM64_V8A": 260801903
+              },
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "packageName",
+          "title": "Package name",
+          "description": "The new application package name (for example com.zing.zalo.morphe).",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "com.zing.zalo.morphe",
+          "values": null
+        }
+      ]
+    },
+    {
       "name": "Change app name",
       "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
       "default": true,
