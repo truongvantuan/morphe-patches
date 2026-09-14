@@ -124,28 +124,17 @@ internal object NewsfeedSponsoredBannerBind : Fingerprint(
     name = "w",
     returnType = "V",
     parameters = listOf("I", "I", "Lr31/a;", "Lws0/a;"),
-    filters = listOf(
-        methodCall(
-            definingClass = "Lcom/zing/zalo/social/presentation/timeline/components/suggest/FeedItemSuggestBanner;",
-            name = "getFeedZinstantBanner",
-        ),
-    ),
 )
 
 /**
  * Newsfeed OA (Official Account) sponsored post bind:
  * `FeedItemSuggestOA.c(kn1/h2)V` is called by the adapter for every
- * OA-promoted sponsored post. Stable unobfuscated class; `getFeedType` is unique
- * to this class. The patch forces GONE on the root view.
+ * OA-promoted sponsored post. Stable unobfuscated class.
+ * The patch forces GONE on the root view.
  */
 internal object NewsfeedSponsoredOABind : Fingerprint(
     definingClass = "Lcom/zing/zalo/social/presentation/timeline/components/suggest/FeedItemSuggestOA;",
     name = "c",
     returnType = "V",
-    filters = listOf(
-        methodCall(
-            definingClass = "Lcom/zing/zalo/social/presentation/timeline/components/suggest/FeedItemSuggestOA;",
-            name = "getFeedType",
-        ),
-    ),
+    parameters = listOf("Lkn1/h2;"),
 )
