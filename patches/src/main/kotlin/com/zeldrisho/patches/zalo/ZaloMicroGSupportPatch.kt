@@ -6,8 +6,10 @@ import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.patcher.patch.resourcePatch
 import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod
 import com.android.tools.smali.dexlib2.Opcode
+import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+import com.android.tools.smali.dexlib2.iface.instruction.RegisterRangeInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
 import com.zeldrisho.patches.shared.bytecode.clearBody
@@ -36,6 +38,18 @@ private fun isAccountRefreshCall(
     return methodReference?.let {
         it.name == "A6" && it.parameterTypes == listOf("Ljava/lang/String;")
     } ?: false
+}
+
+private fun accountRefreshArguments(instruction: Any): String = when (instruction) {
+    is FiveRegisterInstruction -> {
+        check(instruction.registerCount == 2)
+        "v${instruction.registerC}, v${instruction.registerD}"
+    }
+    is RegisterRangeInstruction -> {
+        check(instruction.registerCount == 2)
+        "v${instruction.startRegister}, v${instruction.startRegister + 1}"
+    }
+    else -> error("Zalo microG support: unsupported A6 invoke format")
 }
 
 private const val STOCK_VNG_CERT_HEX =
@@ -187,9 +201,10 @@ val zaloMicroGSupportPatch = bytecodePatch(
                     val methodReference =
                         (instruction as? ReferenceInstruction)?.reference as? MethodReference
                     if (isAccountRefreshCall(classDef.type, method.name, methodReference)) {
+                        val arguments = accountRefreshArguments(instruction)
                         mutableMethod.replaceInstruction(
                             index,
-                            "invoke-static { p0, p1 }, $MICROG_EXTENSION_CLASS->scheduleAccountRefresh(Ljava/lang/Object;Ljava/lang/String;)V",
+                            "invoke-static { $arguments }, $MICROG_EXTENSION_CLASS->scheduleAccountRefresh(Ljava/lang/Object;Ljava/lang/String;)V",
                         )
                         accountRefreshReplacements++
                         return@forEachIndexed

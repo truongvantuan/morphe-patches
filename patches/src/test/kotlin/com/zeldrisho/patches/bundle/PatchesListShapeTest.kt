@@ -48,7 +48,7 @@ class PatchesListShapeTest {
      * Verify that exactly 16 patches are present with no leftover template scaffolding.
      */
     @Test fun patchCountMatchesSources() {
-        // Exactly 16 patches (5 Threads + 11 Zalo) — template scaffolding was removed,
+        // Exactly 16 patches (4 Threads + 12 Zalo) — template scaffolding was removed,
         // so any extra entry (e.g. a resurrected "Example Patch") fails loudly.
         // Note: "name" also appears on compatiblePackages entries ("Threads", "Zalo"),
         // so only top-level patch names are counted (6-space indent in output).
@@ -74,7 +74,7 @@ class PatchesListShapeTest {
                 "microG Drive support",
             ),
             names.sorted(),
-            "expected exactly 15 patches, found: $names",
+            "expected exactly 16 patches, found: $names",
         )
     }
 
