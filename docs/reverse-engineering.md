@@ -74,6 +74,24 @@ jadx -d <analysis>/<app>/decompiled <analysis>/<app>/apk/<app>_<version>.apkm
 python3 scripts/extract_smali.py <analysis>/<app>/apk/<app>_<version>.apkm <analysis>/<app>/smali
 ```
 
+### JADX escalation for difficult classes
+
+JADX is a navigation/decompilation aid, not the source of truth. When a class or
+method is missing or reconstructed incorrectly, retry only the relevant input
+with progressively less reconstruction:
+
+```bash
+jadx --single-class 'com.example.Target' <analysis>/<app>/apk/<app>_<version>.apkm
+jadx --decompilation-mode simple --no-inline-methods <analysis>/<app>/apk/<app>_<version>.apkm
+jadx --decompilation-mode fallback --single-class 'com.example.Target' \
+  <analysis>/<app>/apk/<app>_<version>.apkm
+```
+
+Check `jadx --help` first because options vary by installed version. These
+outputs are for locating callers and strings only; verify the final target in
+smali from every DEX. `--raw-cfg` and `--call-graph json` are optional aids when
+control flow or callers remain unclear.
+
 ### Remote decompilation for large APKs
 
 Local jadx can OOM on large APKs:
@@ -285,7 +303,9 @@ that kill static-only guesses for runtime gates.
 
 ### Smali verification is mandatory
 
-Never trust jadx output alone — it mis-decompiles obfuscated code. For every candidate:
+Never trust JADX or third-party opcode tables alone — they can mis-decompile or
+misdescribe obfuscated code. The [Android bytecode specification](https://source.android.com/docs/core/runtime/dalvik-bytecode)
+is authoritative for instruction formats and register limits. For every candidate:
 
 1. Find the smali file across **all** DEX dirs: `find <analysis>/<app>/smali -name '<ClassName>.smali'`.
 2. Read the exact method: `rg -B 2 -A 50 '\.method.*<methodName>' <file>`.
