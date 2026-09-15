@@ -45,10 +45,12 @@ private fun accountRefreshArguments(instruction: Any): String = when (instructio
         check(instruction.registerCount == 2)
         "v${instruction.registerC}, v${instruction.registerD}"
     }
+
     is RegisterRangeInstruction -> {
         check(instruction.registerCount == 2)
         "v${instruction.startRegister}, v${instruction.startRegister + 1}"
     }
+
     else -> error("Zalo microG support: unsupported A6 invoke format")
 }
 
