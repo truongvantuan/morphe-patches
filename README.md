@@ -4,7 +4,7 @@ Patches for apps I like, built for [Morphe](https://morphe.software).
 
 ## ❓ About
 
-Personal Morphe patch bundle maintained by Zeldris ([@zeldrisho](https://github.com/zeldrisho)).
+A personal patch bundle for Morphe.
 Patches, compatible app versions, and options are listed below; the list is
 regenerated on every release.
 
@@ -20,9 +20,9 @@ Contributor docs: [development guide](docs/development.md) (start here),
 
 ## 🩹 Patches list
 
-<!-- PATCHES_START EXPANDED -->
+<!-- PATCHES_START -->
 > **[v1.4.0](https://github.com/zeldrisho/morphe-patches/releases/tag/v1.4.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;16 patches total
-<details open>
+<details>
 <summary>📦 Zalo&nbsp;&nbsp;•&nbsp;&nbsp;12 patches</summary>
 <br>
 
@@ -48,7 +48,7 @@ Contributor docs: [development guide](docs/development.md) (start here),
 
 </details>
 
-<details open>
+<details>
 <summary>📦 Threads&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
 <br>
 
@@ -70,4 +70,4 @@ Contributor docs: [development guide](docs/development.md) (start here),
 
 ## 📜 License
 
-Zeldris Patches are licensed under the [GNU General Public License v3.0](LICENSE)
+Zeldris Patches are licensed under the [GNU General Public License v3.0](LICENSE).
