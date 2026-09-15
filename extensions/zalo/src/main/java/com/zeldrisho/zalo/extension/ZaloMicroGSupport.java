@@ -59,6 +59,9 @@ public final class ZaloMicroGSupport {
    * <p>The picker callback otherwise starts the first Drive request while Zalo still has its old
    * account/token state. Re-entering the backup screen works because that lifecycle boundary
    * performs the same refresh later, so mirror that boundary explicitly here.
+   *
+   * @param view the Zalo Drive view to refresh; {@code null} skips scheduling
+   * @param accountName the selected account name; {@code null} or empty skips scheduling
    */
   public static void scheduleAccountRefresh(Object view, String accountName) {
     if (view == null || accountName == null || accountName.isEmpty()) return;

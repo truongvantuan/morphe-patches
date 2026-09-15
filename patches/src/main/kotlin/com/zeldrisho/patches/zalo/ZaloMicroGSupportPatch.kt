@@ -26,6 +26,7 @@ private const val ZALO_LAUNCHER_CLASS = "Lcom/zing/zalo/ui/ZaloLauncherActivity;
 private const val SYNC_GOOGLE_ACCOUNT_BASE_VIEW =
     "Lcom/zing/zalo/ui/backuprestore/drive/SyncGoogleAccountBaseView;"
 
+/** Returns whether [methodReference] names Zalo's account-refresh call in the Drive result handler. */
 private fun isAccountRefreshCall(
     classType: String,
     methodName: String,
