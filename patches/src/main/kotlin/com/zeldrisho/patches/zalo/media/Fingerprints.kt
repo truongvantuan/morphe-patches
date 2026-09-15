@@ -15,7 +15,7 @@ import com.android.tools.smali.dexlib2.AccessFlags
 internal object MediaExpiryStatus : Fingerprint(
     definingClass = "Lvk0/g;",
     name = "n",
-    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.STATIC),
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.STATIC, AccessFlags.FINAL),
     returnType = "Lvk0/a;",
     parameters = listOf("Lo00/q;", "Lo00/e2;"),
     filters = listOf(
