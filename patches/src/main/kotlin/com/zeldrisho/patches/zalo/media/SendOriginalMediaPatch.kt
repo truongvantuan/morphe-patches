@@ -15,14 +15,20 @@ val sendZaloOriginalMediaPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO)
 
     execute {
-        SelectedMediaQuality.method.addInstructions(0, """
+        SelectedMediaQuality.method.addInstructions(
+            0,
+            """
             const/4 v0, 0x2
             return v0
-        """.trimIndent())
+            """.trimIndent(),
+        )
 
-        OriginalMediaQualityAvailable.method.addInstructions(0, """
+        OriginalMediaQualityAvailable.method.addInstructions(
+            0,
+            """
             const/4 v0, 0x1
             return v0
-        """.trimIndent())
+            """.trimIndent(),
+        )
     }
 }
