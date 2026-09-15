@@ -8,6 +8,7 @@ import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
 import com.zeldrisho.patches.shared.bytecode.clearBody
 import com.zeldrisho.patches.shared.bytecode.ensureRegisters
@@ -22,6 +23,19 @@ private const val ACCOUNT_PICKER_REGISTER_COUNT = 8
 private const val MICROG_EXTENSION_CLASS =
     "Lcom/zeldrisho/zalo/extension/ZaloMicroGSupport;"
 private const val ZALO_LAUNCHER_CLASS = "Lcom/zing/zalo/ui/ZaloLauncherActivity;"
+private const val SYNC_GOOGLE_ACCOUNT_BASE_VIEW =
+    "Lcom/zing/zalo/ui/backuprestore/drive/SyncGoogleAccountBaseView;"
+
+private fun isAccountRefreshCall(
+    classType: String,
+    methodName: String,
+    methodReference: MethodReference?,
+): Boolean {
+    if (classType != SYNC_GOOGLE_ACCOUNT_BASE_VIEW || methodName != "onActivityResult") return false
+    return methodReference?.let {
+        it.name == "A6" && it.parameterTypes == listOf("Ljava/lang/String;")
+    } ?: false
+}
 
 private const val STOCK_VNG_CERT_HEX =
     "3082019d30820106a00302010202044f178971300d06092a864886f70d010105050030133111300f060355040313087a" +
@@ -115,6 +129,7 @@ val zaloMicroGSupportPatch = bytecodePatch(
         var bindingReplacements = 0
         var accountTypeReplacements = 0
         var accountPickerReplacements = 0
+        var accountRefreshReplacements = 0
         var launchChecks = 0
 
         classDefForEach { classDef ->
@@ -168,6 +183,16 @@ val zaloMicroGSupportPatch = bytecodePatch(
                 }
 
                 implementation.instructions.forEachIndexed { index, instruction ->
+                    val methodReference =
+                        (instruction as? ReferenceInstruction)?.reference as? MethodReference
+                    if (isAccountRefreshCall(classDef.type, method.name, methodReference)) {
+                        mutableMethod.replaceInstruction(
+                            index,
+                            "invoke-static { p0, p1 }, $MICROG_EXTENSION_CLASS->scheduleAccountRefresh(Ljava/lang/Object;Ljava/lang/String;)V",
+                        )
+                        accountRefreshReplacements++
+                        return@forEachIndexed
+                    }
                     if (instruction.opcode != Opcode.CONST_STRING) return@forEachIndexed
                     val reference = (instruction as? ReferenceInstruction)?.reference as? StringReference
                         ?: return@forEachIndexed
@@ -201,6 +226,9 @@ val zaloMicroGSupportPatch = bytecodePatch(
         }
         check(accountPickerReplacements == 2) {
             "Zalo microG support: expected two account-picker replacements, found $accountPickerReplacements"
+        }
+        check(accountRefreshReplacements == 1) {
+            "Zalo microG support: expected one delayed account refresh, found $accountRefreshReplacements"
         }
         check(launchChecks == 1) {
             "Zalo microG support: expected one launcher provider check, found $launchChecks"
