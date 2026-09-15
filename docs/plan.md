@@ -14,8 +14,8 @@ findings and incident history are kept in [Zalo notes](zalo-notes.md).
   its message is removed.
 - Trace original-media download limits and determine whether they are server,
   remote-configuration, or client enforced.
-- Do not implement quality overrides or filesystem cleanup until a stable
-  client-side control point and safe file-ownership boundary are proven.
+- Do not broaden media retention into filesystem cleanup until a safe
+  file-ownership boundary is proven.
 
 ## 2. Validate promotional filtering
 
