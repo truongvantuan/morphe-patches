@@ -1,7 +1,10 @@
 package com.zeldrisho.patches.zalo.media
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
+import app.morphe.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.morphe.patcher.patch.bytecodePatch
+import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+import com.android.tools.smali.dexlib2.iface.reference.FieldReference
 import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
 
 /** Enables Zalo's existing server-supported original-quality photo path. */
@@ -10,7 +13,7 @@ val sendZaloOriginalMediaPatch = bytecodePatch(
     name = "Prefer original photo quality",
     description = "Enables Zalo's existing original-quality photo path. " +
         "It does not change picker defaults, server upload limits, account restrictions, or video handling.",
-    default = false,
+    default = true,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
 
@@ -21,6 +24,57 @@ val sendZaloOriginalMediaPatch = bytecodePatch(
             const/4 v0, 0x2
             return v0
             """.trimIndent(),
+        )
+
+        // The quality sheet receives the current selection in a Bundle. Force
+        // that initial value too; otherwise the sheet can still open on HD
+        // when the stored selection predates this patch.
+        QualityPickerArguments.method.addInstructions(
+            0,
+            """
+            const/4 p0, 0x2
+            """.trimIndent(),
+        )
+
+        // MediaPickerView.b7() initializes the photo picker to HD when the
+        // quality control is enabled. Change only that initialization; the
+        // non-HD branch remains Standard.
+        val defaultQuality = PickerQualityInitialization.instructionMatches
+            .mapNotNull { match ->
+                val instruction = match.instruction as? ReferenceInstruction
+                val reference = instruction?.reference as? FieldReference
+                if (reference?.name == "HD") match else null
+            }
+            .single()
+        PickerQualityInitialization.method.replaceInstruction(
+            defaultQuality.index,
+            "sget-object v0, Lvh1/d;->ORIGINAL:Lvh1/d;",
+        )
+
+        // Keep the quality chip consistent with the forced outgoing choice.
+        PhotoQualityChipUpdate.method.addInstructions(
+            0,
+            """
+            const/4 p1, 0x2
+            """.trimIndent(),
+        )
+
+        // The send conversion copies MediaItem.q into the outgoing photo
+        // model. The picker UI can display Original while this flag remains
+        // false, which causes the upload to use HD. Change only that copy;
+        // the other q read feeds metadata and is intentionally untouched.
+        val originalFlag = SelectedPhotoOriginalFlag.instructionMatches
+            .filter { match ->
+                val instruction = match.instruction as? ReferenceInstruction
+                val reference = instruction?.reference as? FieldReference
+                reference?.definingClass == "Lcom/zing/zalo/data/mediapicker/model/MediaItem;" &&
+                    reference.name == "q"
+            }
+            .minByOrNull { it.index }
+            ?: error("MediaItem original flag read moved; re-hunt Lbq0/g->a()")
+        SelectedPhotoOriginalFlag.method.replaceInstruction(
+            originalFlag.index,
+            "const/4 v13, 0x1",
         )
 
         // The picker checks these helpers directly before it calls e(). In

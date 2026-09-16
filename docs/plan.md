@@ -1,55 +1,107 @@
 # Remaining work
 
-This roadmap is scoped to Zalo Android APK patching for version `26.08.01`
-(version code `260801903`). APKs, smali, logs, screenshots, and generated
-analysis files remain local under the ignored `analysis/` directory. Verified
-findings and incident history are kept in [Zalo notes](zalo-notes.md).
+This roadmap is scoped to Zalo Android APK `26.08.01` (version code
+`260801903`). APKs, smali, logs, screenshots, and generated analysis files stay
+under the ignored `analysis/zalo-26.08.01/` directory.
 
-## 1. Validate media behavior
+zStyle is excluded. Video Original quality is also excluded: the pinned APK
+contains `VIDEO` and `VIDEO_HD`, but no `VIDEO_ORIGINAL` path.
 
-- Test the expiry bypass with restored large media in chat and My Cloud.
-- Compare behavior when the local file exists but the remote URL is no longer
-  usable.
-- Test backup/restore and determine whether restored media remains usable after
-  its message is removed.
-- Trace original-media download limits and determine whether they are server,
-  remote-configuration, or client enforced.
-- Do not broaden media retention into filesystem cleanup until a safe
-  file-ownership boundary is proven.
+## Photo Original quality
 
-## 2. Validate promotional filtering
+- Fix the remaining post-selection quality-chip label, which can still display
+  `HD` even though the outgoing photo is marked Original.
+- Confirm that the current patch does not affect video sending.
+- Complete control testing with identical source photos and compare source and
+  received hashes, dimensions, metadata, and encoding.
+- Verify ordinary quality selection and multi-image selection.
+- Do not claim recovery of originals discarded by the client or server.
 
-- Test the existing `SOCIAL_STORY` / `ZALO_VIDEO` filter against story/video
-  promotions, one-to-one and group messages, friend requests, Official Account
-  conversations, calls, and `chat_download`.
-- Preserve chat, group activity, friend requests, calls, alerts, and other
-  transactional notifications.
-- Do not broaden filtering without a version-stable, positively identified
-  predicate.
+## Feature feasibility investigations
 
-## 3. Validate Web/Desktop behavior
+Before implementing any item, record the exact smali gate, callers, local data
+flow, server dependencies, narrow proposed change, and regression risks in
+`analysis/zalo-26.08.01/notes/`. Classify each result as **ready to implement**,
+**needs runtime proof**, or **server-dependent**. Do not globally spoof a paid
+account or mutate HTTP traffic.
 
-- Test QR login and approval from an authenticated Android phone.
-- Test read state, delivery acknowledgements, message history, and media scope
-  across Android, Web, and Desktop.
-- Test session revocation through **Account and security → Logged-in devices**.
-- Treat server-enforced session limits and authorization as out of scope unless
-  a client-side enforcement point is proven.
+### zBusiness product catalog
 
-## 4. Update the MicroG-RE download source
+- Trace entry points, product creation/editing, count limits, storage, sync, and
+  sharing.
+- Determine whether local templates are usable without an authorized backend.
+- Verify persistence after restart and what recipients see when a product is
+  shared.
 
-- Replace the temporary `zeldrisho/MicroG-RE` releases URL when a stable tagged
-  upstream release or official project page containing the OAuth SHA-1
-  normalization fix is available.
-- Verify release provenance, checksum, and installation flow before changing the
-  extension URL.
-- Until then, leave the current source unchanged.
+### zCloud local backup/export
+
+- Trace existing backup and phone-transfer machinery, including messages, media
+  associations, database snapshots/WAL, schema, and encryption keys.
+- If an extension is needed, export only to a user-selected external location.
+- Prove stock-to-patched migration, patched reinstall, and cross-device restore
+  separately.
+- Require integrity/version checks, bounded extraction, recoverable staging, and
+  tests for corrupt archives, low space, and interrupted transfers.
+
+### Gold Business badge
+
+- Identify the exact asset and entitlement/display path.
+- Separate local cosmetic rendering from server-visible verification.
+- Treat server-issued verification as server-dependent unless contrary evidence
+  is established.
+
+### Notifications from strangers
+
+- Trace privacy settings, request routing, push delivery, notification channels,
+  and local suppression independently.
+- Preserve blocks, mutes, spam protections, and promotional filtering.
+- Validate foreground and background delivery with a consenting non-contact
+  account.
+
+### Change username
+
+- Distinguish display name, unique handle, and business contact link.
+- Trace validation, cooldowns, persistence, update requests, and visibility from
+  another account.
+- Patch only proven local restrictions; a local alias is not a server rename.
+
+### Inactivity deletion
+
+- Verify the current policy and what counts as activity.
+- Determine whether deletion is server-managed; do not silently generate account
+  activity.
+- If no client enforcement point exists, classify prevention as server-dependent.
+  Optional reminders and backup are separate mitigations.
+
+### Automatic backup and restore
+
+- Trace zCloud and Google Drive independently: scheduling, constraints,
+  authentication, token issuance, upload completion, retention, and restore order.
+- Test retries, backoff, process death, reboot, offline recovery, quota errors,
+  low storage, incompatible versions, duplicate work, and wrong-account restore.
+- Keep the last usable backup and live data on failure; never log tokens or
+  backup contents.
+- Separate text backup from media backup and preserve attachment links.
+- Treat OAuth authorization and zCloud subscription/storage limits as backend
+  boundaries, not local unlocks.
+
+## Deferred validation
+
+- Validate expired-media behavior in chat and My Cloud, including missing local
+  files, unusable remote URLs, restore, and deleted messages.
+- Validate the existing `SOCIAL_STORY` / `ZALO_VIDEO` notification filter without
+  suppressing chat, group activity, friend requests, calls, or alerts.
+- Validate QR login, read/delivery state, message history, media scope, and
+  session revocation across Android, Web, and Desktop.
+- Update the MicroG-RE source only after a stable upstream release or official
+  project page provides the OAuth SHA-1 normalization fix; verify provenance and
+  checksum first.
 
 ## Acceptance evidence
 
-Use a throwaway account and record sanitized results for media expiry and
-restore, notification regression, QR login, session revocation, and
-bidirectional read-state synchronization. Before release, repeat build,
-original-APKM repatch, installation, and device validation with the published
-`.mpp`. Record the tested APK hash, patch bundle hash, enabled patches, device,
-Android version, and signing certificate fingerprint outside this repository.
+For every implemented candidate, record a positive behavior check and an
+unmodified/control comparison. Include remote visibility or a complete restore
+round trip where relevant. Before release, repeat build, original-APKM repatch,
+installation, and device validation with the published `.mpp`; record the APK
+hash, patch bundle hash, enabled patches, device, Android version, and signing
+certificate fingerprint outside this repository.
