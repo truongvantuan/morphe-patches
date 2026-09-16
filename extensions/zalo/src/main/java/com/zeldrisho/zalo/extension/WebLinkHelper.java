@@ -10,16 +10,16 @@ import java.lang.reflect.Method;
 public class WebLinkHelper {
     public static boolean tryOpenExternal(Object presenter, String url, Bundle bundle) {
         if (url == null || url.isEmpty()) return false;
-        
+
         if (bundle != null) {
             if (bundle.getBoolean("from_mini_app", false)) return false;
             if (bundle.containsKey("oa_h5")) return false;
         }
-        
+
         try {
             Context hostContext = resolveHostContext(presenter);
             if (hostContext == null) return false;
-            
+
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.trim()));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             hostContext.startActivity(intent);
