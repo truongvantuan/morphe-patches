@@ -6,16 +6,11 @@ import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
 
 /**
- * Keeps locally available large chat files out of Zalo's expired state.
+ * Zalo prevents users from opening large files/videos from chat history after
+ * a specific duration, displaying a subscription or expiration dialog instead.
  *
- * Zalo's classifier uses BIG_FILE_EXPIRED to select the subscription/expired
- * UI even when the restored file remains on disk. Replacing only that enum
- * load preserves all other media states and lets the normal local-file path
- * serve the existing file.
- *
- * Limits: this is a client-side status bypass. It cannot recreate a file that
- * is absent locally, bypass server authorization for a new download, or make
- * a remote URL live again.
+ * This hook overrides the client-side decision logic to always return the
+ * "not expired" state, retaining access as long as the file exists on-disk.
  */
 @Suppress("unused")
 val keepZaloMediaAccessiblePatch = bytecodePatch(

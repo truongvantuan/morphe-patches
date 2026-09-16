@@ -38,6 +38,7 @@ class PatchesListShapeTest {
     @Test fun zaloBundleShape() {
         val json = listJson()
         for (name in listOf("Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Business Box", "Keep expired media accessible", "Remove AD_ID permission", "Change Zalo app name", "Change Zalo package name", "microG Drive support", "Hide conversation list ads", "Hide Newsfeed ads")) {
+                "Prefer original photo quality",
             assertTrue(json.contains("\"name\": \"$name\""), "missing patch: $name")
         }
         assertTrue(json.contains("com.zing.zalo"), "missing Zalo package group")
@@ -45,10 +46,10 @@ class PatchesListShapeTest {
     }
 
     /**
-     * Verify that exactly 17 patches are present with no leftover template scaffolding.
+     * Verify that exactly 18 patches are present with no leftover template scaffolding.
      */
     @Test fun patchCountMatchesSources() {
-        // Exactly 17 patches (4 Threads + 13 Zalo) — template scaffolding was removed,
+        // Exactly 18 patches (4 Threads + 14 Zalo) — template scaffolding was removed,
         // so any extra entry (e.g. a resurrected "Example Patch") fails loudly.
         // Note: "name" also appears on compatiblePackages entries ("Threads", "Zalo"),
         // so only top-level patch names are counted (6-space indent in output).
@@ -70,12 +71,13 @@ class PatchesListShapeTest {
                 "Hide ads",
                 "Hide conversation list ads",
                 "Keep expired media accessible",
+                "Prefer original photo quality",
                 "Remove AD_ID permission",
                 "Remove AD_ID permission",
                 "microG Drive support",
             ),
             names.sorted(),
-            "expected exactly 17 patches, found: $names",
+            "expected exactly 18 patches, found: $names",
         )
     }
 

@@ -45,7 +45,40 @@ def main():
                     "metadata": {},
                     "source": [
                         "!pip -q install jadx\n",
-                        "# Download and decompile according to the Kaggle runtime image.\n",
+                        "# Download, decompile, and archive the result in the Kaggle workspace.\n",
+                        "from pathlib import Path\n",
+                        "from urllib.request import urlopen\n",
+                        "import time\n",
+                        "import subprocess\n",
+                        "import zipfile\n",
+                        "\n",
+                        "DOWNLOAD_TIMEOUT_SECONDS = 120\n",
+                        "MAX_APK_SIZE = 2 * 1024 * 1024 * 1024\n",
+                        "\n",
+                        "apk_path = Path('/kaggle/working/input.apk')\n",
+                        "started = time.monotonic()\n",
+                        "with urlopen(APK_URL, timeout=120) as response, apk_path.open('wb') as output:\n",
+                        "    length = response.headers.get('Content-Length')\n",
+                        "    if length and int(length) > MAX_APK_SIZE:\n",
+                        "        raise RuntimeError('APK exceeds maximum allowed size')\n",
+                        "    total = 0\n",
+                        "    while True:\n",
+                        "        if time.monotonic() - started >= DOWNLOAD_TIMEOUT_SECONDS:\n",
+                        "            raise TimeoutError('APK download timed out')\n",
+                        "        chunk = response.read(min(1024 * 1024, MAX_APK_SIZE - total + 1))\n",
+                        "        if not chunk:\n",
+                        "            break\n",
+                        "        total += len(chunk)\n",
+                        "        if total > MAX_APK_SIZE:\n",
+                        "            raise RuntimeError('APK exceeds maximum allowed size')\n",
+                        "        output.write(chunk)\n",
+                        "decompiled_path = Path('/kaggle/working/decompiled')\n",
+                        "subprocess.run(['jadx', '-d', str(decompiled_path), str(apk_path)], check=True)\n",
+                        "archive_path = Path('/kaggle/working/jadx_decompiled.zip')\n",
+                        "with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as archive:\n",
+                        "    for path in decompiled_path.rglob('*'):\n",
+                        "        if path.is_file():\n",
+                        "            archive.write(path, path.relative_to(decompiled_path.parent))\n",
                     ],
                     "outputs": [],
                     "execution_count": None,
@@ -69,19 +102,29 @@ def main():
         )
         subprocess.run(["kaggle", "kernels", "push", "-p", td], check=True)
         print("⏳ Waiting for kernel...")
-        while True:
-            raw = subprocess.run(
-                ["kaggle", "kernels", "status", kernel],
-                text=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-            ).stdout
+        deadline = time.monotonic() + int(
+            os.environ.get("KAGGLE_TIMEOUT_SECONDS", "1800")
+        )
+        while time.monotonic() < deadline:
+            remaining = deadline - time.monotonic()
+            try:
+                raw = subprocess.run(
+                    ["kaggle", "kernels", "status", kernel],
+                    text=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    timeout=remaining,
+                ).stdout
+            except subprocess.TimeoutExpired:
+                raise SystemExit("❌ Kernel polling timed out")
             print(raw.strip())
             if "complete" in raw.lower():
                 break
             if any(x in raw.lower() for x in ("error", "cancel", "fail")):
                 raise SystemExit("❌ Kernel failed")
             time.sleep(10)
+        else:
+            raise SystemExit("❌ Kernel polling timed out")
         subprocess.run(
             [
                 "kaggle",

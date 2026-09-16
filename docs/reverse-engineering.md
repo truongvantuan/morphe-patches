@@ -30,9 +30,9 @@ commands, including fish PATH setup and the `uv tool` versus `uvx` decision.
 The Morphe CLI applies `.mpp` bundles; `scripts/repatch.py` finds the Morphe
 JAR in its standard locations with no setup.
 
-`scripts/apk_recon.py` wraps the recon step (framework, HTTP/DI/billing
-stack signals via DEX strings, obfuscation estimate, split-aware native libs,
-recommended next step); `scripts/extract_smali.py` wraps the
+`scripts/apk_recon.py` wraps the recon step (archive metadata, selected
+framework markers, native-library paths, `aapt` metadata, and optional `apkid`
+output); `scripts/extract_smali.py` wraps the
 DEX → smali step (including split `.apkm`/`.xapk` handling);
 `scripts/hunt_signals.py <decompiled|smali>` counts protection/billing/ads/Ktor/Koin
 signals in one pass before hunting; `scripts/recover_kotlin_names.py <decompiled>`

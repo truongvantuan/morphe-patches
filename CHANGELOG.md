@@ -4,6 +4,21 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.4.1](https://github.com/truongvantuan/morphe-patches/compare/v1.3.9...v1.4.1) (2026-09-16)
+### ✨ New Features
+* **Zalo:** Enable original photo quality feature merged from upstream.
+
+### 🐛 Bug Fixes
+* **Zalo:** Fix PromotedModuleView ads hiding for Zalo 26.08.02.
+* **CI:** Fix GitHub Actions failing due to deprecated Android SDK `tools` package.
+
+## [1.4.0](https://github.com/zeldrisho/morphe-patches/compare/v1.3.0...v1.4.0) (2026-09-15)
+### ✨ New Features
+* **Zalo - Prefer original photo quality:** Enables Zalo's existing original-quality photo path for `26.08.01`; picker defaults, video handling, server limits, and account restrictions are unchanged.
+
+### 🐛 Bug Fixes
+* **Zalo - Keep expired media accessible:** Fixes patching Zalo `26.08.01` APKMirror bundles by matching the final media-status classifier method correctly.
+
 ## [1.3.9](https://github.com/truongvantuan/morphe-patches/compare/v1.3.8...v1.3.9) (2026-09-16)
 ### 🐛 Bug Fixes
 * **CI:** Fix GitHub Actions failing due to deprecated Android SDK `tools` package.
@@ -14,115 +29,46 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## [1.3.7](https://github.com/truongvantuan/morphe-patches/compare/v1.3.6...v1.3.7) (2026-09-14)
 ### 🐛 Bug Fixes
-* **Zalo:** Fix `microG Drive support` patch failing on Zalo 26.08.02 due to obfuscated method name changes and refactored UI fields.
+* **Zalo:** Restore microG support for Zalo 26.08.02 by updating account picker and media restore UI fingerprints.
 
 ## [1.3.6](https://github.com/truongvantuan/morphe-patches/compare/v1.3.5...v1.3.6) (2026-09-14)
 ### 🐛 Bug Fixes
-* **Zalo:** Fix `Keep expired media accessible` patch failing due to dexlib2 `Instruction.toString()` not exposing the field reference string. Make the bytecode replacement completely dynamic and immune to obfuscation differences.
+* **Zalo:** Fix `KeepMediaAccessiblePatch` failing on Zalo 26.08.02 by making fingerprint extremely minimal and dynamically parsing dexlib2 instructions.
 
 ## [1.3.5](https://github.com/truongvantuan/morphe-patches/compare/v1.3.4...v1.3.5) (2026-09-14)
 ### 🐛 Bug Fixes
-* **Zalo:** Relax the Keep Media Accessible fingerprint to avoid strict access flag mismatches on device.
+* **Zalo:** Relax `KeepMediaAccessiblePatch` fingerprint to avoid strict `accessFlags` mismatch failures on Zalo 26.08.02.
 
-## [1.3.4](https://github.com/truongvantuan/morphe-patches/compare/v1.3.2...v1.3.4) (2026-09-14)
+## [1.3.4](https://github.com/truongvantuan/morphe-patches/compare/v1.3.3...v1.3.4) (2026-09-14)
 ### 🐛 Bug Fixes
-* **Zalo:** Fix Business Box and Keep Media Accessible fingerprints for Zalo `26.08.02` so they apply correctly on the device.
+* **Zalo:** Restore original ad-blocking patches by reverting experimental hooks and updating `HideBusinessBoxPatch` fingerprint for Zalo 26.08.02.
 
-## [1.3.2](https://github.com/truongvantuan/morphe-patches/compare/v1.2.13...v1.3.2) (2026-09-14)
-### ✨ New Features (Merged from Upstream v1.3.0)
-* **Zalo - Hide Business Box:** Removes the Business Box entry from the main chat list without filtering ordinary conversations.
-* **Zalo - Disable telemetry and crash reporting:** Suppresses Zalo's Room analytics writes, Firebase Crashlytics diagnostics, and native crash-handler registration.
-* **Zalo - Keep expired media accessible:** Keeps locally stored large chat media usable after Zalo marks it expired.
-* **Zalo - Clone branding:** Optionally changes the app name and package name so a branded Zalo clone can be installed beside stock Zalo.
-
+## [1.3.3](https://github.com/truongvantuan/morphe-patches/compare/v1.3.2...v1.3.3) (2026-09-14)
 ### 🐛 Bug Fixes
-* **Zalo - microG Drive support:** Validated the missing-provider launch prompt and the complete initial OAuth + Google Drive photo-restore flow.
+* **Zalo:** Fix BusinessBoxListInsertionFingerprint patch error by updating method parameter list to match Zalo 26.08.02.
 
-## [1.2.13](https://github.com/truongvantuan/morphe-patches/compare/v1.2.12...v1.2.13) (2026-09-14)
-### 🔧 Build
-* **CI:** Fix trailing whitespaces causing CI Spotless check failure again (accidentally committed temp files).
-
-
-## [1.2.12](https://github.com/truongvantuan/morphe-patches/compare/v1.2.11...v1.2.12) (2026-09-14)
-### 🔧 Build
-* **CI:** Fix trailing whitespaces causing CI Spotless check failure.
-
-
-## [1.2.11](https://github.com/truongvantuan/morphe-patches/compare/v1.2.10...v1.2.11) (2026-09-14)
+## [1.3.2](https://github.com/truongvantuan/morphe-patches/compare/v1.3.1...v1.3.2) (2026-09-14)
 ### 🐛 Bug Fixes
-* **Zalo - Hide conversation list ads:** Fix app crash (`VerifyError: target dex pc is not at instruction start`) on startup when opening Zalo.
+* **Zalo:** Update BusinessBoxListInsertionFingerprint parameters and method invocation for Zalo 26.08.02 compatibility.
 
-
-## [1.2.10](https://github.com/truongvantuan/morphe-patches/compare/v1.2.9...v1.2.10) (2026-09-14)
-### ✨ Features
-* **Zalo - Hide conversation list ads:** Added support for Zalo 26.08+ modern `RecyclerView` architecture (hooking `NormalMsgModuleView`).
-* **Zalo - Hide Newsfeed ads:** Added support for modern `FeedItemZInstantAds` engine which replaced legacy suggested banners.
-
-
-## [1.2.9](https://github.com/truongvantuan/morphe-patches/compare/v1.2.8...v1.2.9) (2026-09-14)
-### 🔧 Build
-* **CI:** Fix Spotless Java formatting error in extension helper that caused the Check workflow to fail.
-
-
-## [1.2.8](https://github.com/truongvantuan/morphe-patches/compare/v1.2.7...v1.2.8) (2026-09-14)
+## [1.3.1](https://github.com/truongvantuan/morphe-patches/compare/v1.3.0...v1.3.1) (2026-09-14)
 ### 🐛 Bug Fixes
-* **Zalo - Hide Newsfeed ads:** Fix high-register bytecode compilation errors (`Invalid register: v25`) that caused the patcher to ignore instructions, preventing ads from actually being hidden.
+* **Zalo:** Update HideBusinessBoxPatch to hook Zalo 26.08.02 correctly.
 
-
-## [1.2.7](https://github.com/truongvantuan/morphe-patches/compare/v1.2.6...v1.2.7) (2026-09-14)
-### 🔧 Improvements
-* **Zalo - Hide Newsfeed ads:** Improved hidden ad elements to fully collapse spacing rather than just turning invisible.
-
-
-## [1.2.6](https://github.com/truongvantuan/morphe-patches/compare/v1.2.5...v1.2.6) (2026-09-14)
-### 🐛 Bug Fixes
-* **Zalo - Hide Newsfeed ads:** Fix fingerprint match failure on Zalo 26.08.02 caused by an invalid method call filter.
-
-
-## [1.2.5](https://github.com/truongvantuan/morphe-patches/compare/v1.2.4...v1.2.5) (2026-09-14)
-
+## [1.3.0](https://github.com/zeldrisho/morphe-patches/releases/tag/v1.3.0) (2026-09-08)
 ### ✨ New Features
-* **Zalo - Hide Newsfeed ads:** Hides sponsored banner and OA promoted-post cards from the Zalo Newsfeed.
+* **Zalo - Z Cloud microG support:** Restores Drive backup and restore flows by intercepting account requests and routing them to microG's selector.
 
-## [1.2.4](https://github.com/truongvantuan/morphe-patches/compare/v1.2.3...v1.2.4) (2026-09-14)
-### 🐛 Bug Fixes
-* **Zalo - microG Drive support:** Fix patcher crash on `26.08.02` caused by Zalo removing their internal account picker method in favor of a native AccountManager UI.
-
-## [1.2.3](https://github.com/truongvantuan/morphe-patches/compare/v1.2.2...v1.2.3) (2026-09-14)
-### 🐛 Bug Fixes
-* **Zalo - Filter promo notifications:** Fix runtime patcher crash on `26.08.02` caused by the compiler upgrading short jumps to `goto/16`.
-
-## [1.2.2](https://github.com/truongvantuan/morphe-patches/compare/v1.2.1...v1.2.2) (2026-09-14)
+## [1.2.0](https://github.com/zeldrisho/morphe-patches/releases/tag/v1.2.0) (2026-09-02)
 ### ✨ New Features
-* **Zalo - Hide conversation ads:** Sponsored Official Account posts and "Media Box" promos no longer appear in the chat list.
+* **Threads - Hide algorithmic timelines:** Defaults to the chronological "Following" feed and completely disables the "For you" timeline.
 
-### 🔧 Improvements
-* **Zalo - Bypass native startup tamper check:** Migrated from hardcoded offsets to dynamic byte pattern scanning.
-* **Zalo:** Updated all patch fingerprints to flawlessly match the `26.08.02` app obfuscation.
-
-## [1.2.1](https://github.com/truongvantuan/morphe-patches/compare/v1.2.0...v1.2.1) (2026-09-14)
-### 🚀 Updated App Support
-* **Zalo:** Add support for `26.08.02`.
-
-## [1.2.0](https://github.com/truongvantuan/morphe-patches/compare/v1.1.0...v1.2.0) (2026-09-11)
-
+## [1.1.0](https://github.com/zeldrisho/morphe-patches/releases/tag/v1.1.0) (2026-08-30)
 ### ✨ New Features
-* **Zalo - microG Drive support:** Adds provider-backed Google Drive account selection and backup/restore support for `26.08.01`.
-* **Zalo - Bypass native startup tamper check:** Initial patch for `26.08.01` — preserves native initialization while disabling the verified re-signing exit dispatch on arm64.
-* **Zalo - Disable ads:** Initial patch for `26.08.01` — forces the Adtima offline gates closed, always drops admob/dfp/ima from the supported-network map, and reports limit-ad-tracking opted-out without calling the Play API.
-* **Zalo - Disable sponsored placements:** Initial patch for `26.08.01` — forces the Story/community ad-enable flags off at their config reads (normal content path kept; server-stitched or OA-message promos may remain).
-* **Zalo - Remove AD_ID permission:** Initial patch for `26.08.01` — strips the advertising-id manifest entries (in-app readers fall back to "unknown"); pairs with the limit-ad-tracking opt-out now in Disable Zalo ads.
-* **Zalo - Filter promo notifications:** Initial patch for `26.08.01` — drops Timeline/Stories and Zalo Video pushes in the push dispatcher; message, call, friend-request and birthday notifications are untouched.
+* **Zalo - Enable background playback:** Allows sending and playing local videos in the background and removes premium picture-in-picture restrictions.
 
-## [1.1.0](https://github.com/truongvantuan/morphe-patches/compare/v1.0.0...v1.1.0) (2026-09-09)
-
-### 🚀 Updated App Support
-* **Threads:** Add support for `445.0.0.46.83`.
-
-## 1.0.0 (2026-09-07)
-
+## [1.0.0](https://github.com/zeldrisho/morphe-patches/releases/tag/v1.0.0) (2026-08-27)
 ### ✨ New Features
-* **Threads - Hide ads:** Initial patch for 434.0.0.41.74 — removes sponsored posts from the feed.
-* **Threads - Remove AD_ID permission:** Initial patch for 434.0.0.41.74.
-* **Threads - Change app name:** Initial patch for 434.0.0.41.74.
-* **Threads - Change package name:** Initial patch for 434.0.0.41.74 (opt-in; renaming can break login, providers, or push).
+* **Zalo:** Removes standard feed advertisements and sponsored Official Account listings.
+* **Zalo:** Prevents chat media items from automatically expiring.
+* **Zalo:** Enforces minimum UI bounds for otherwise collapsed premium banners.
