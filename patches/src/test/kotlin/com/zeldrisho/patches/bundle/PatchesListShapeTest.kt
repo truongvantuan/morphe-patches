@@ -37,7 +37,7 @@ class PatchesListShapeTest {
 
     @Test fun zaloBundleShape() {
         val json = listJson()
-        for (name in listOf("Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Business Box", "Keep expired media accessible", "Prefer original photo quality", "Remove AD_ID permission", "Change Zalo app name", "Change Zalo package name", "microG Drive support", "Hide conversation list ads", "Hide Newsfeed ads")) {
+        for (name in listOf("Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Business Box", "Keep expired media accessible", "Prefer original photo quality", "Remove AD_ID permission", "Change Zalo app name", "Change Zalo package name", "microG Drive support", "Hide conversation list ads", "Hide Newsfeed ads", "Open web links externally")) {
             assertTrue(json.contains("\"name\": \"$name\""), "missing patch: $name")
         }
         assertTrue(json.contains("com.zing.zalo"), "missing Zalo package group")
@@ -70,13 +70,14 @@ class PatchesListShapeTest {
                 "Hide ads",
                 "Hide conversation list ads",
                 "Keep expired media accessible",
+                "Open web links externally",
                 "Prefer original photo quality",
                 "Remove AD_ID permission",
                 "Remove AD_ID permission",
                 "microG Drive support",
             ),
             names.sorted(),
-            "expected exactly 18 patches, found: $names",
+            "expected exactly 19 patches, found: $names",
         )
     }
 

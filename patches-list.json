@@ -552,6 +552,34 @@
         }
       ],
       "options": []
+    },
+    {
+      "name": "Open web links externally",
+      "description": "Forces web links to open in your default browser instead of Zalo's restricted in-app browser.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.08.02",
+              "versionCodes": {
+                "ARM64_V8A": 260802903
+              },
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ],
+          "options": []
+        }
+      ]
     }
   ]
 }
