@@ -17,7 +17,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -45,7 +45,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -83,7 +83,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -207,7 +207,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -235,7 +235,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -252,9 +252,7 @@
       "name": "Disable telemetry and crash reporting",
       "description": "Stops Zalo's first-party analytics records and diagnostic crash data by suppressing its Room analytics writes, Firebase Crashlytics logs/keys, and native crash-handler registration. Messaging, sockets, and database initialization remain intact.",
       "default": true,
-      "dependencies": [
-        "ResourcePatch"
-      ],
+      "dependencies": [],
       "compatiblePackages": [
         {
           "packageName": "com.zing.zalo",
@@ -265,7 +263,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -293,7 +291,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -321,7 +319,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -382,35 +380,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
-              "versionCodes": {
-                "ARM64_V8A": 260801903
-              },
-              "isExperimental": false,
-              "minSdk": 24,
-              "description": null
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-    {
-      "name": "Prefer original photo quality",
-      "description": "Enables Zalo's existing original-quality photo path. It does not change picker defaults, server upload limits, account restrictions, or video handling.",
-      "default": false,
-      "dependencies": [],
-      "compatiblePackages": [
-        {
-          "packageName": "com.zing.zalo",
-          "name": "Zalo",
-          "description": null,
-          "apkFileType": "APKM",
-          "appIconColor": "#0068FF",
-          "signatures": null,
-          "targets": [
-            {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -471,7 +441,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -501,7 +471,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": "26.08.01",
+              "version": "26.08.02",
               "versionCodes": {
                 "ARM64_V8A": 260801903
               },
@@ -509,6 +479,75 @@
               "minSdk": 24,
               "description": null
             }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Hide conversation list ads",
+      "description": "Completely hides injected Official Account promos (like SenTia School [AD]) and first-party promotional accounts (Media Box) from the main Messages tab.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "targets": [
+            {
+              "version": "26.08.02",
+              "versionCodes": {
+                "ARM64_V8A": 260801903
+              },
+              "isExperimental": false,
+              "minSdk": 24
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Hide Newsfeed ads",
+      "description": "Removes the new modern FeedItemZInstantAds engine from the Newsfeed/Timeline tab.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "targets": [
+            {
+              "version": "26.08.02",
+              "versionCodes": {
+                "ARM64_V8A": 260801903
+              },
+              "isExperimental": false,
+              "minSdk": 24
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Prefer original photo quality",
+      "description": "Enables Zalo's existing original-quality photo path. It does not change picker defaults, server upload limits, account restrictions, or video handling.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "versions": [
+            "26.08.02"
           ]
         }
       ],
