@@ -100,6 +100,38 @@ class ZaloMediaFingerprintsTest {
             )
             assertEquals(1, chipMatches.size)
             assertEquals("y6", chipMatches.single().originalMethod.name)
+
+            LandingPageQualityChipUpdate.clearMatch()
+            val landingMatches = LandingPageQualityChipUpdate.matchAll(
+                classes.getValue("Lcom/zing/zalo/ui/picker/landingpage/LandingPageView;"),
+                1..1,
+            )
+            assertEquals(1, landingMatches.size)
+            assertEquals("B6", landingMatches.single().originalMethod.name)
+
+            LandingPageQualityChipInitialization.clearMatch()
+            val landingInitializationMatches = LandingPageQualityChipInitialization.matchAll(
+                classes.getValue("Lcom/zing/zalo/ui/picker/landingpage/LandingPageView;"),
+                1..1,
+            )
+            assertEquals(1, landingInitializationMatches.size)
+            assertEquals("W4", landingInitializationMatches.single().originalMethod.name)
+
+            ChatInputBarQualityChipUpdate.clearMatch()
+            val chatInputBarMatches = ChatInputBarQualityChipUpdate.matchAll(
+                classes.getValue("Lcom/zing/zalo/ui/chat/widget/inputbar/ChatInputBar;"),
+                1..1,
+            )
+            assertEquals(1, chatInputBarMatches.size)
+            assertEquals("r", chatInputBarMatches.single().originalMethod.name)
+
+            QualityChipLabel.clearMatch()
+            val labelMatches = QualityChipLabel.matchAll(
+                classes.getValue("Lcom/zing/zalo/ui/picker/mediapicker/MediaPickerQualityChip;"),
+                1..1,
+            )
+            assertEquals(1, labelMatches.size)
+            assertEquals("setText", labelMatches.single().originalMethod.name)
         }
     }
 }

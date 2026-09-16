@@ -85,6 +85,70 @@ internal object PhotoQualityChipUpdate : Fingerprint(
     filters = listOf(methodCall(definingClass = "Lvh1/c;", name = "a", returnType = "Ljava/lang/String;")),
 )
 
+/** Updates the quality chip after media selection on the landing page. */
+internal object LandingPageQualityChipUpdate : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/picker/landingpage/LandingPageView;",
+    name = "B6",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "V",
+    parameters = listOf("I"),
+    filters = listOf(
+        fieldAccess(
+            definingClass = "Lcom/zing/zalo/ui/picker/landingpage/LandingPageView;",
+            name = "Z1",
+            type = "I",
+        ),
+        methodCall(definingClass = "Lvh1/c;", name = "a", returnType = "Ljava/lang/String;"),
+    ),
+)
+
+/** Initializes the landing-page quality chip when the send mode opens. */
+internal object LandingPageQualityChipInitialization : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/picker/landingpage/LandingPageView;",
+    name = "W4",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "Landroid/view/View;",
+    parameters = listOf(
+        "Landroid/view/LayoutInflater;",
+        "Landroid/view/ViewGroup;",
+        "Landroid/os/Bundle;",
+    ),
+    filters = listOf(
+        fieldAccess(
+            definingClass = "Lcom/zing/zalo/ui/picker/landingpage/LandingPageView;",
+            name = "Z1",
+            type = "I",
+        ),
+        methodCall(definingClass = "Lvh1/c;", name = "a", returnType = "Ljava/lang/String;"),
+    ),
+)
+
+/** Updates the host chat input-bar chip when picker selection changes. */
+internal object ChatInputBarQualityChipUpdate : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/chat/widget/inputbar/ChatInputBar;",
+    name = "r",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "V",
+    parameters = listOf("I"),
+    filters = listOf(
+        fieldAccess(
+            definingClass = "Lcom/zing/zalo/ui/chat/widget/inputbar/ChatInputBar;",
+            name = "J0",
+            type = "I",
+        ),
+        methodCall(definingClass = "Lvh1/c;", name = "a", returnType = "Ljava/lang/String;"),
+    ),
+)
+
+/** Final rendering boundary for the quality-chip label. */
+internal object QualityChipLabel : Fingerprint(
+    definingClass = "Lcom/zing/zalo/ui/picker/mediapicker/MediaPickerQualityChip;",
+    name = "setText",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "V",
+    parameters = listOf("Ljava/lang/CharSequence;"),
+)
+
 internal object SelectedPhotoOriginalFlag : Fingerprint(
     definingClass = "Lbq0/g;",
     name = "a",

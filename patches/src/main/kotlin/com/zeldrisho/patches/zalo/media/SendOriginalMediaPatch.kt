@@ -59,6 +59,62 @@ val sendZaloOriginalMediaPatch = bytecodePatch(
             """.trimIndent(),
         )
 
+        // After selection, the landing page refreshes its own chip from Z1.
+        // Override only that cached photo-quality value; visibility and video
+        // handling remain unchanged.
+        val landingPageQuality = LandingPageQualityChipUpdate.instructionMatches
+            .single { match ->
+                val instruction = match.instruction as? ReferenceInstruction
+                val reference = instruction?.reference as? FieldReference
+                reference?.name == "Z1"
+            }
+        LandingPageQualityChipUpdate.method.replaceInstruction(
+            landingPageQuality.index,
+            "const/4 v1, 0x2",
+        )
+
+        // The send-mode layout initializes the same chip from Z1 before the
+        // selection callback runs. Force that label as well; leave the later
+        // HD-checkbox initialization untouched.
+        val landingPageChipInitialization = LandingPageQualityChipInitialization.instructionMatches
+            .filter { match ->
+                val instruction = match.instruction as? ReferenceInstruction
+                val reference = instruction?.reference as? FieldReference
+                reference?.name == "Z1"
+            }
+            .minByOrNull { it.index }
+            ?: error("LandingPageView quality-chip initialization moved; re-hunt W4()")
+        LandingPageQualityChipInitialization.method.replaceInstruction(
+            landingPageChipInitialization.index,
+            "const/4 p3, 0x2",
+        )
+
+        // The chat input bar also mirrors the picker quality after selection.
+        // This is the visible chip in the normal send flow.
+        val chatInputBarQuality = ChatInputBarQualityChipUpdate.instructionMatches
+            .first { match ->
+                val instruction = match.instruction as? ReferenceInstruction
+                val reference = instruction?.reference as? FieldReference
+                reference?.name == "J0"
+            }
+        ChatInputBarQualityChipUpdate.method.replaceInstruction(
+            chatInputBarQuality.index,
+            "const/4 v0, 0x2",
+        )
+
+        // Some selection callbacks update the chip through a path that does
+        // not pass through the three owners above. Enforce the label at the
+        // quality-chip rendering boundary; this widget is not used by video
+        // sending, whose controls use separate views.
+        QualityChipLabel.method.addInstructions(
+            0,
+            """
+            const/4 v0, 0x2
+            invoke-static {v0}, Lvh1/c;->a(I)Ljava/lang/String;
+            move-result-object p1
+            """.trimIndent(),
+        )
+
         // The send conversion copies MediaItem.q into the outgoing photo
         // model. The picker UI can display Original while this flag remains
         // false, which causes the upload to use HD. Change only that copy;

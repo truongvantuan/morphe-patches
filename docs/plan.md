@@ -7,10 +7,8 @@ under the ignored `analysis/zalo/26.08.01/` directory.
 zStyle is excluded. Video Original quality is also excluded: the pinned APK
 contains `VIDEO` and `VIDEO_HD`, but no `VIDEO_ORIGINAL` path.
 
-## Photo Original quality
+## Photo Original quality validation
 
-- Fix the remaining post-selection quality-chip label, which can still display
-  `HD` even though the outgoing photo is marked Original.
 - Confirm that the current patch does not affect video sending.
 - Complete control testing with identical source photos and compare source and
   received hashes, dimensions, metadata, and encoding.
