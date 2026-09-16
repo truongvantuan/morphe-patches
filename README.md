@@ -16,7 +16,7 @@ Or add the source URL manually in Morphe Manager → Sources.
 
 Contributor docs: [development guide](docs/development.md) (start here),
 [toolchain setup](docs/toolchain.md) (installs), [validation guide](docs/validation.md) (device testing),
-[release process](docs/release.md) (publishing).
+[release process](docs/release.md) (publishing), [analysis workspace](docs/analysis.md) (APK investigation artifacts).
 
 ## 🩹 Patches list
 

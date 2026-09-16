@@ -2,7 +2,7 @@
 
 This roadmap is scoped to Zalo Android APK `26.08.01` (version code
 `260801903`). APKs, smali, logs, screenshots, and generated analysis files stay
-under the ignored `analysis/zalo-26.08.01/` directory.
+under the ignored `analysis/zalo/26.08.01/` directory.
 
 zStyle is excluded. Video Original quality is also excluded: the pinned APK
 contains `VIDEO` and `VIDEO_HD`, but no `VIDEO_ORIGINAL` path.
@@ -21,7 +21,7 @@ contains `VIDEO` and `VIDEO_HD`, but no `VIDEO_ORIGINAL` path.
 
 Before implementing any item, record the exact smali gate, callers, local data
 flow, server dependencies, narrow proposed change, and regression risks in
-`analysis/zalo-26.08.01/notes/`. Classify each result as **ready to implement**,
+`analysis/zalo/26.08.01/notes/`. Classify each result as **ready to implement**,
 **needs runtime proof**, or **server-dependent**. Do not globally spoof a paid
 account or mutate HTTP traffic.
 

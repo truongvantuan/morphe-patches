@@ -17,11 +17,13 @@ RECON → DECOMPILE → HUNT → WRITE → TEST
 | Write | How to bypass it? | `Fingerprints.kt` + `*Patch.kt` under `patches/src/main/kotlin/com/zeldrisho/patches/<app>/` |
 | Test | Does it match? | `./gradlew buildAndroid`, then apply the `.mpp` in Morphe |
 
-Analysis work lives in this repo's **gitignored `analysis/` scratch workspace**,
-for example `analysis/<app>/` with `apk/`, `decompiled/`, `smali/`, and `notes/`.
+Analysis work lives in this repo's **gitignored `analysis/` scratch workspace**.
+Use the canonical `analysis/<app>/<version>/` layout documented in
+[analysis.md](analysis.md), with `apk/`, `decoded/`, `decompiled/`, `smali/`,
+`mapping/`, `notes/`, and `runs/` used for their respective artifact types.
 Never commit analysis inputs or outputs. In the commands below, `<analysis>`
-means this repository's `analysis/` directory (use its absolute path or run
-relative paths from the repo root).
+means this repository's `analysis/<app>/<version>/` directory (use its absolute
+path or run relative paths from the repo root).
 
 ## Tools
 
