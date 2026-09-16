@@ -27,7 +27,7 @@ val keepZaloMediaAccessiblePatch = bytecodePatch(
             .single { match ->
                 val inst = match.instruction
                 inst is com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction &&
-                (inst.reference as? com.android.tools.smali.dexlib2.iface.reference.FieldReference)?.name == "BIG_FILE_EXPIRED"
+                    (inst.reference as? com.android.tools.smali.dexlib2.iface.reference.FieldReference)?.name == "BIG_FILE_EXPIRED"
             }
         val inst = expiredLoad.instruction as com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
         val fieldRef = inst.reference as com.android.tools.smali.dexlib2.iface.reference.FieldReference
