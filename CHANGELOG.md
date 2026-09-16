@@ -4,7 +4,7 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
-## [1.4.1](https://github.com/truongvantuan/morphe-patches/compare/v1.3.9...v1.4.1) (2026-09-16)
+## [1.4.1](https://github.com/truongvantuan/morphe-patches/compare/v1.4.0...v1.4.1) (2026-09-16)
 ### ✨ New Features
 * **Zalo:** Enable original photo quality feature merged from upstream.
 
