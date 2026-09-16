@@ -27,6 +27,22 @@ internal object SelectedMediaQuality : Fingerprint(
     filters = listOf(string("LAST_SELECTION_MEDIA_QUALITY_")),
 )
 
+internal object OriginalMediaQualityEnabled : Fingerprint(
+    definingClass = "Luh1/u;",
+    name = "b",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.STATIC),
+    returnType = "Z",
+    parameters = emptyList(),
+)
+
+internal object OriginalMediaQualityEntitled : Fingerprint(
+    definingClass = "Luh1/u;",
+    name = "f",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.STATIC),
+    returnType = "Z",
+    parameters = emptyList(),
+)
+
 internal object OriginalMediaQualityAvailable : Fingerprint(
     definingClass = "Luh1/u;",
     name = "e",

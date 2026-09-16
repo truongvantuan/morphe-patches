@@ -4,6 +4,9 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+### 🐛 Bug Fixes
+* **Zalo - Prefer original photo quality:** Bypasses the client-side entitlement gate so manually selecting Original quality no longer opens the Z Cloud purchase prompt on `26.08.01`.
+
 ## [1.4.0](https://github.com/zeldrisho/morphe-patches/compare/v1.3.0...v1.4.0) (2026-09-15)
 
 ### ✨ New Features

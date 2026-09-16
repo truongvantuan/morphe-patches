@@ -23,6 +23,26 @@ val sendZaloOriginalMediaPatch = bytecodePatch(
             """.trimIndent(),
         )
 
+        // The picker checks these helpers directly before it calls e(). In
+        // 26.08.01, f() is the account/config entitlement check that sends a
+        // non-entitled selection into the Z Cloud purchase flow. Patching only
+        // e() makes the option visible but still leaves that flow reachable.
+        OriginalMediaQualityEnabled.method.addInstructions(
+            0,
+            """
+            const/4 v0, 0x1
+            return v0
+            """.trimIndent(),
+        )
+
+        OriginalMediaQualityEntitled.method.addInstructions(
+            0,
+            """
+            const/4 v0, 0x1
+            return v0
+            """.trimIndent(),
+        )
+
         OriginalMediaQualityAvailable.method.addInstructions(
             0,
             """
