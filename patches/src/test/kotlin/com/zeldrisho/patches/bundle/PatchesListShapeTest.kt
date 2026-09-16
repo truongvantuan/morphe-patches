@@ -37,8 +37,7 @@ class PatchesListShapeTest {
 
     @Test fun zaloBundleShape() {
         val json = listJson()
-        for (name in listOf("Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Business Box", "Keep expired media accessible", "Remove AD_ID permission", "Change Zalo app name", "Change Zalo package name", "microG Drive support", "Hide conversation list ads", "Hide Newsfeed ads")) {
-                "Prefer original photo quality",
+        for (name in listOf("Bypass native startup tamper check", "Disable ads", "Disable sponsored placements", "Filter promo notifications", "Hide Business Box", "Keep expired media accessible", "Prefer original photo quality", "Remove AD_ID permission", "Change Zalo app name", "Change Zalo package name", "microG Drive support", "Hide conversation list ads", "Hide Newsfeed ads")) {
             assertTrue(json.contains("\"name\": \"$name\""), "missing patch: $name")
         }
         assertTrue(json.contains("com.zing.zalo"), "missing Zalo package group")

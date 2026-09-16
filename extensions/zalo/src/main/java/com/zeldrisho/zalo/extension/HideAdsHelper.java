@@ -8,7 +8,8 @@ public class HideAdsHelper {
     if (view == null || profileObj == null) return;
     try {
       String viewClassName = view.getClass().getName();
-      if (viewClassName.endsWith("PromotedModuleView") || viewClassName.endsWith("MediaBoxModuleView")) {
+      if (viewClassName.endsWith("PromotedModuleView")
+          || viewClassName.endsWith("MediaBoxModuleView")) {
         forceHide(view);
         return;
       }
