@@ -25,7 +25,11 @@ val hideConversationAdsPatch = bytecodePatch(
 
     execute {
         classDefForEach { classDef ->
-            if (classDef.type == "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;") {
+            val viewType = classDef.type
+            if (viewType == "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;" ||
+                viewType == "Lcom/zing/zalo/ui/moduleview/message/PromotedModuleView;" ||
+                viewType == "Lcom/zing/zalo/ui/moduleview/message/MediaBoxModuleView;"
+            ) {
                 val mutableClass = mutableClassDefBy(classDef)
 
                 val bindMethod = mutableClass.methods.firstOrNull {
@@ -33,7 +37,8 @@ val hideConversationAdsPatch = bytecodePatch(
                 }
 
                 if (bindMethod != null) {
-                    val injection = """
+                    val injection = if (viewType == "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;") {
+                        """
                         # p1 is Lr00/c0;
                         if-eqz p1, :skip_hide_ads_rv
 
@@ -45,7 +50,12 @@ val hideConversationAdsPatch = bytecodePatch(
                         invoke-static { p0, v0 }, Lcom/zeldrisho/zalo/extension/HideAdsHelper;->hideIfAd(Landroid/view/View;Ljava/lang/Object;)V
 
                         :skip_hide_ads_rv
-                    """.trimIndent()
+                        """.trimIndent()
+                    } else {
+                        """
+                        invoke-static { p0 }, Lcom/zeldrisho/zalo/extension/HideAdsHelper;->forceHide(Landroid/view/View;)V
+                        """.trimIndent()
+                    }
 
                     bindMethod.addInstructions(0, injection)
                 }
