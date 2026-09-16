@@ -4,6 +4,10 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
+## [1.3.9](https://github.com/truongvantuan/morphe-patches/compare/v1.3.8...v1.3.9) (2026-09-16)
+### 🐛 Bug Fixes
+* **CI:** Fix GitHub Actions failing due to deprecated Android SDK `tools` package.
+
 ## [1.3.8](https://github.com/truongvantuan/morphe-patches/compare/v1.3.7...v1.3.8) (2026-09-16)
 ### 🐛 Bug Fixes
 * **Zalo:** Hide PromotedModuleView to completely block SenTia School and other sponsored ads from the conversation list on Zalo 26.08.02.
