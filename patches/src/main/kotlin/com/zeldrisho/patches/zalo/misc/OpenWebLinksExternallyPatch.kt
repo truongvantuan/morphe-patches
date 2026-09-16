@@ -8,7 +8,7 @@ import app.morphe.patcher.patch.bytecodePatch
 import com.android.tools.smali.dexlib2.AccessFlags
 import com.zeldrisho.patches.shared.Constants.ZALO_PACKAGE
 
-object OpenWebLinksExternallyFingerprint : Fingerprint(
+private object OpenWebLinksExternallyFingerprint : Fingerprint(
     definingClass = "Lcom/zing/zalo/ui/zviews/vt;",
     name = "k",
     returnType = "V",
