@@ -7,6 +7,16 @@ under the ignored `analysis/zalo/26.08.01/` directory.
 zStyle is excluded. Video Original quality is also excluded: the pinned APK
 contains `VIDEO` and `VIDEO_HD`, but no `VIDEO_ORIGINAL` path.
 
+## Zalo 26.08 requested features
+
+- Runtime-test username friend search and confirm persistence and discovery from
+  a second account.
+- Runtime-test the trusted-device patch with server responses above one; record
+  whether additional logins are accepted. The patch only removes a local UI
+  clamp and cannot bypass server enforcement.
+- Keep muted-chat count and asymmetric online/seen privacy classified as
+  server-dependent unless runtime evidence identifies a client-side gate.
+
 ## Photo Original quality validation
 
 - Confirm that the current patch does not affect video sending.
