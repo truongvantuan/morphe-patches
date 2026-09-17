@@ -107,38 +107,8 @@ Apply the evidence and classification requirements above to every candidate.
 
 Use patch-time fingerprints and app-specific extension code where needed; do
 not port LSPosed/root plumbing or remote symbol catalogs wholesale. Preserve
-license notices if reusing source. Start with external links, navigation/cleanup,
-typing suppression, seen acknowledgements, then native backup scheduling.
-
-### P1: Open content links externally
-
-- Investigate `xposed/features/WebLinkExternalizeFeature.java` and
-  `WebLinkExternalizeGate.java` for ordinary HTTP(S) content links.
-- Preserve mini-apps, official-account H5, authentication, payment flows, and
-  non-web deep links; verify safe fallback when no external handler exists.
-
-### P1: Navigation cleanup
-
-- Investigate `xposed/features/BottomTabsFeature.java` for independent
-  Discovery/Timeline hiding, preserving Groups, and starting on Messages.
-- Validate tab indices, restored navigation, badges, back navigation, and deep
-  links rather than merely hiding tab views.
-
-### P1: Inbox and Me-screen cleanup
-
-- Investigate `xposed/features/InboxFeature.java`, `MeCleanupFeature.java`, and
-  `ZcloudBannerFeature.java` for Media Box, the zCloud promotion banner, QR
-  wallet, and the zBusiness service entry.
-- Keep backup/settings access usable and distinguish cosmetic hiding from
-  disabling services. Avoid duplicating the existing Hide Business Box patch.
-- Keep zStyle excluded under the current roadmap.
-
-### P1: Suppress outbound typing
-
-- Investigate the dedicated typing-send path in
-  `xposed/features/StatusPrivacyFeature.java`; do not disable general transport.
-- Test one-to-one and group chats with a second account while preserving normal
-  message delivery and incoming status rendering.
+license notices if reusing source. Continue with seen acknowledgements,
+then native backup scheduling.
 
 ### P1: Outbound seen acknowledgements
 
@@ -220,11 +190,6 @@ requirements above and preserve applicable notices before reusing source.
 
 ### Strengthen existing P1 investigations first
 
-- **External links:** use the parsed-host and JVM-test separation in
-  `extensions/extension/src/main/java/app/template/extension/extension/AmazonUrls.java`
-  (relative to the checkout root) as a reference, not its Amazon domain list.
-  Test lookalike domains, userinfo, malformed URLs, non-web schemes, shorteners,
-  authentication/payment exceptions, and missing external handlers.
 - **Photo Original:** use `messenger/media/DisableMediaTranscodingPatch.kt` as
   a lead to trace selection, resizing/transcoding, upload, and received bytes.
   Establish whether selecting Original still enters a conversion path. Keep
@@ -273,10 +238,6 @@ license notices before reusing source.
 
 ### Strengthen existing investigations
 
-- **P1 external links:** investigate an existing native Custom Tabs launcher using
-  `googlenews/customtabs/EnableCustomTabsPatch.kt` as a lead. Preserve actual
-  browser-capability checks and fallback rather than copying upstream's forced
-  supported-browser result. Retain authentication/payment and mini-app exceptions.
 - **Telemetry coverage:** use
   `camscanner/misc/telemetry/DisableTelemetryPatch.kt` and
   `soundcloud/misc/telemetry/DisableTelemetryPatch.kt` to compare collection,
