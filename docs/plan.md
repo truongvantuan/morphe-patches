@@ -6,7 +6,7 @@ under the ignored `analysis/zalo/26.08.01/` directory.
 
 Cross-app structure, patch safety, tests, tooling, release safeguards, and
 documentation work are tracked in the [repository maintenance plan](maintenance.md),
-including the comparison with Doom's Morphe Patches.
+including the comparisons with Doom's and Hoodles' Morphe Patches.
 
 zStyle is excluded. Video Original quality is also excluded: the pinned APK
 contains `VIDEO` and `VIDEO_HD`, but no `VIDEO_ORIGINAL` path.
@@ -261,6 +261,54 @@ requirements above and preserve applicable notices before reusing source.
   a concrete, independently verified need.
 - Unrelated app ports require a separate backlog, not expansion of this
   Zalo-scoped roadmap.
+
+## Candidates from Hoodles' Morphe Patches
+
+Reference checkout: `~/Projects/morphe-patches-hoodles/`, commit `f7a88fc`
+(`v1.44.0`). Paths below are relative to
+`patches/src/main/kotlin/hoodles/morphe/patches/`. No direct Zalo or Threads
+patches were found; these are investigation leads, not compatible implementations.
+Apply the evidence and classification requirements above and preserve applicable
+license notices before reusing source.
+
+### Strengthen existing investigations
+
+- **P1 external links:** investigate an existing native Custom Tabs launcher using
+  `googlenews/customtabs/EnableCustomTabsPatch.kt` as a lead. Preserve actual
+  browser-capability checks and fallback rather than copying upstream's forced
+  supported-browser result. Retain authentication/payment and mini-app exceptions.
+- **Telemetry coverage:** use
+  `camscanner/misc/telemetry/DisableTelemetryPatch.kt` and
+  `soundcloud/misc/telemetry/DisableTelemetryPatch.kt` to compare collection,
+  queued events, and dispatch against our analytics DAO and Crashlytics coverage.
+  Add only proven gaps; do not disable a generic message handler or transport.
+
+### P2: Native video playback-speed controls
+
+- Investigate `primevideo/speed/EnableSpeedPatch.kt`, which enables existing
+  experimental controls rather than implementing a player.
+- Trace whether Zalo has equivalent local controls and player support; preserve
+  default speed, seeking, audio sync, and lifecycle behavior.
+- Exclude calls and live playback initially. Verify normal playback and speed
+  changes against an unmodified control before claiming support.
+
+### P3: Optional true-black dark theme
+
+- Investigate `github/misc/theme/AmoledPatch.kt` and
+  `soundcloud/misc/theme/AmoledPatch.kt` for resource and runtime-color approaches,
+  not their app-specific parameter positions or resource names.
+- Scope changes to the existing dark theme and keep the option default-off.
+  Validate light mode, contrast, dialogs, system bars, and theme switching.
+- This is local appearance only, not zStyle or a theme entitlement unlock.
+
+### Boundaries
+
+- Do not import generic premium/RevenueCat spoofing or broad MicroG rewrites;
+  these are not evidence of a Zalo entitlement or Drive OAuth fix.
+- Pairip, native, and Hermes infrastructure require a demonstrated consumer;
+  unrelated app ports remain outside this roadmap.
+- Signing-identity qualification and other engineering ideas belong in the
+  [repository maintenance plan](maintenance.md#ideas-from-hoodles-to-adapt).
 
 ## Deferred validation
 
