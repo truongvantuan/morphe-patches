@@ -5,6 +5,7 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 ## Unreleased
 
 ### 🐛 Bug Fixes
+* **Zalo - Safer optional patches:** Keeps username friend search and additional logged-in devices disabled by default, with warnings that fingerprint or server validation is incomplete.
 * **Zalo - Prefer original photo quality:** Enables Original-quality photo sending by default, bypasses the client-side entitlement gate, and keeps the picker send-mode label consistent on Zalo `26.08.01`; server limits and remote media availability are unchanged.
 
 ## [1.4.0](https://github.com/zeldrisho/morphe-patches/compare/v1.3.0...v1.4.0) (2026-09-15)

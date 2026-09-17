@@ -45,10 +45,10 @@ class PatchesListShapeTest {
     }
 
     /**
-     * Verify that exactly 16 patches are present with no leftover template scaffolding.
+     * Verify that exactly 20 patches are present with no leftover template scaffolding.
      */
     @Test fun patchCountMatchesSources() {
-        // Exactly 16 patches (4 Threads + 12 Zalo) — template scaffolding was removed,
+        // Exactly 20 patches (4 Threads + 16 Zalo) — template scaffolding was removed,
         // so any extra entry (e.g. a resurrected "Example Patch") fails loudly.
         // Note: "name" also appears on compatiblePackages entries ("Threads", "Zalo"),
         // so only top-level patch names are counted (6-space indent in output).
@@ -56,6 +56,7 @@ class PatchesListShapeTest {
         val names = Regex("(?m)^      \"name\": \"(.*?)\"").findAll(json).map { it.groupValues[1] }.toList()
         assertEquals(
             listOf(
+                "Allow more logged-in devices",
                 "Bypass native startup tamper check",
                 "Change Zalo app name",
                 "Change Zalo package name",
@@ -64,6 +65,7 @@ class PatchesListShapeTest {
                 "Disable ads",
                 "Disable sponsored placements",
                 "Disable telemetry and crash reporting",
+                "Enable username friend search",
                 "Filter promo notifications",
                 "Hide Business Box",
                 "Hide ads",
@@ -71,10 +73,12 @@ class PatchesListShapeTest {
                 "Prefer original photo quality",
                 "Remove AD_ID permission",
                 "Remove AD_ID permission",
+                "Remove media backup age limit",
+                "Suppress outbound typing status",
                 "microG Drive support",
             ),
             names.sorted(),
-            "expected exactly 16 patches, found: $names",
+            "expected exactly 20 patches, found: $names",
         )
     }
 

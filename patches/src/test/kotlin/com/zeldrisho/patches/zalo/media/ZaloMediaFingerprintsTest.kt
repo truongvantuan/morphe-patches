@@ -1,10 +1,12 @@
 package com.zeldrisho.patches.zalo.media
 
+import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.PackageMetadata
 import app.morphe.patcher.PatcherConfig
 import app.morphe.patcher.patch.BytecodePatchContext
 import com.android.tools.smali.dexlib2.DexFileFactory
 import com.android.tools.smali.dexlib2.Opcodes
+import com.android.tools.smali.dexlib2.iface.ClassDef
 import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -64,74 +66,54 @@ class ZaloMediaFingerprintsTest {
 
         with(context()) {
             val qualityClass = classes.getValue("Luh1/u;")
-            val fingerprints = listOf(
+            listOf(
                 SelectedMediaQuality to "c",
                 OriginalMediaQualityEnabled to "b",
                 OriginalMediaQualityEntitled to "f",
                 OriginalMediaQualityAvailable to "e",
-            )
-            fingerprints.forEach { (fingerprint, expectedName) ->
-                fingerprint.clearMatch()
-                val matches = fingerprint.matchAll(qualityClass, 1..1)
-                assertEquals(1, matches.size, "${fingerprint::class.simpleName} must match once")
-                assertEquals(expectedName, matches.single().originalMethod.name)
+            ).forEach { (fingerprint, expectedName) ->
+                assertMethod(fingerprint, qualityClass, expectedName)
             }
-
-            QualityPickerArguments.clearMatch()
-            val pickerMatches = QualityPickerArguments.matchAll(
-                classes.getValue("Luh1/b;"),
-                1..1,
-            )
-            assertEquals(1, pickerMatches.size)
-            assertEquals("a", pickerMatches.single().originalMethod.name)
-
-            PickerQualityInitialization.clearMatch()
-            val initializationMatches = PickerQualityInitialization.matchAll(
+            assertMethod(QualityPickerArguments, classes.getValue("Luh1/b;"), "a")
+            assertMethod(
+                PickerQualityInitialization,
                 classes.getValue("Lcom/zing/zalo/ui/picker/mediapicker/MediaPickerView;"),
-                1..1,
+                "b7",
             )
-            assertEquals(1, initializationMatches.size)
-            assertEquals("b7", initializationMatches.single().originalMethod.name)
-
-            PhotoQualityChipUpdate.clearMatch()
-            val chipMatches = PhotoQualityChipUpdate.matchAll(
+            assertMethod(
+                PhotoQualityChipUpdate,
                 classes.getValue("Lcom/zing/zalo/ui/picker/mediapicker/MediaPickerView;"),
-                1..1,
+                "y6",
             )
-            assertEquals(1, chipMatches.size)
-            assertEquals("y6", chipMatches.single().originalMethod.name)
-
-            LandingPageQualityChipUpdate.clearMatch()
-            val landingMatches = LandingPageQualityChipUpdate.matchAll(
+            assertMethod(
+                LandingPageQualityChipUpdate,
                 classes.getValue("Lcom/zing/zalo/ui/picker/landingpage/LandingPageView;"),
-                1..1,
+                "B6",
             )
-            assertEquals(1, landingMatches.size)
-            assertEquals("B6", landingMatches.single().originalMethod.name)
-
-            LandingPageQualityChipInitialization.clearMatch()
-            val landingInitializationMatches = LandingPageQualityChipInitialization.matchAll(
+            assertMethod(
+                LandingPageQualityChipInitialization,
                 classes.getValue("Lcom/zing/zalo/ui/picker/landingpage/LandingPageView;"),
-                1..1,
+                "W4",
             )
-            assertEquals(1, landingInitializationMatches.size)
-            assertEquals("W4", landingInitializationMatches.single().originalMethod.name)
-
-            ChatInputBarQualityChipUpdate.clearMatch()
-            val chatInputBarMatches = ChatInputBarQualityChipUpdate.matchAll(
+            assertMethod(
+                ChatInputBarQualityChipUpdate,
                 classes.getValue("Lcom/zing/zalo/ui/chat/widget/inputbar/ChatInputBar;"),
-                1..1,
+                "r",
             )
-            assertEquals(1, chatInputBarMatches.size)
-            assertEquals("r", chatInputBarMatches.single().originalMethod.name)
-
-            QualityChipLabel.clearMatch()
-            val labelMatches = QualityChipLabel.matchAll(
+            assertMethod(
+                QualityChipLabel,
                 classes.getValue("Lcom/zing/zalo/ui/picker/mediapicker/MediaPickerQualityChip;"),
-                1..1,
+                "setText",
             )
-            assertEquals(1, labelMatches.size)
-            assertEquals("setText", labelMatches.single().originalMethod.name)
+        }
+    }
+
+    private fun assertMethod(fingerprint: Fingerprint, clazz: ClassDef, expectedName: String) {
+        with(context()) {
+            fingerprint.clearMatch()
+            val matches = fingerprint.matchAll(clazz, 1..1)
+            assertEquals(1, matches.size, "${fingerprint::class.simpleName} must match once")
+            assertEquals(expectedName, matches.single().originalMethod.name)
         }
     }
 }

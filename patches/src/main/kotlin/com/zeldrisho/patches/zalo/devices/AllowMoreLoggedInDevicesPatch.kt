@@ -20,8 +20,8 @@ import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
 val allowMoreLoggedInDevicesPatch = bytecodePatch(
     name = "Allow more logged-in devices",
     description = "Preserves Zalo's server-provided trusted-device limits in login history. " +
-        "Server-side device and session limits are unaffected.",
-    default = true,
+        "WARNING: server-side device and session limits are unaffected.",
+    default = false,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
 

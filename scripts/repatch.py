@@ -102,7 +102,11 @@ def main():
         patches = data[0]["patches"]
         selected = os.environ.get("PATCHES", "__DEFAULT__")
         if selected != "__DEFAULT__":
-            aliases = {"Remove AD_ID permission — Zalo": "Remove AD_ID permission"}
+            aliases = {
+                "Remove AD_ID permission — Zalo": "Remove AD_ID permission",
+                "Change app name": "Change Zalo app name",
+                "Change package name": "Change Zalo package name",
+            }
             requested = {
                 aliases.get(x.strip(), x.strip())
                 for x in selected.split(",")

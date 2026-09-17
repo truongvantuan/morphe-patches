@@ -20,8 +20,9 @@ import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
 @Suppress("unused")
 val enableZaloUsernameFriendSearchPatch = bytecodePatch(
     name = "Enable username friend search",
-    description = "Enables the username option under Manage search and friend-request sources.",
-    default = true,
+    description = "Enables the username option under Manage search and friend-request sources. " +
+        "WARNING: the pinned APK fingerprint is currently unavailable; runtime behavior is unvalidated.",
+    default = false,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
 

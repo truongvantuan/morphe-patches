@@ -21,9 +21,9 @@ Contributor docs: [development guide](docs/development.md) (start here),
 ## 🩹 Patches list
 
 <!-- PATCHES_START -->
-> **[v1.4.0](https://github.com/zeldrisho/morphe-patches/releases/tag/v1.4.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;16 patches total
+> **[v1.4.0](https://github.com/zeldrisho/morphe-patches/releases/tag/v1.4.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;20 patches total
 <details>
-<summary>📦 Zalo&nbsp;&nbsp;•&nbsp;&nbsp;12 patches</summary>
+<summary>📦 Zalo&nbsp;&nbsp;•&nbsp;&nbsp;16 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -33,17 +33,21 @@ Contributor docs: [development guide](docs/development.md) (start here),
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
+| Allow more logged-in devices | Preserves Zalo's server-provided trusted-device limits in login history. WARNING: server-side device and session limits are unaffected. |  |
 | Bypass native startup tamper check | Preserves native key initialization and NOPs only the JNI System.exit dispatch in the pinned arm64 26.08.01 build. |  |
 | Change Zalo app name | Changes the name shown for Zalo under the launcher icon. Set the desired name in the patch options. | • App name |
-| Change Zalo package name | Changes Zalo's package name so a clone can be installed beside stock Zalo. WARNING: package- and certificate-bound login, push, sharing, deep links, and backup may not work with the renamed application. | • Package name |
+| Change Zalo package name | Changes Zalo's package name so a clone can be installed beside stock Zalo, including package-owned provider references used after login. WARNING: package- and certificate-bound login, push, sharing, deep links, and backup may not work with the renamed application. | • Package name |
 | Disable ads | Disables Zalo offline/Google ad networks (forces the Adtima offline gates closed, always drops admob/dfp/ima, and reports limit-ad-tracking opted-out). Sponsored Story/community placements need the companion patch. |  |
 | Disable sponsored placements | Forces Zalo Story/community ad-enable flags to off at their config reads (normal content path kept). Server-stitched or OA-message promos may remain. |  |
 | Disable telemetry and crash reporting | Stops Zalo's first-party analytics records and diagnostic crash data by suppressing its Room analytics writes, Firebase Crashlytics logs/keys, and native crash-handler registration. Messaging, sockets, and database initialization remain intact. |  |
+| Enable username friend search | Enables the username option under Manage search and friend-request sources. WARNING: the pinned APK fingerprint is currently unavailable; runtime behavior is unvalidated. |  |
 | Filter promo notifications | Skips Zalo Timeline/Stories and Zalo Video push notifications (like/comment digests, new feeds/stories, video reminders) in the push dispatcher. Message, call, friend-request and birthday notifications are untouched; reaction/activity pushes on other channels may remain. |  |
 | Hide Business Box | Removes Zalo's Business Box service entry from the main chat list without filtering ordinary conversations or user-initiated Official Account chats. |  |
 | Keep expired media accessible | Keeps locally stored large chat media usable after Zalo's client-side expiry window by bypassing the expired/subscription state. It does not restore missing files or bypass server download authorization. |  |
 | Prefer original photo quality | Enables Zalo's existing original-quality photo path. It does not change picker defaults, server upload limits, account restrictions, or video handling. |  |
 | Remove AD_ID permission | Removes the advertising-id (AD_ID) permissions from Zalo so the device advertising id cannot be read for ad tracking. In-app readers fall back to "unknown"; core messaging is unaffected. |  |
+| Remove media backup age limit | Includes media of any age in Zalo's existing Google Drive backup/restore pipeline. It does not bypass Drive retention or media exclusions. |  |
+| Suppress outbound typing status | Stops Zalo from sending typing indicators. Incoming status rendering and messages remain unchanged. |  |
 | microG Drive support | Adds Zalo launch/provider checks and redirects Google Drive account selection and token binding to microG-RE (app.revanced / app.revanced.android.gms). Initial photo restore and the complete backup/restore cycle were device-validated on Zalo 26.08.01. |  |
 
 </details>
