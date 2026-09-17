@@ -399,7 +399,7 @@
     },
     {
       "name": "Prefer original photo quality",
-      "description": "Enables Zalo's existing original-quality photo path. It does not change picker defaults, server upload limits, account restrictions, or video handling.",
+      "description": "Enables Zalo's existing original-quality photo path by default. It does not change server upload limits, account restrictions, or video handling.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [

@@ -15,6 +15,14 @@ private val PROVIDER_URIS = setOf(
     "content://$ORIGINAL_ZALO_PACKAGE.provider.InternalProvider",
 )
 
+private val packageNameOption = stringOption(
+    key = "packageName",
+    default = "$ORIGINAL_ZALO_PACKAGE.morphe",
+    title = "Package name",
+    description = "The new application package name (for example com.zing.zalo.morphe).",
+    required = true,
+) { isValidZaloPackageName(it) }
+
 private val changeZaloPackageNameResourcesPatch = resourcePatch(
     name = "Change Zalo package name resources",
     description = "Changes Zalo's package name so a clone can be installed beside stock Zalo. " +
@@ -24,13 +32,7 @@ private val changeZaloPackageNameResourcesPatch = resourcePatch(
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
 
-    val packageName by stringOption(
-        key = "packageName",
-        default = "$ORIGINAL_ZALO_PACKAGE.morphe",
-        title = "Package name",
-        description = "The new application package name (for example com.zing.zalo.morphe).",
-        required = true,
-    ) { isValidZaloPackageName(it) }
+    val packageName by packageNameOption()
 
     finalize {
         document("AndroidManifest.xml").use { document ->
@@ -51,16 +53,10 @@ val changeZaloPackageNamePatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO)
     dependsOn(changeZaloPackageNameResourcesPatch)
 
-    val packageName by stringOption(
-        key = "packageName",
-        default = "$ORIGINAL_ZALO_PACKAGE.morphe",
-        title = "Package name",
-        description = "The new application package name (for example com.zing.zalo.morphe).",
-        required = true,
-    ) { isValidZaloPackageName(it) }
+    val packageName by packageNameOption()
 
     execute {
-        var replacementCount = 0
+        val replacementCounts = PROVIDER_URIS.associateWith { 0 }.toMutableMap()
 
         classDefForEach { classDef ->
             val mutableClass = mutableClassDefBy(classDef)
@@ -79,13 +75,14 @@ val changeZaloPackageNamePatch = bytecodePatch(
                     val register = (instruction as OneRegisterInstruction).registerA
                     val replacement = rewriteZaloProviderUri(reference.string, packageName!!)
                     mutableMethod.replaceInstruction(index, "const-string v$register, \"$replacement\"")
-                    replacementCount++
+                    replacementCounts[reference.string] =
+                        replacementCounts.getValue(reference.string) + 1
                 }
             }
         }
 
-        check(replacementCount == PROVIDER_URIS.size) {
-            "Zalo package rename: expected ${PROVIDER_URIS.size} provider URI references, found $replacementCount"
+        check(replacementCounts.values.all { it == 1 }) {
+            "Zalo package rename: expected one reference per provider URI, found $replacementCounts"
         }
     }
 }

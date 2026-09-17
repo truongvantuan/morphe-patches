@@ -11,8 +11,8 @@ import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
 @Suppress("unused")
 val sendZaloOriginalMediaPatch = bytecodePatch(
     name = "Prefer original photo quality",
-    description = "Enables Zalo's existing original-quality photo path. " +
-        "It does not change picker defaults, server upload limits, account restrictions, or video handling.",
+    description = "Enables Zalo's existing original-quality photo path by default. " +
+        "It does not change server upload limits, account restrictions, or video handling.",
     default = true,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
