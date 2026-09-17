@@ -4,6 +4,10 @@ This roadmap is scoped to Zalo Android APK `26.08.01` (version code
 `260801903`). APKs, smali, logs, screenshots, and generated analysis files stay
 under the ignored `analysis/zalo/26.08.01/` directory.
 
+Cross-app structure, patch safety, tests, tooling, release safeguards, and
+documentation work are tracked in the [repository maintenance plan](maintenance.md),
+including the comparison with Doom's Morphe Patches.
+
 zStyle is excluded. Video Original quality is also excluded: the pinned APK
 contains `VIDEO` and `VIDEO_HD`, but no `VIDEO_ORIGINAL` path.
 
@@ -204,6 +208,59 @@ typing suppression, seen acknowledgements, then native backup scheduling.
   our current patches; add only proven coverage gaps, not duplicate features.
 - Preserve chat, calls, alerts, and other non-promotional behavior. Keep the
   existing promotional-filter device validation below as a release requirement.
+
+## Candidates from Doom's Morphe Patches
+
+Reference checkout: `~/Projects/morphe-patches-doom/`, commit `51561b0`
+(`v1.22.0`). Source paths below are relative to
+`patches/src/main/kotlin/app/template/patches/` unless stated otherwise.
+No direct Zalo or Threads patches were found; these are cross-app investigation
+leads, not verified compatibility. Apply the evidence and classification
+requirements above and preserve applicable notices before reusing source.
+
+### Strengthen existing P1 investigations first
+
+- **External links:** use the parsed-host and JVM-test separation in
+  `extensions/extension/src/main/java/app/template/extension/extension/AmazonUrls.java`
+  (relative to the checkout root) as a reference, not its Amazon domain list.
+  Test lookalike domains, userinfo, malformed URLs, non-web schemes, shorteners,
+  authentication/payment exceptions, and missing external handlers.
+- **Photo Original:** use `messenger/media/DisableMediaTranscodingPatch.kt` as
+  a lead to trace selection, resizing/transcoding, upload, and received bytes.
+  Establish whether selecting Original still enters a conversion path. Keep
+  Video Original excluded; a Messenger implementation proves nothing about Zalo.
+
+### P2: Content autoplay and search telemetry
+
+- Investigate content-WebView autoplay using
+  `amazon/disableautoplay/DisableVideoAutoplayPatch.kt`. Trace native
+  Timeline/Video players separately; preserve tap-to-play, calls, and explicit
+  media previews.
+- Compare search keypress/focus events against our existing telemetry coverage,
+  using `amazon/nosuggesttrack/DisableSearchSuggestionsTrackingPatch.kt` as a
+  lead. Add only proven gaps and preserve suggestions and actual searches.
+
+### P3: Optional capture controls and chat bubbles
+
+- Establish whether Zalo has capture restrictions and outbound capture events
+  before considering `messenger/privacy/AllowScreenCapturePatch.kt` and
+  `BlockScreenshotDetectionPatch.kt`. Treat capture permission and notification
+  suppression as separate behaviors; keep options default-off, warn about
+  sensitive-content exposure, and verify remote effects with a second account.
+  Do not globally clear security flags.
+- Investigate existing native bubble support using
+  `messenger/chatheads/EnableChatHeadsPatch.kt` as a lead. Preserve Android API,
+  permission, and resource requirements; do not force an unsupported device to
+  report eligibility.
+
+### Boundaries
+
+- `shared/firebase/SpoofFirebaseCertHashPatch.kt` is not evidence of a Drive
+  OAuth fix. Its HTTP-header mutation conflicts with this roadmap's constraints.
+- Do not import global paid-account spoofing or shared helper frameworks without
+  a concrete, independently verified need.
+- Unrelated app ports require a separate backlog, not expansion of this
+  Zalo-scoped roadmap.
 
 ## Deferred validation
 
