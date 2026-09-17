@@ -18,6 +18,26 @@ internal object MediaExpiryStatus : Fingerprint(
     ),
 )
 
+/** The backup/restore age cutoff used while building the local media list. */
+internal object MediaBackupAgeFilter : Fingerprint(
+    definingClass = "Lvl/c;",
+    name = "i",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.STATIC),
+    returnType = "V",
+    parameters = listOf("Ljava/util/ArrayList;"),
+    filters = listOf(string("BACKUP_MEDIA_LIMIT_TIME_DAY")),
+)
+
+/** Lazily computes the cutoff used by Drive media restore. */
+internal object MediaRestoreAgeCutoff : Fingerprint(
+    definingClass = "Ldm/d;",
+    name = "n",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "J",
+    parameters = emptyList(),
+    filters = listOf(string("BACKUP_MEDIA_LIMIT_TIME_DAY")),
+)
+
 internal object SelectedMediaQuality : Fingerprint(
     definingClass = "Luh1/u;",
     name = "c",

@@ -15,7 +15,9 @@ contains `VIDEO` and `VIDEO_HD`, but no `VIDEO_ORIGINAL` path.
   whether additional logins are accepted. The patch only removes a local UI
   clamp and cannot bypass server enforcement.
 - Keep muted-chat count and asymmetric online/seen privacy classified as
-  server-dependent unless runtime evidence identifies a client-side gate.
+  server-dependent unless runtime evidence identifies a client-side gate. The
+  outbound seen-acknowledgement investigation below does not establish asymmetric
+  privacy or control online presence.
 
 ## Photo Original quality validation
 
@@ -41,9 +43,9 @@ account or mutate HTTP traffic.
 - Verify persistence after restart and what recipients see when a product is
   shared.
 
-### zCloud local backup/export
+### Local backup/export
 
-- Trace existing backup and phone-transfer machinery, including messages, media
+- Trace phone-transfer and local export machinery, including messages, media
   associations, database snapshots/WAL, schema, and encryption keys.
 - If an extension is needed, export only to a user-selected external location.
 - Prove stock-to-patched migration, patched reinstall, and cross-device restore
@@ -57,14 +59,6 @@ account or mutate HTTP traffic.
 - Separate local cosmetic rendering from server-visible verification.
 - Treat server-issued verification as server-dependent unless contrary evidence
   is established.
-
-### Notifications from strangers
-
-- Trace privacy settings, request routing, push delivery, notification channels,
-  and local suppression independently.
-- Preserve blocks, mutes, spam protections, and promotional filtering.
-- Validate foreground and background delivery with a consenting non-contact
-  account.
 
 ### Change username
 
@@ -81,22 +75,141 @@ account or mutate HTTP traffic.
 - If no client enforcement point exists, classify prevention as server-dependent.
   Optional reminders and backup are separate mitigations.
 
-### Automatic backup and restore
+### Google Drive backup and restore — remaining work
 
-- Trace zCloud and Google Drive independently: scheduling, constraints,
-  authentication, token issuance, upload completion, retention, and restore order.
-- Test retries, backoff, process death, reboot, offline recovery, quota errors,
-  low storage, incompatible versions, duplicate work, and wrong-account restore.
-- Keep the last usable backup and live data on failure; never log tokens or
-  backup contents.
-- Separate text backup from media backup and preserve attachment links.
-- Treat OAuth authorization and zCloud subscription/storage limits as backend
-  boundaries, not local unlocks.
+- Validate the new **Remove media backup age limit** patch against an unmodified
+  control. Confirm that the 365-day filter is removed during both backup and
+  restore; existing Drive objects must still be indexed and downloadable.
+- Trace Google Drive scheduling, Wi-Fi constraints, authentication, token
+  refresh, upload completion, pagination, retention, and restore order.
+- Account for every test photo: excluded by policy, absent from the Drive index,
+  upload failure, download failure, missing message association, or restored.
+- Compare first-login restore with manual restore, including checkpoints,
+  retries, process death, offline recovery, low storage, duplicate work, and
+  wrong-account restore.
+- Preserve live data and the last usable backup after failure; never log tokens
+  or backup contents. Keep videos, files, voice messages, and groups over 100
+  members classified as explicit stock exclusions unless separately proven.
+- Treat Google OAuth/provider authorization as a backend boundary, not a local
+  unlock. zCloud is out of scope for this investigation.
+
+## Candidates from Zalo Patch
+
+Reference implementation: `~/Projects/zalo-patch/`, primarily
+`app/src/main/java/com/ez/zalopatch/`; `~/Projects/com.ez.zalopatch/` contains
+release documentation only. Upstream targets 26.08.02 (`260802903`), not our
+pinned 26.08.01. These are investigation leads, not verified compatible patches.
+Apply the evidence and classification requirements above to every candidate.
+
+Use patch-time fingerprints and app-specific extension code where needed; do
+not port LSPosed/root plumbing or remote symbol catalogs wholesale. Preserve
+license notices if reusing source. Start with external links, navigation/cleanup,
+typing suppression, seen acknowledgements, then native backup scheduling.
+
+### P1: Open content links externally
+
+- Investigate `xposed/features/WebLinkExternalizeFeature.java` and
+  `WebLinkExternalizeGate.java` for ordinary HTTP(S) content links.
+- Preserve mini-apps, official-account H5, authentication, payment flows, and
+  non-web deep links; verify safe fallback when no external handler exists.
+
+### P1: Navigation cleanup
+
+- Investigate `xposed/features/BottomTabsFeature.java` for independent
+  Discovery/Timeline hiding, preserving Groups, and starting on Messages.
+- Validate tab indices, restored navigation, badges, back navigation, and deep
+  links rather than merely hiding tab views.
+
+### P1: Inbox and Me-screen cleanup
+
+- Investigate `xposed/features/InboxFeature.java`, `MeCleanupFeature.java`, and
+  `ZcloudBannerFeature.java` for Media Box, the zCloud promotion banner, QR
+  wallet, and the zBusiness service entry.
+- Keep backup/settings access usable and distinguish cosmetic hiding from
+  disabling services. Avoid duplicating the existing Hide Business Box patch.
+- Keep zStyle excluded under the current roadmap.
+
+### P1: Suppress outbound typing
+
+- Investigate the dedicated typing-send path in
+  `xposed/features/StatusPrivacyFeature.java`; do not disable general transport.
+- Test one-to-one and group chats with a second account while preserving normal
+  message delivery and incoming status rendering.
+
+### P1: Outbound seen acknowledgements
+
+- Use `xposed/features/StatusPrivacyFeature.java` and
+  `StatusPrivacyAckFilter.java` to investigate single/batched seen acknowledgements
+  (upstream type `3`) and the direct seen-send path on the pinned APK.
+- Prove acknowledgement semantics before filtering; preserve delivery
+  acknowledgements and every non-seen batch entry.
+- Validate remote visibility, reconnect/retry, queued acknowledgements, and
+  Android/Web/Desktop interactions. Incoming rendering remaining unchanged is
+  not proof of asymmetric server-visible privacy; online presence is separate.
+
+### P1: Configurable native backup interval
+
+- Extend the automatic backup investigation using
+  `xposed/features/BackupPushFeature.java` and `BackupPushDecision.java`.
+- Trace `SERVER_CONFIG_SYNC_MESSAGE_INTERVAL_*` and investigate 1/3/6/12-hour
+  scheduling while preserving native opt-in, authentication, network, and other
+  backup guards.
+- Verify completed backups and restore round trips, not merely timer execution;
+  measure battery/network impact and account-switch behavior.
+- This is not a zCloud entitlement or OAuth fix.
+
+### P2: Inbox category controls
+
+- Investigate `xposed/features/InboxFeature.java` for chats, groups, official
+  accounts, strangers, and a configurable initial filter.
+- Preserve the original dataset and verify unread counts, refresh, pagination,
+  search, category switching, and correct handling of unknown categories.
+
+### P2: Hide long-press reaction row
+
+- Investigate `xposed/features/ChatFeature.java` to hide only emoji reactions in
+  the message popup, preserving copy, reply, forward, and other actions.
+- Validate different message types, popup layouts, and accessibility.
+
+### P2: Local notification history
+
+- Investigate `NotificationHistoryStore.java` and
+  `xposed/features/NotificationFeature.java` for opt-in local capture with bounded
+  retention, account isolation, explicit export, and deletion.
+- Store sensitive content privately; export only to a user-selected location and
+  test duplicates, redacted notifications, process death, and retention cleanup.
+- Describe this as observed notification history, not complete message history
+  or recovery of unseen/deleted messages.
+
+### P3: One-to-one call audio recording
+
+- Investigate `xposed/features/CallRecordingFeature.java` and its lifecycle helper
+  for the native ZRTC recorder; do not assume group-call or video capture support.
+- Require default-off opt-in, visible recording status, consent requirements,
+  private storage, explicit export/delete, and bounded storage use.
+- Test both audio directions, Bluetooth/headsets, interruptions, overlapping
+  lifecycle events, low storage, process death, and incomplete-file recovery.
+
+### P3: Configurable passcode grace period
+
+- Investigate `xposed/features/PasscodeGraceFeature.java` and the
+  `SaveActiveTimePasscodeSetting` preference path.
+- Keep this security-sensitive option default-off with a clear warning; preserve
+  authentication and avoid changing unrelated preference reads.
+- Validate background/resume, device locking, process restart, and grace expiry.
+
+### Existing patch coverage comparison
+
+- Compare upstream ads, telemetry, AD_ID removal, and promotional filtering with
+  our current patches; add only proven coverage gaps, not duplicate features.
+- Preserve chat, calls, alerts, and other non-promotional behavior. Keep the
+  existing promotional-filter device validation below as a release requirement.
 
 ## Deferred validation
 
-- Validate expired-media behavior in chat and My Cloud, including missing local
-  files, unusable remote URLs, restore, and deleted messages.
+- Validate expired-media behavior in chat, including missing local files,
+  unusable remote URLs, restore, and deleted messages. Confirm whether the
+  existing local expiry patch changes only presentation or also affects access.
 - Validate the existing `SOCIAL_STORY` / `ZALO_VIDEO` notification filter without
   suppressing chat, group activity, friend requests, calls, or alerts.
 - Validate QR login, read/delivery state, message history, media scope, and
