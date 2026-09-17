@@ -1,10 +1,10 @@
 package com.zeldrisho.patches.zalo.privacy
 
 import app.morphe.patcher.Fingerprint
+import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.methodCall
 import app.morphe.patcher.opcode
 import app.morphe.patcher.patch.bytecodePatch
-import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 import com.zeldrisho.patches.shared.bytecode.clearBody
@@ -18,7 +18,7 @@ import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
 val suppressZaloTypingStatusPatch = bytecodePatch(
     name = "Suppress outbound typing status",
     description = "Stops Zalo from sending typing indicators. Incoming status rendering and messages remain unchanged.",
-    default = false,
+    default = true,
 ) {
     compatibleWith(COMPATIBILITY_ZALO)
 

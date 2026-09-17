@@ -2,11 +2,11 @@ package com.zeldrisho.patches.zalo.media
 
 import app.morphe.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.morphe.patcher.patch.bytecodePatch
+import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
-import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod
 import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
 
 /**

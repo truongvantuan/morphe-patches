@@ -13,11 +13,9 @@ contains `VIDEO` and `VIDEO_HD`, but no `VIDEO_ORIGINAL` path.
 
 ## Zalo 26.08 requested features
 
-- Runtime-test username friend search and confirm persistence and discovery from
-  a second account.
-- Runtime-test the trusted-device patch with server responses above one; record
-  whether additional logins are accepted. The patch only removes a local UI
-  clamp and cannot bypass server enforcement.
+- Username friend search and additional logged-in devices were removed from the
+  shipped patch set. Keep these as investigation-only backlog items until a
+  compatible fingerprint and independent runtime/server evidence exist.
 - Keep muted-chat count and asymmetric online/seen privacy classified as
   server-dependent unless runtime evidence identifies a client-side gate. The
   outbound seen-acknowledgement investigation below does not establish asymmetric
