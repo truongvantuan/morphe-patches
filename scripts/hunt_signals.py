@@ -77,6 +77,7 @@ BUCKETS = [
 
 
 def main():
+    """Scan a decompiled source tree and summarize matching signal buckets."""
     p = argparse.ArgumentParser()
     p.add_argument("directory", type=Path)
     p.add_argument("--files", action="store_true")

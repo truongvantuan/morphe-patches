@@ -30,6 +30,7 @@ class ZaloCloneRewriteTest {
         assertFalse(isValidZaloPackageName("com"))
     }
 
+    /** Verifies that only provider URIs owned by Zalo are rewritten. */
     @Test fun rewritesPackageOwnedProviderUrisOnly() {
         assertEquals(
             "content://com.zing.zalo.clone.db.preferencesprovider",

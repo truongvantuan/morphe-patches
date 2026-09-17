@@ -27,6 +27,7 @@ val removeZaloMediaBackupAgeLimitPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO)
 
     execute {
+        /** Replaces the configured media-age result with an unlimited cutoff. */
         fun clearAgeResult(method: MutableMethod) {
             val implementation = method.implementation
                 ?: error("Zalo media age limit: method has no implementation")

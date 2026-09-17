@@ -18,6 +18,7 @@ import kotlin.test.assertTrue
 class ZaloMediaFingerprintsTest {
     @get:Rule val temporary = TemporaryFolder()
 
+    /** Creates an isolated patch context for each fingerprint assertion. */
     private fun context(): BytecodePatchContext {
         val config = PatcherConfig(
             apkFile = temporary.newFile("input.apk"),
@@ -34,6 +35,7 @@ class ZaloMediaFingerprintsTest {
             .newInstance(config, metadata)
     }
 
+    /** Verifies the media-expiry fingerprint against the pinned Zalo APK. */
     @Test
     fun matchesPinnedZaloApk() {
         val path = System.getenv("ZALO_TEST_APK")
@@ -54,6 +56,7 @@ class ZaloMediaFingerprintsTest {
         }
     }
 
+    /** Verifies all original-photo-quality fingerprints against the pinned Zalo APK. */
     @Test
     fun matchesPinnedOriginalPhotoQualityMethods() {
         val path = System.getenv("ZALO_TEST_APK")
@@ -108,6 +111,7 @@ class ZaloMediaFingerprintsTest {
         }
     }
 
+    /** Asserts that a fingerprint resolves to one method with the expected name. */
     private fun assertMethod(fingerprint: Fingerprint, clazz: ClassDef, expectedName: String) {
         with(context()) {
             fingerprint.clearMatch()

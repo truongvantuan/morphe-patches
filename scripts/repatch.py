@@ -19,6 +19,7 @@ def die(msg):
 
 
 def main():
+    """Patch the requested APK or APKM and sign the resulting APK."""
     p = argparse.ArgumentParser()
     p.add_argument("--jar")
     p.add_argument("input")
