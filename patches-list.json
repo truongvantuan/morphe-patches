@@ -571,6 +571,90 @@
         }
       ],
       "options": []
+    },
+    {
+      "name": "Open web links externally",
+      "description": "Forces web links to open in your default browser instead of Zalo's restricted in-app browser.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.08.02",
+              "versionCodes": {
+                "ARM64_V8A": 260802903
+              },
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ],
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "Hide conversation list ads",
+      "description": "Completely hides injected Official Account promos (like SenTia School [AD]) and first-party promotional accounts (Media Box) from the main Messages tab.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.08.02",
+              "versionCodes": {
+                "ARM64_V8A": 260802903
+              },
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ],
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "Hide Newsfeed ads",
+      "description": "Hides sponsored banner and OA promoted-post cards from the Zalo Newsfeed by collapsing them to GONE before the ad content or impression fires.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.zing.zalo",
+          "name": "Zalo",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#0068FF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.08.02",
+              "versionCodes": {
+                "ARM64_V8A": 260802903
+              },
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ],
+          "options": []
+        }
+      ]
     }
   ]
 }
