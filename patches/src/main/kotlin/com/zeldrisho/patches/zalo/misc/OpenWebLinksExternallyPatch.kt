@@ -2,11 +2,8 @@ package com.zeldrisho.patches.zalo.misc
 
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
-import app.morphe.patcher.patch.AppTarget
-import app.morphe.patcher.patch.Compatibility
 import app.morphe.patcher.patch.bytecodePatch
 import com.android.tools.smali.dexlib2.AccessFlags
-import com.zeldrisho.patches.shared.Constants.ZALO_PACKAGE
 
 private object OpenWebLinksExternallyFingerprint : Fingerprint(
     definingClass = "Lcom/zing/zalo/ui/zviews/vt;",
@@ -16,13 +13,11 @@ private object OpenWebLinksExternallyFingerprint : Fingerprint(
     accessFlags = listOf(AccessFlags.STATIC),
 )
 
-val OpenWebLinksExternallyPatch = bytecodePatch(
+val openWebLinksExternallyPatch = bytecodePatch(
     name = "Open web links externally",
     description = "Forces web links to open in your default browser instead of Zalo's restricted in-app browser.",
-    compatibility = Compatibility(
-        targets = setOf(AppTarget(ZALO_PACKAGE, versionCode = 260802903)),
-    ),
 ) {
+    compatibleWith(com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO)
     execute {
         OpenWebLinksExternallyFingerprint.method.addInstructions(
             0,
