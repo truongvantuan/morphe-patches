@@ -1,10 +1,12 @@
 package com.zeldrisho.zalo.extension;
+
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import java.lang.reflect.Method;
+
 public class WebLinkHelper {
   public static boolean tryOpenExternal(Object presenter, String url, Bundle bundle) {
     if (url == null || url.isEmpty()) return false;
@@ -25,6 +27,7 @@ public class WebLinkHelper {
       return false;
     }
   }
+
   private static Context resolveHostContext(Object host) {
     if (host instanceof Context) {
       return (Context) host;
@@ -33,8 +36,7 @@ public class WebLinkHelper {
       Class<?> current = host.getClass();
       while (current != null && current != Object.class) {
         for (Method method : current.getDeclaredMethods()) {
-          if (method.getParameterTypes().length == 0
-              && method.getReturnType() == Context.class) {
+          if (method.getParameterTypes().length == 0 && method.getReturnType() == Context.class) {
             try {
               method.setAccessible(true);
               Object result = method.invoke(host);
