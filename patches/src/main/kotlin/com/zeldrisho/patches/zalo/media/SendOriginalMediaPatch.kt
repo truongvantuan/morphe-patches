@@ -9,13 +9,27 @@ import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
 
 /** Enables Zalo's existing server-supported original-quality photo path. */
 @Suppress("unused")
+private val COMPATIBILITY_ZALO_26_08_01 = app.morphe.patcher.patch.Compatibility(
+    name = "Zalo",
+    packageName = "com.zing.zalo",
+    apkFileType = app.morphe.patcher.patch.ApkFileType.APKM,
+    appIconColor = 0x0068FF,
+    targets = listOf(
+        app.morphe.patcher.patch.AppTarget(
+            version = "26.08.01",
+            versionCodes = emptyMap(),
+            minSdk = 24,
+        )
+    )
+)
+
 val sendZaloOriginalMediaPatch = bytecodePatch(
     name = "Prefer original photo quality",
     description = "Enables Zalo's existing original-quality photo path by default. " +
         "It does not change server upload limits, account restrictions, or video handling.",
-    default = true,
+    default = false,
 ) {
-    compatibleWith(COMPATIBILITY_ZALO)
+    compatibleWith(COMPATIBILITY_ZALO_26_08_01)
 
     execute {
         SelectedMediaQuality.method.addInstructions(
