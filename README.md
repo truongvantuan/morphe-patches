@@ -21,9 +21,9 @@ Contributor docs: [development guide](docs/development.md) (start here),
 ## 🩹 Patches list
 
 <!-- PATCHES_START -->
-> **[v1.5.0](https://github.com/zeldrisho/morphe-patches/releases/tag/v1.5.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;18 patches total
+> **[v1.5.1](https://github.com/truongvantuan/morphe-patches/releases/tag/v1.5.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;21 patches total
 <details>
-<summary>📦 Zalo&nbsp;&nbsp;•&nbsp;&nbsp;14 patches</summary>
+<summary>📦 Zalo&nbsp;&nbsp;•&nbsp;&nbsp;17 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -41,7 +41,10 @@ Contributor docs: [development guide](docs/development.md) (start here),
 | Disable telemetry and crash reporting | Stops Zalo's first-party analytics records and diagnostic crash data by suppressing its Room analytics writes, Firebase Crashlytics logs/keys, and native crash-handler registration. Messaging, sockets, and database initialization remain intact. |  |
 | Filter promo notifications | Skips Zalo Timeline/Stories and Zalo Video push notifications (like/comment digests, new feeds/stories, video reminders) in the push dispatcher. Message, call, friend-request and birthday notifications are untouched; reaction/activity pushes on other channels may remain. |  |
 | Hide Business Box | Removes Zalo's Business Box service entry from the main chat list without filtering ordinary conversations or user-initiated Official Account chats. |  |
+| Hide Newsfeed ads | Hides sponsored banner and OA promoted-post cards from the Zalo Newsfeed by collapsing them to GONE before the ad content or impression fires. |  |
+| Hide conversation list ads | Completely hides injected Official Account promos (like SenTia School [AD]) and first-party promotional accounts (Media Box) from the main Messages tab. |  |
 | Keep expired media accessible | Keeps locally stored large chat media usable after Zalo's client-side expiry window by bypassing the expired/subscription state. It does not restore missing files or bypass server download authorization. |  |
+| Open web links externally | Forces web links to open in your default browser instead of Zalo's restricted in-app browser. |  |
 | Prefer original photo quality | Enables Zalo's existing original-quality photo path by default. It does not change server upload limits, account restrictions, or video handling. |  |
 | Remove AD_ID permission | Removes the advertising-id (AD_ID) permissions from Zalo so the device advertising id cannot be read for ad tracking. In-app readers fall back to "unknown"; core messaging is unaffected. |  |
 | Remove media backup age limit | Includes media of any age in Zalo's existing Google Drive backup/restore pipeline. It does not bypass Drive retention or media exclusions. |  |
