@@ -79,7 +79,7 @@ class PatchesListShapeTest {
                 "microG Drive support",
             ),
             names.sorted(),
-"expected exactly 21 patches, found: $names",
+            "expected exactly 21 patches, found: $names",
         )
     }
 

@@ -13,15 +13,15 @@ private object OpenWebLinksExternallyFingerprint : Fingerprint(
     name = "k",
     returnType = "V",
     parameters = listOf("L", "Ljava/lang/String;", "Landroid/os/Bundle;", "Z", "I", "L"),
-    accessFlags = listOf(AccessFlags.STATIC)
+    accessFlags = listOf(AccessFlags.STATIC),
 )
 
 val OpenWebLinksExternallyPatch = bytecodePatch(
     name = "Open web links externally",
     description = "Forces web links to open in your default browser instead of Zalo's restricted in-app browser.",
     compatibility = Compatibility(
-        targets = setOf(AppTarget(ZALO_PACKAGE, versionCode = 260802903))
-    )
+        targets = setOf(AppTarget(ZALO_PACKAGE, versionCode = 260802903)),
+    ),
 ) {
     execute {
         OpenWebLinksExternallyFingerprint.method.addInstructions(
@@ -32,7 +32,7 @@ val OpenWebLinksExternallyPatch = bytecodePatch(
             if-eqz v0, :continue
             return-void
             :continue
-            """.trimIndent()
+            """.trimIndent(),
         )
     }
 }
