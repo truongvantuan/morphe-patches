@@ -15,7 +15,7 @@ import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
  * transport and incoming typing rendering untouched.
  */
 @Suppress("unused")
-val suppressZaloTypingStatusPatch = bytecodePatch(
+val suppressTypingStatusPatch = bytecodePatch(
     name = "Suppress outbound typing status",
     description = "Stops Zalo from sending typing indicators. Incoming status rendering and messages remain unchanged.",
     default = true,

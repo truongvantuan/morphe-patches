@@ -18,7 +18,7 @@ import com.zeldrisho.patches.zalo.shared.Constants.COMPATIBILITY_ZALO
  * Drive, bypass server retention, or include media explicitly excluded by Zalo.
  */
 @Suppress("unused")
-val removeZaloMediaBackupAgeLimitPatch = bytecodePatch(
+val removeMediaBackupAgeLimitPatch = bytecodePatch(
     name = "Remove media backup age limit",
     description = "Includes media of any age in Zalo's existing Google Drive " +
         "backup/restore pipeline. It does not bypass Drive retention or media exclusions.",
