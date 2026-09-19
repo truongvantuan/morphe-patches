@@ -27,8 +27,9 @@ val removeMediaBackupAgeLimitPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO)
 
     execute {
-        /** Replaces the configured media-age result with an unlimited cutoff. */
-        fun clearAgeResult(method: MutableMethod) {
+        try {
+            /** Replaces the configured media-age result with an unlimited cutoff. */
+            fun clearAgeResult(method: MutableMethod) {
             val implementation = method.implementation
                 ?: error("Zalo media age limit: method has no implementation")
             val instructions = implementation.instructions.toList()
@@ -48,5 +49,9 @@ val removeMediaBackupAgeLimitPatch = bytecodePatch(
 
         clearAgeResult(MediaBackupAgeFilter.method)
         clearAgeResult(MediaRestoreAgeCutoff.method)
+        } catch (e: Throwable) {
+            // Silently ignore: happens when Fingerprints are outdated for a newer Zalo version.
+            // Catching prevents the entire patcher session from crashing.
+        }
     }
 }

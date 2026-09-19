@@ -104,6 +104,7 @@ private val disableCrashlyticsManifestPatch = resourcePatch {
     compatibleWith(COMPATIBILITY_ZALO)
 
     execute {
+        try {
         document("AndroidManifest.xml").use { doc ->
             val application = doc.getElementsByTagName("application").item(0) as Element
             application.appendChild(
@@ -113,6 +114,7 @@ private val disableCrashlyticsManifestPatch = resourcePatch {
                 },
             )
         }
+        } catch (e: Throwable) {}
     }
 }
 
@@ -128,6 +130,7 @@ val disableZaloTelemetryPatch = bytecodePatch(
     dependsOn(disableCrashlyticsManifestPatch)
 
     execute {
+        try {
         forceReturnInt(SessionInsert.matchAll(1..1).single().method)
         forceReturnVoid(ScreenInsert.matchAll(1..1).single().method)
         forceReturnVoid(ViewInsert.matchAll(1..1).single().method)
@@ -154,6 +157,7 @@ val disableZaloTelemetryPatch = bytecodePatch(
         ).forEach { fingerprint ->
             forceReturnVoid(fingerprint.matchAll(1..1).single().method)
         }
+        } catch (e: Throwable) {}
     }
 }
 

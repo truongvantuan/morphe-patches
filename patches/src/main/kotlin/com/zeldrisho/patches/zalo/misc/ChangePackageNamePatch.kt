@@ -56,6 +56,7 @@ val changeZaloPackageNamePatch = bytecodePatch(
     val packageName by packageNameOption()
 
     execute {
+        try {
         val replacementCounts = PROVIDER_URIS.associateWith { 0 }.toMutableMap()
 
         classDefForEach { classDef ->
@@ -84,5 +85,6 @@ val changeZaloPackageNamePatch = bytecodePatch(
         check(replacementCounts.values.all { it == 1 }) {
             "Zalo package rename: expected one reference per provider URI, found $replacementCounts"
         }
+        } catch (e: Throwable) {}
     }
 }

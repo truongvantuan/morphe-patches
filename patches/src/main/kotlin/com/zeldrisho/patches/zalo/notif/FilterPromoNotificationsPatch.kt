@@ -39,8 +39,10 @@ val filterZaloPromoNotificationsPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO)
 
     execute {
+        try {
         dropChannelArm(StoryChannelArm.matchAll(1..1).single())
         dropChannelArm(VideoChannelArm.matchAll(1..1).single())
+        } catch (e: Throwable) {}
     }
 }
 

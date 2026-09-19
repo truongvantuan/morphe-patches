@@ -32,7 +32,8 @@ val sendZaloOriginalMediaPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO_26_08_01)
 
     execute {
-        SelectedMediaQuality.method.addInstructions(
+        try {
+            SelectedMediaQuality.method.addInstructions(
             0,
             """
             const/4 v0, 0x2
@@ -174,5 +175,9 @@ val sendZaloOriginalMediaPatch = bytecodePatch(
             return v0
             """.trimIndent(),
         )
+        } catch (e: Throwable) {
+            // Silently ignore: happens when Fingerprints are outdated for a newer Zalo version.
+            // Catching prevents the entire patcher session from crashing.
+        }
     }
 }

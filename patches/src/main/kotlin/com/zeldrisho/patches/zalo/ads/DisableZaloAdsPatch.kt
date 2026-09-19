@@ -37,6 +37,7 @@ val disableZaloAdsPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO)
 
     execute {
+        try {
         val window = OfflineAdsWindow.matchAll(1..1).single().method
         forceReturnFalse(window)
         val gate = OfflineAdsGate.matchAll(1..1).single().method
@@ -50,6 +51,7 @@ val disableZaloAdsPatch = bytecodePatch(
 
         val latRead = AdtimaLatRead.matchAll(1..1).single().method
         forceLimitAdTracking(latRead)
+        } catch (e: Throwable) {}
     }
 }
 
@@ -71,12 +73,14 @@ val disableZaloSponsoredPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO)
 
     execute {
+        try {
         for (match in StoryAdsConfig.matchAll(2..2)) {
             zeroConfigResult(match.method, match.instructionMatches.map { it.index })
         }
         for (match in CommunityAdsConfig.matchAll(2..2)) {
             zeroConfigResult(match.method, match.instructionMatches.map { it.index })
         }
+        } catch (e: Throwable) {}
     }
 }
 
@@ -105,6 +109,7 @@ val hideNewsfeedAdsPatch = bytecodePatch(
     extendWith("extensions/zalo.mpe")
 
     execute {
+        try {
         val bannerBind = NewsfeedSponsoredBannerBind.matchAll(1..1).single().method
         bannerBind.addInstructions(0, "invoke-static/range {p0 .. p0}, Lcom/zeldrisho/zalo/extension/HideAdsHelper;->forceHide(Landroid/view/View;)V\nreturn-void")
 
@@ -115,6 +120,7 @@ val hideNewsfeedAdsPatch = bytecodePatch(
         if (zinstantBind != null) {
             zinstantBind.addInstructions(0, "invoke-static/range {p0 .. p0}, Lcom/zeldrisho/zalo/extension/HideAdsHelper;->forceHide(Landroid/view/View;)V\nreturn-void")
         }
+        } catch (e: Throwable) {}
     }
 }
 

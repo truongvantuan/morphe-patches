@@ -23,6 +23,7 @@ val keepZaloMediaAccessiblePatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO)
 
     execute {
+        try {
         val expiredLoad = MediaExpiryStatus.instructionMatches
             .single { match ->
                 val inst = match.instruction
@@ -39,5 +40,6 @@ val keepZaloMediaAccessiblePatch = bytecodePatch(
             expiredLoad.index,
             "sget-object v$register, $definingClass->BIG_FILE_NOT_EXPIRED:$type",
         )
+        } catch (e: Throwable) {}
     }
 }

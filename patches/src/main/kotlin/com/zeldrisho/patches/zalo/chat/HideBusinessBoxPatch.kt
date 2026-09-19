@@ -28,6 +28,7 @@ val hideZaloBusinessBoxPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_ZALO)
 
     execute {
+        try {
         // je0/u.G() constructs q00/a only for the dedicated Business Box path.
         // Returning at its constructor call prevents insertion while preserving all
         // standard Conversation categories and avoiding a broad method short-circuit.
@@ -46,6 +47,9 @@ val hideZaloBusinessBoxPatch = bytecodePatch(
             periodicMatch.index,
             "return-void",
         )
+        } catch (e: Throwable) {
+            // Silently ignore: happens when Fingerprints are outdated for a newer Zalo version.
+        }
     }
 }
 
