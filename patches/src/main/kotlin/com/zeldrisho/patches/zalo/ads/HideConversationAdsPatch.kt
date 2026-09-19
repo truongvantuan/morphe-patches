@@ -26,11 +26,13 @@ val hideConversationAdsPatch = bytecodePatch(
     execute {
         classDefForEach { classDef ->
             val viewType = classDef.type
-            if (viewType == "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;" ||
-                viewType == "Lcom/zing/zalo/ui/moduleview/message/PromotedModuleView;" ||
-                viewType == "Lcom/zing/zalo/ui/moduleview/message/MediaBoxModuleView;" ||
-                viewType == "Lcom/zing/zalo/ui/moduleview/message/BizBoxModuleView;"
-            ) {
+            val targetedViews = setOf(
+                "Lcom/zing/zalo/ui/moduleview/message/NormalMsgModuleView;",
+                "Lcom/zing/zalo/ui/moduleview/message/PromotedModuleView;",
+                "Lcom/zing/zalo/ui/moduleview/message/MediaBoxModuleView;",
+                "Lcom/zing/zalo/ui/moduleview/message/BizBoxModuleView;"
+            )
+            if (viewType in targetedViews) {
                 val mutableClass = mutableClassDefBy(classDef)
 
                 val bindMethod = mutableClass.methods.firstOrNull {
