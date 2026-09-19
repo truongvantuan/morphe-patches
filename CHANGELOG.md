@@ -4,7 +4,7 @@ Release and changelog policy: [docs/release.md](docs/release.md#changelog-policy
 
 ## Unreleased
 
-## [1.5.6](https://github.com/truongvantuan/morphe-patches/compare/v1.4.1...v1.5.6) (2026-09-18)
+## [1.5.7](https://github.com/truongvantuan/morphe-patches/compare/v1.4.1...v1.5.7) (2026-09-18)
 ### ✨ New Features
 * **Zalo:** Open web links externally (force links to open in your default browser instead of Zalo's restricted in-app browser).
 * **Zalo:** Remove media backup age limit (upstream).

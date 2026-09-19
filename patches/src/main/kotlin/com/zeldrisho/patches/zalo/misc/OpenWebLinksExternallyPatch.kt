@@ -13,10 +13,10 @@ val openWebLinksExternallyPatch = bytecodePatch(
         classDefForEach { classDef ->
             if (classDef.type == "Lcom/zing/zalo/ui/zviews/vt;") {
                 val mutableClass = mutableClassDefBy(classDef)
-                
+
                 val bindMethod = mutableClass.methods.firstOrNull {
-                    it.name == "k" && 
-                    it.returnType == "V" && 
+                    it.name == "k" &&
+                    it.returnType == "V" &&
                     AccessFlags.STATIC.isSet(it.accessFlags) &&
                     it.parameterTypes.size == 6 &&
                     it.parameterTypes[1] == "Ljava/lang/String;" &&

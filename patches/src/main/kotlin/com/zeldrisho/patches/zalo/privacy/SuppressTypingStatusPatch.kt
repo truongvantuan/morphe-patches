@@ -23,15 +23,15 @@ val suppressTypingStatusPatch = bytecodePatch(
         classDefForEach { classDef ->
             if (classDef.type == "Lm00/q;" || classDef.type == "Ll00/r;") {
                 val mutableClass = mutableClassDefBy(classDef)
-                
+
                 val method = mutableClass.methods.firstOrNull {
-                    it.name == "S" && 
-                    it.returnType == "V" && 
+                    it.name == "S" &&
+                    it.returnType == "V" &&
                     AccessFlags.PUBLIC.isSet(it.accessFlags) &&
                     AccessFlags.FINAL.isSet(it.accessFlags) &&
                     it.parameterTypes == listOf("Ljava/lang/String;", "I", "Z", "Z")
                 }
-                
+
                 if (method != null) {
                     method.clearBody()
                     method.addInstructions(0, "return-void")

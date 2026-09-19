@@ -14,19 +14,19 @@ public class HideAdsHelper {
         forceHide(view);
         return;
       }
-      
+
       boolean isAd = false;
       Class<?> wrapperClass = itemWrapper.getClass();
 
       // Check if it's an ad from Zalo-specific item fields (usually boolean flags)
       // T0 was the old flag in ContactProfile.
-      
+
       // Let's recursively search all objects in the wrapper fields to see if they are ads.
       // We will look for a string "SenTia School" or "[AD]" or check boolean fields.
-      
+
       // Instead of complex reflection, let's just check the string fields directly on the View or Wrapper!
       // But wait, the view hasn't fully rendered text yet.
-      
+
       // Let's dump the wrapper fields
       Object profileObj = null;
       try {
@@ -38,7 +38,7 @@ public class HideAdsHelper {
               profileObj = wrapperClass.getField("c").get(itemWrapper);
           } catch (Exception ignored2) {}
       }
-      
+
       if (profileObj == null) profileObj = itemWrapper; // fallback
 
       Class<?> profileClass = profileObj.getClass();

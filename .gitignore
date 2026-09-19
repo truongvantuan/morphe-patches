@@ -80,3 +80,4 @@ analysis/
 *.jks
 *.p12
 *.pfx
+captures/
