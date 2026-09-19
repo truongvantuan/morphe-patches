@@ -4,42 +4,65 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class HideAdsHelper {
-  public static void hideIfAd(View view, Object profileObj) {
-    if (view == null || profileObj == null) return;
+  public static void hideIfAd(View view, Object itemWrapper) {
+    if (view == null || itemWrapper == null) return;
     try {
       String viewClassName = view.getClass().getName();
       if (viewClassName.endsWith("PromotedModuleView")
-          || viewClassName.endsWith("MediaBoxModuleView")) {
+          || viewClassName.endsWith("MediaBoxModuleView")
+          || viewClassName.endsWith("BizBoxModuleView")) {
         forceHide(view);
         return;
       }
+      
       boolean isAd = false;
+      Class<?> wrapperClass = itemWrapper.getClass();
+
+      // Check if it's an ad from Zalo-specific item fields (usually boolean flags)
+      // T0 was the old flag in ContactProfile.
+      
+      // Let's recursively search all objects in the wrapper fields to see if they are ads.
+      // We will look for a string "SenTia School" or "[AD]" or check boolean fields.
+      
+      // Instead of complex reflection, let's just check the string fields directly on the View or Wrapper!
+      // But wait, the view hasn't fully rendered text yet.
+      
+      // Let's dump the wrapper fields
+      Object profileObj = null;
+      try {
+          // In 26.08.02, field 'e' holds Conversation
+          profileObj = wrapperClass.getField("e").get(itemWrapper);
+      } catch (Exception ignored) {
+          try {
+              // Older version, field 'c' holds ContactProfile
+              profileObj = wrapperClass.getField("c").get(itemWrapper);
+          } catch (Exception ignored2) {}
+      }
+      
+      if (profileObj == null) profileObj = itemWrapper; // fallback
+
       Class<?> profileClass = profileObj.getClass();
 
-      // Check T0 boolean (OA ad promo flag)
+      // Old T0 flag
       try {
-        java.lang.reflect.Field t0Field = profileClass.getField("T0");
-        isAd = t0Field.getBoolean(profileObj);
-      } catch (Exception e) {
-        // Ignore if field is obfuscated or missing
-      }
+        isAd = profileClass.getField("T0").getBoolean(profileObj);
+      } catch (Exception e) {}
 
-      // Check for Media Box by name or known string fields
-      if (!isAd) {
-        // Try standard fields that might hold the display name
-        String[] possibleNameFields = {"d", "S0", "c", "b", "I0"};
-        for (String fieldName : possibleNameFields) {
-          try {
-            java.lang.reflect.Field nameField = profileClass.getField(fieldName);
-            Object name = nameField.get(profileObj);
-            if (name instanceof String && "Media Box".equals(name)) {
-              isAd = true;
-              break;
-            }
-          } catch (Exception e) {
-            // Ignore
+      // New Conversation might have different fields for ads.
+      // But ads usually have something like "isPromoted" or a specific category.
+      // Another way: Search for string fields containing "[AD]" or "Media Box"
+      java.lang.reflect.Field[] fields = profileClass.getDeclaredFields();
+      for (java.lang.reflect.Field f : fields) {
+          if (f.getType() == String.class) {
+              f.setAccessible(true);
+              String val = (String) f.get(profileObj);
+              if (val != null) {
+                  if (val.contains("[AD]") || val.equals("Media Box") || val.contains("SenTia")) {
+                      isAd = true;
+                      break;
+                  }
+              }
           }
-        }
       }
 
       if (isAd) {
@@ -48,7 +71,6 @@ public class HideAdsHelper {
         restore(view);
       }
     } catch (Exception e) {
-      // Failsafe
     }
   }
 
@@ -58,12 +80,11 @@ public class HideAdsHelper {
       view.setVisibility(View.GONE);
       ViewGroup.LayoutParams params = view.getLayoutParams();
       if (params != null) {
-        params.height = 1; // 1px height to avoid division by zero or recycling bugs
+        params.height = 1;
         params.width = 0;
         view.setLayoutParams(params);
       }
-    } catch (Exception e) {
-    }
+    } catch (Exception e) {}
   }
 
   public static void restore(View view) {
@@ -76,7 +97,6 @@ public class HideAdsHelper {
         view.setLayoutParams(params);
         view.setVisibility(View.VISIBLE);
       }
-    } catch (Exception e) {
-    }
+    } catch (Exception e) {}
   }
 }
